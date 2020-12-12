@@ -13,7 +13,7 @@ public class GraphQLDataFetchers {
 
     private static List<Map<String, String>> books = Arrays.asList(
             ImmutableMap.of("id", "book-1",
-                    "name", "Harry Potter and the Philosopher's Stone",
+                    "name", "Harry Potter and the Philosopher Stone",
                     "pageCount", "223",
                     "authorId", "author-1"),
             ImmutableMap.of("id", "book-2",
