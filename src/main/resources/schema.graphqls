@@ -1,16 +1,8 @@
 type Query {
-    bookById(id: ID): Book
+    Role(id: ID): Role
 }
 
-type Book {
-    id: ID
+type Role {
+    ID: ID
     name: String
-    pageCount: Int
-    author: Author
-}
-
-type Author {
-    id: ID
-    firstName: String
-    lastName: String
 }
