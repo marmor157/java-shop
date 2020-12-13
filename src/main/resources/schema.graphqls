@@ -1,8 +1,15 @@
 type Query {
     Role(id: ID): Role
+    TaxCategory(id: ID): TaxCategory
 }
 
 type Role {
     ID: ID
     name: String
+}
+
+type TaxCategory {
+    ID: ID
+    name: String
+    taxRate: Int
 }

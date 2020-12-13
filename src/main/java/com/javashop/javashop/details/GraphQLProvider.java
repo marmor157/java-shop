@@ -1,10 +1,9 @@
-package com.javashop.javashop.bookdetails;
+package com.javashop.javashop.details;
 
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
-import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -52,6 +51,8 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
                         .dataFetcher("Role", graphQLDataFetchers.getRoleByIdDataFetcher()))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("TaxCategory", graphQLDataFetchers.getTaxCategoryByIdDataFetcher()))
                 .build();
     }
 

@@ -1,15 +1,12 @@
-package com.javashop.javashop.bookdetails;
+package com.javashop.javashop.details;
 
-import com.google.common.collect.ImmutableMap;
 import com.javashop.javashop.QueryExecutor;
 import com.javashop.javashop.Role;
+import com.javashop.javashop.TaxCategory;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class GraphQLDataFetchers {
@@ -24,5 +21,12 @@ public class GraphQLDataFetchers {
         };
     }
 
-
+    public DataFetcher getTaxCategoryByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM TaxCategory");
+            result.next();
+            TaxCategory retVal = new TaxCategory(result.getInt("ID"), result.getString("Name"),result.getInt("taxRate"));
+            return retVal;
+        };
+    }
 }
