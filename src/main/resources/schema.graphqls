@@ -2,6 +2,9 @@ type Query {
     Role(id: ID): Role
     TaxCategory(id: ID): TaxCategory
     DeliveryMethod(id: ID): DeliveryMethod
+    Category(id: ID): Category
+    Product(id: ID): Product
+    Subcategory(id: ID): Subcategory
 }
 
 type Role {
@@ -20,4 +23,30 @@ type DeliveryMethod {
     name: String
     price: Int
     freeThreshold: Int
+}
+
+type Category {
+    ID: ID
+    name: String
+    product: Product
+    subcategory: Subcategory
+}
+
+type Product {
+    ID: ID
+    name: String
+    subCategory: Subcategory
+    price: Int
+    numberAvailable: Int
+    description: String
+    salePrice: Int
+    imageSrc: String
+    taxCategory: TaxCategory
+}
+
+type Subcategory{
+    ID: ID
+    name: String
+    product: Product
+    category: Category
 }

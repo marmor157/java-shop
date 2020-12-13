@@ -1,9 +1,6 @@
 package com.javashop.javashop.details;
 
-import com.javashop.javashop.DeliveryMethod;
-import com.javashop.javashop.QueryExecutor;
-import com.javashop.javashop.Role;
-import com.javashop.javashop.TaxCategory;
+import com.javashop.javashop.*;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +33,35 @@ public class GraphQLDataFetchers {
             result.next();
             DeliveryMethod retVal = new DeliveryMethod(result.getInt("ID"), result.getString("Name"),
                                                         result.getInt("Price"),result.getInt("FreeThreshold"));
+            return retVal;
+        };
+    }
+
+    public DataFetcher getSubcategoryByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM Subcategory");
+            result.next();
+            Subcategory retVal = new Subcategory(result.getInt("ID"), result.getString("Name"),result.getInt("categoryId"));
+            return retVal;
+        };
+    }
+
+    public DataFetcher getCategoryByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM Category");
+            result.next();
+            Category retVal = new Category(result.getInt("ID"), result.getString("Name"));
+            return retVal;
+        };
+    }
+
+    public DataFetcher getProductByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM Product");
+            result.next();
+            Product retVal = new Product(result.getInt("ID"), result.getString("Name"), result.getInt("Price"),
+                                        result.getInt("numberAvailable"),result.getString("Description"), result.getInt("salePrice"),
+                                        result.getString("ImageSrc"), result.getInt("TaxCategoryID"));
             return retVal;
         };
     }

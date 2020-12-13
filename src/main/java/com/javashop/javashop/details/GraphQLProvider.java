@@ -55,6 +55,12 @@ public class GraphQLProvider {
                         .dataFetcher("TaxCategory", graphQLDataFetchers.getTaxCategoryByIdDataFetcher()))
                 .type(newTypeWiring("Query")
                         .dataFetcher("DeliveryMethod", graphQLDataFetchers.getDeliveryMethodByIdDataFetcher()))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("Subcategory", graphQLDataFetchers.getSubcategoryByIdDataFetcher()))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("Category", graphQLDataFetchers.getCategoryByIdDataFetcher()))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("Product", graphQLDataFetchers.getProductByIdDataFetcher()))
                 .build();
     }
 }
