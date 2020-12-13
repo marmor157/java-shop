@@ -57,3 +57,10 @@ type Warehouse{
     adress: String
     product: Product
 }
+
+type Supplier{
+    ID: ID
+    name: String
+    phone: Int
+    product: Product
+}

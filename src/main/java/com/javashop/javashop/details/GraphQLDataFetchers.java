@@ -74,4 +74,13 @@ public class GraphQLDataFetchers {
             return retVal;
         };
     }
+
+    public DataFetcher getSupplierByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM Supplier");
+            result.next();
+            Supplier retVal = new Supplier(result.getInt("ID"), result.getString("Name"), result.getInt("Phone"));
+            return retVal;
+        };
+    }
 }
