@@ -1,16 +1,14 @@
-type Query {
-    bookById(id: ID): Book
+type Query{
+    getComplaintByID(id: ID): Complaint!
+    getComplaintTypeById(id: ID): ComplaintType!
 }
 
-type Book {
-    id: ID
-    name: String
-    pageCount: Int
-    author: Author
+type Complaint {
+    id: ID!,
+    complaintType: ComplaintType!
 }
 
-type Author {
-    id: ID
-    firstName: String
-    lastName: String
+type ComplaintType {
+    id: ID!,
+    name: String!
 }
