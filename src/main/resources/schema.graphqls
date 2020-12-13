@@ -1,6 +1,7 @@
 type Query {
     Role(id: ID): Role
     TaxCategory(id: ID): TaxCategory
+    DeliveryMethod(id: ID): DeliveryMethod
 }
 
 type Role {
@@ -12,4 +13,11 @@ type TaxCategory {
     ID: ID
     name: String
     taxRate: Int
+}
+
+type DeliveryMethod {
+    ID: ID
+    name: String
+    price: Int
+    freeFrom: Int
 }

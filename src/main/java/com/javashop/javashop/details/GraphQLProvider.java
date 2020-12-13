@@ -53,7 +53,8 @@ public class GraphQLProvider {
                         .dataFetcher("Role", graphQLDataFetchers.getRoleByIdDataFetcher()))
                 .type(newTypeWiring("Query")
                         .dataFetcher("TaxCategory", graphQLDataFetchers.getTaxCategoryByIdDataFetcher()))
+                .type(newTypeWiring("Query")
+                        .dataFetcher("DeliveryMethod", graphQLDataFetchers.getDeliveryMethodByIdDataFetcher()))
                 .build();
     }
-
 }

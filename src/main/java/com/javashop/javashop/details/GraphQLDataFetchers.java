@@ -1,5 +1,6 @@
 package com.javashop.javashop.details;
 
+import com.javashop.javashop.DeliveryMethod;
 import com.javashop.javashop.QueryExecutor;
 import com.javashop.javashop.Role;
 import com.javashop.javashop.TaxCategory;
@@ -13,7 +14,6 @@ public class GraphQLDataFetchers {
 
     public DataFetcher getRoleByIdDataFetcher() {
         return dataFetchingEnvironment -> {
-            String roleId = dataFetchingEnvironment.getArgument("id");
             ResultSet result = QueryExecutor.executeSelect("SELECT * FROM Roles");
             result.next();
             Role retVal = new Role(result.getInt("ID"), result.getString("Name"));
@@ -26,6 +26,16 @@ public class GraphQLDataFetchers {
             ResultSet result = QueryExecutor.executeSelect("SELECT * FROM TaxCategory");
             result.next();
             TaxCategory retVal = new TaxCategory(result.getInt("ID"), result.getString("Name"),result.getInt("taxRate"));
+            return retVal;
+        };
+    }
+
+    public DataFetcher getDeliveryMethodByIdDataFetcher() {
+        return dataFetchingEnvironment -> {
+            ResultSet result = QueryExecutor.executeSelect("SELECT * FROM DeliveryMethod");
+            result.next();
+            DeliveryMethod retVal = new DeliveryMethod(result.getInt("ID"), result.getString("Name"),
+                                                        result.getInt("Price"),result.getInt("FreeFrom"));
             return retVal;
         };
     }
