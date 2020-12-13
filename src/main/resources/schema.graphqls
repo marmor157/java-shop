@@ -50,3 +50,10 @@ type Subcategory{
     product: Product
     category: Category
 }
+
+type Warehouse{
+    ID: ID
+    name: String
+    adress: String
+    product: Product
+}
