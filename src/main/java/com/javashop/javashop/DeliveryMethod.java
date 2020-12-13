@@ -4,13 +4,13 @@ public class DeliveryMethod {
     private int id;
     private String name;
     private int price;
-    private int freeFrom;
+    private int freeThreshold;
 
-    public DeliveryMethod(int id, String name, int price, int freeFrom) {
+    public DeliveryMethod(int id, String name, int price, int freeThreshold) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.freeFrom = freeFrom;
+        this.freeThreshold = freeThreshold;
     }
 
     public int getId() {
@@ -37,11 +37,11 @@ public class DeliveryMethod {
         this.price = price;
     }
 
-    public int getFreeFrom() {
-        return freeFrom;
+    public int getFreeThreshold() {
+        return freeThreshold;
     }
 
-    public void setFreeFrom(int freeFrom) {
-        this.freeFrom = freeFrom;
+    public void setFreeThreshold(int freeThreshold) {
+        this.freeThreshold = freeThreshold;
     }
 }

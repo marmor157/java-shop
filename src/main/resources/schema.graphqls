@@ -19,5 +19,5 @@ type DeliveryMethod {
     ID: ID
     name: String
     price: Int
-    freeFrom: Int
+    freeThreshold: Int
 }

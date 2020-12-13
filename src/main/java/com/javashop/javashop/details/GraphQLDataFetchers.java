@@ -35,7 +35,7 @@ public class GraphQLDataFetchers {
             ResultSet result = QueryExecutor.executeSelect("SELECT * FROM DeliveryMethod");
             result.next();
             DeliveryMethod retVal = new DeliveryMethod(result.getInt("ID"), result.getString("Name"),
-                                                        result.getInt("Price"),result.getInt("FreeFrom"));
+                                                        result.getInt("Price"),result.getInt("FreeThreshold"));
             return retVal;
         };
     }
