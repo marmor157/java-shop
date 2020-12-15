@@ -1,10 +1,9 @@
-package com.javashop.javashop.bookdetails;
+package com.javashop.javashop.graphql;
 
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
-import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -51,11 +50,21 @@ public class GraphQLProvider {
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
-                        .dataFetcher("getComplaintByID", graphQLDataFetchers.getComplaintById())
-                        .dataFetcher("getComplaintTypeByID", graphQLDataFetchers.getComplaintTypeDataFetcher()))
-                .type(newTypeWiring("Complaint")
-                        .dataFetcher("complaintType", graphQLDataFetchers.getComplaintTypeDataFetcher()))
-                .build();
+                        .dataFetcher("Complaint", graphQLDataFetchers.getComplaintDataFetcher())
+                        .dataFetcher("ComplaintType", graphQLDataFetchers.getComplaintTypeDataFetcher())
+                        .dataFetcher("Role", graphQLDataFetchers.getRoleDataFetcher())
+                        .dataFetcher("Product", graphQLDataFetchers.getProductDataFetcher())
+                        .dataFetcher("TaxCategory", graphQLDataFetchers.getTaxCategoryDataFetcher())
+                        .dataFetcher("User", graphQLDataFetchers.getUserDataFetcher())
+                        .dataFetcher("Order", graphQLDataFetchers.getOrderDataFetcher())
+                        .dataFetcher("Category", graphQLDataFetchers.getCategoryDataFetcher())
+                        .dataFetcher("Subcategory", graphQLDataFetchers.getSubcategoryDataFetcher())
+                        .dataFetcher("Supplier", graphQLDataFetchers.getSupplierDataFetcher())
+                        .dataFetcher("Opinion", graphQLDataFetchers.getOpinionDataFetcher())
+                        .dataFetcher("Warehouse", graphQLDataFetchers.getWarehouseDataFetcher())
+                        .dataFetcher("ShipmentMethod", graphQLDataFetchers.getShipmentMethodDataFetcher())
+
+                ).build();
     }
 
 }

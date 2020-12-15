@@ -1,14 +1,160 @@
 type Query{
-    getComplaintByID(id: ID): Complaint!
-    getComplaintTypeById(id: ID): ComplaintType!
+    Complaint(id: ID): Complaint
+    ComplaintType(id: ID): ComplaintType
+    Role(id: ID): Role
+    Product(id: ID): Product
+    TaxCategory(id: ID): TaxCategory
+    User(id:ID): User
+    Order(id:ID): Order
+    Category(id:ID): Category
+    Subcategory(id: ID): Subcategory
+    Supplier(id:ID): Supplier
+    Opinion(id:ID): Opinion
+    Warehouse(id:ID): Warehouse
+    ShipmentMethod(id:ID): ShipmentMethod
 }
 
 type Complaint {
     id: ID!,
     complaintType: ComplaintType!
+    user: User!
+    product: Product!
+    order: Order!
 }
 
 type ComplaintType {
     id: ID!,
     name: String!
+}
+
+type Role {
+    id: ID!
+    name: String!
+    users: [User!]!
+}
+
+type Product {
+    id: ID!
+    name: String!
+    price: Int!
+    discountPrice: Int!
+    noAvailable: Int!
+    description: String!
+    imagePath: String!
+    taxCategory: TaxCategory!
+    warehouses: [ProductWarehouse!]!
+    suppliers: [ProductSupplier!]!
+    categories: [Category!]!
+    subcategories: [Subcategory!]!
+    orders: [Order!]!
+    complaints: [Complaint!]!
+    opinions: [Opinion!]!
+    wishlist: [User!]!
+    visitedBy: [Visited!]!
+}
+
+type TaxCategory {
+    id: ID!
+    taxRate: Int!
+    name: String!
+}
+
+type ProductWarehouse{
+    product: Product!
+    warehouse: Warehouse!
+    quantity: Int!
+}
+
+type Warehouse{
+    id: ID!
+    name: String!
+    address: String!
+    products: [ProductWarehouse!]!
+}
+
+type Supplier{
+    id: ID!
+    name: String!
+    telephone: String!
+    products: [ProductSupplier!]!
+}
+
+type ProductSupplier{
+    product: Product!
+    supplier: Supplier!
+    price: Int!
+}
+
+type Category{
+    id: ID!
+    name: String!
+    products: [Product!]!
+    subcategories: [Subcategory!]!
+}
+
+type Subcategory{
+    id: ID!
+    name: String!
+    products: [Product!]!
+    category: Category
+}
+
+type Visited{
+    product: Product
+    user: User
+}
+
+type User{
+    id: ID!
+    login: String!
+    email: String!
+    name: String!
+    surname: String!
+    address: String!
+    birthDate: String!
+    telephone: String!
+    role: Role!
+    visited: [Visited!]!
+    wishlist: [Product!]!
+    opinions: [Opinion!]!
+    complaints: [Complaint!]!
+    orders: [Order!]!
+    deliveryAddresses: [DeliveryAddress!]!
+}
+
+type DeliveryAddress {
+    id: ID!
+    name: String!
+    city: String!
+    street: String!
+    buildingNumber: String!
+    postCode: String!
+    user: User!
+    orders: [Order!]!
+}
+
+type Opinion {
+    mark: Int!
+    text: String!
+    user: User!
+    product: Product!
+    date: String!
+}
+
+type Order {
+    id: ID!
+    products: [Product!]!
+    deliveryAddress: DeliveryAddress!
+    user: User!
+    date: String!
+    complaints: [Complaint!]!
+    shipmentMethod: ShipmentMethod!
+}
+
+type ShipmentMethod {
+    id: ID!
+    name: String!
+    price: Int!
+    freeThreshold: Int!
+    orders: [Order!]!
 }

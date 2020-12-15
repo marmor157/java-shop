@@ -12,19 +12,24 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-public class ComplaintType {
+public class TaxCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "Name", nullable = false)
+    @Column(name = "Name")
     private String name;
 
-    @OneToMany(mappedBy = "complaintType")
-    private List<Complaint> complaints = new ArrayList<>();
+    @Column(name = "TaxRate")
+    private Integer taxRate;
 
-    public ComplaintType(String name) {
+    @OneToMany(mappedBy = "taxCategory")
+    private List<Product> products = new ArrayList<>();
+
+    public TaxCategory(String name, Integer taxRate) {
         this.name = name;
+        this.taxRate = taxRate;
     }
+
 }

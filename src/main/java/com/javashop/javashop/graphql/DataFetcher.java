@@ -1,4 +1,4 @@
-package com.javashop.javashop.bookdetails;
+package com.javashop.javashop.graphql;
 
 import graphql.schema.DataFetchingEnvironment;
 

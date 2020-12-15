@@ -5,26 +5,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class ComplaintType {
+public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "Name", nullable = false)
+    @Column(name = "Name")
     private String name;
 
-    @OneToMany(mappedBy = "complaintType")
-    private List<Complaint> complaints = new ArrayList<>();
+    @Column(name = "Address")
+    private String address;
 
-    public ComplaintType(String name) {
+    @OneToMany(mappedBy = "warehouse")
+    private List<ProductWarehouse> products;
+
+    public Warehouse(String name, String address) {
         this.name = name;
+        this.address = address;
     }
 }

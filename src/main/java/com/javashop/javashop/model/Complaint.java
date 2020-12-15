@@ -11,21 +11,28 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Complaint")
 public class Complaint {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
 
     @Column(name = "Date")
     private Date date;
 
-    @Column(name = "ComplaintTypeId")
-    private Integer complaintTypeId;
+    @ManyToOne()
+    private ComplaintType complaintType;
 
-    public Complaint(Date date, Integer complaintTypeId) {
+    @ManyToOne()
+    private User user;
+
+    @ManyToOne()
+    private Product product;
+
+    @ManyToOne()
+    private Order order;
+
+    public Complaint(Date date) {
         this.date = date;
-        this.complaintTypeId = complaintTypeId;
     }
 }
