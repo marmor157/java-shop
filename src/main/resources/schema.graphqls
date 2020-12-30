@@ -1,3 +1,8 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
 type Query{
     Complaint(id: ID): Complaint
     ComplaintType(id: ID): ComplaintType
@@ -20,6 +25,7 @@ type Complaint {
     user: User!
     product: Product!
     order: Order!
+    date: String!
 }
 
 type ComplaintType {
@@ -125,6 +131,7 @@ type User{
 type DeliveryAddress {
     id: ID!
     name: String!
+    surnname: String!
     city: String!
     street: String!
     buildingNumber: String!
@@ -140,6 +147,7 @@ type Opinion {
     product: Product!
     date: String!
 }
+
 
 type Order {
     id: ID!
@@ -158,3 +166,104 @@ type ShipmentMethod {
     freeThreshold: Int!
     orders: [Order!]!
 }
+
+type Mutation {
+    createUser(input: CreateUserInput): User!
+    createProduct(input: CreateProductInput): Product!
+    createOrder(input: CreateOrderInput): Order!
+    createOpinion(input: CreateOpinionInput): Opinion!
+    createCategory(input: CreateCategoryInput): Category!
+    createSubcategory(input: CreateSubcategoryInput): Subcategory!
+    createComplaint(input: CreatComplaintInput): Complaint!
+    createComplainttype(input: CreateComplaintTypeInput): ComplaintType!
+    createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
+    createRole(input: CreateRoleInput): Role!
+    createShipmentMethod(input: CreateShipmentMethodInput): ShipmentMethod!
+    createTaxCategory(input: CreateTaxCategoryInput): TaxCategory!
+    createVisited(input: CreateVisitedInput): Visited!
+    createSupplier(input: CreateSupplierInput): Supplier!
+}
+
+input CreateUserInput {
+    login: String!
+    password: String!
+    email: String!
+    name: String!
+    surname: String!
+    address: String!
+    birthDate: String!
+    telephone: String!
+}
+
+
+input CreatComplaintInput {
+    date: String!
+}
+
+input CreateComplaintTypeInput {
+    name: String!
+}
+
+input CreateRoleInput {
+    name: String!
+}
+
+input CreateProductInput {
+    name: String!
+    price: Int!
+    discountPrice: Int!
+    noAvailable: Int!
+    description: String!
+    imagePath: String!
+    taxCategoryID: ID!
+}
+
+input CreateTaxCategoryInput {
+    taxRate: Int!
+    name: String!
+}
+
+input CreateSupplierInput {
+    name: String!
+    telephone: String!
+}
+
+input CreateCategoryInput {
+    name: String!
+}
+
+input CreateSubcategoryInput {
+    name: String!
+}
+
+input CreateVisitedInput {
+    date: String!
+}
+
+input CreateDeliveryAddressInput {
+    name: String!
+    surname: String!
+    city: String!
+    street: String!
+    buildingNumber: String!
+    postCode: String!
+}
+
+input CreateOpinionInput {
+    mark: Int!
+    text: String!
+    date: String!
+}
+
+
+input CreateOrderInput {
+    date: String!
+    price: Int!
+}
+
+input CreateShipmentMethodInput {
+    name: String!
+    price: Int!
+    freeThreshold: Int!
+}
+
