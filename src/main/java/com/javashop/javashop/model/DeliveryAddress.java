@@ -21,6 +21,9 @@ public class DeliveryAddress {
     @Column(name = "Name")
     private String name;
 
+    @Column(name = "Surname")
+    private String surname;
+
     @Column(name = "City")
     private String city;
 
@@ -39,8 +42,9 @@ public class DeliveryAddress {
     @OneToMany(mappedBy = "deliveryAddress")
     private List<Order> orders;
 
-    public DeliveryAddress(String name, String city, String street, String buildingNumber, String postCode) {
+    public DeliveryAddress(String name, String surname, String city, String street, String buildingNumber, String postCode) {
         this.name = name;
+        this.surname = surname;
         this.city = city;
         this.street = street;
         this.buildingNumber = buildingNumber;

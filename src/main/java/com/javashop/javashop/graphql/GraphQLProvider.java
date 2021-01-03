@@ -5,10 +5,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
+import graphql.schema.idl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -62,9 +59,23 @@ public class GraphQLProvider {
                         .dataFetcher("Supplier", graphQLDataFetchers.getSupplierDataFetcher())
                         .dataFetcher("Opinion", graphQLDataFetchers.getOpinionDataFetcher())
                         .dataFetcher("Warehouse", graphQLDataFetchers.getWarehouseDataFetcher())
-                        .dataFetcher("ShipmentMethod", graphQLDataFetchers.getShipmentMethodDataFetcher())
-
-                ).build();
+                        .dataFetcher("Warehouse", graphQLDataFetchers.getDeliveryAddressDataFetcher())
+                        .dataFetcher("ShipmentMethod", graphQLDataFetchers.getShipmentMethodDataFetcher()))
+                .type(newTypeWiring("Mutation")
+                        .dataFetcher("createUser", graphQLDataFetchers.createUserDataFetcher())
+                        .dataFetcher("createProduct", graphQLDataFetchers.createProductDataFetcher())
+                        .dataFetcher("createOrder", graphQLDataFetchers.createOrderDataFetcher())
+                        .dataFetcher("createOpinion", graphQLDataFetchers.createOpinionDataFetcher())
+                        .dataFetcher("createCategory", graphQLDataFetchers.createCategoryDataFetcher())
+                        .dataFetcher("createSubcategory", graphQLDataFetchers.createSubcategoryDataFetcher())
+                        .dataFetcher("createComplaint", graphQLDataFetchers.createComplaintDataFetcher())
+                        .dataFetcher("createComplaintType", graphQLDataFetchers.createComplaintTypeDataFetcher())
+                        .dataFetcher("createDeliveryAddress", graphQLDataFetchers.createDeliveryAddressDataFetcher())
+                        .dataFetcher("createRole", graphQLDataFetchers.createRoleDataFetcher())
+                        .dataFetcher("createShipmentMethod", graphQLDataFetchers.createShipmentMethodDataFetcher())
+                        .dataFetcher("createTaxCategory", graphQLDataFetchers.createTaxCategoryDataFetcher())
+                        .dataFetcher("createSupplier", graphQLDataFetchers.createSupplierDataFetcher()))
+                .build();
     }
 
 }
