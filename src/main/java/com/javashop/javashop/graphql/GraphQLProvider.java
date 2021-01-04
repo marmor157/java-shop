@@ -63,6 +63,7 @@ public class GraphQLProvider {
                         .dataFetcher("ShipmentMethod", graphQLDataFetchers.getShipmentMethodDataFetcher()))
                 .type(newTypeWiring("Mutation")
                         .dataFetcher("createUser", graphQLDataFetchers.createUserDataFetcher())
+                        .dataFetcher("updateUser", graphQLDataFetchers.updateUserDataFetcher())
                         .dataFetcher("createProduct", graphQLDataFetchers.createProductDataFetcher())
                         .dataFetcher("createOrder", graphQLDataFetchers.createOrderDataFetcher())
                         .dataFetcher("createOpinion", graphQLDataFetchers.createOpinionDataFetcher())
