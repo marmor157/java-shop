@@ -164,40 +164,42 @@ public class GraphQLDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
             Integer id =Integer.parseInt((String) l.get("id"));
+            userRepository.save(userRepository.findById(id).get());
+            User user = userRepository.getOne(id);
             if(l.containsKey("name")){
                 String name = (String) l.get("name");
-                userRepository.getOne(id).setName(name);
+                user.setName(name);
             }
             if(l.containsKey("surname")){
                 String surname = (String) l.get("surname");
-                userRepository.getOne(id).setSurname(surname);
+               user.setSurname(surname);
             }
             if(l.containsKey("login")){
                 String login = (String) l.get("login");
-                userRepository.getOne(id).setLogin(login);
+                user.setLogin(login);
             }
             if(l.containsKey("password")){
                 String password = (String) l.get("password");
-                userRepository.getOne(id).setPassword(password);
+                user.setPassword(password);
             }
             if(l.containsKey("email")){
                 String email = (String) l.get("email");
-                userRepository.getOne(id).setEmail(email);
+                user.setEmail(email);
             }
             if(l.containsKey("address")){
                 String address = (String) l.get("address");
-                userRepository.getOne(id).setAddress(address);
+                user.setAddress(address);
             }
             if(l.containsKey("birthDate")){
                 String birthDateStr = (String) l.get("birthDate");
                 Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
-                userRepository.getOne(id).setBirthDate(birthDate);
+                user.setBirthDate(birthDate);
             }
             if(l.containsKey("telephone")){
                 String telephone = (String) l.get("telephone");
-                userRepository.getOne(id).setTelephone(telephone);
+                user.setTelephone(telephone);
             }
-            return userRepository.findById(id);
+            return userRepository.save(userRepository.getOne(id));
         };
     }
 
