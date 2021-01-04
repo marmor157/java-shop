@@ -171,6 +171,7 @@ type ShipmentMethod {
 type Mutation {
     createUser(input: CreateUserInput): User!
     updateUser(input: UpdateUserInput): User!
+    deleteUser(id: ID!): User!
     createProduct(input: CreateProductInput): Product!
     updateProduct(input: UpdateProductInput): Product!
     createOrder(input: CreateOrderInput): Order!

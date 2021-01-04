@@ -3,6 +3,11 @@ package com.javashop.javashop.graphql;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.javashop.javashop.model.Complaint;
+import com.javashop.javashop.model.ComplaintType;
+import com.javashop.javashop.model.Opinion;
+import com.javashop.javashop.repository.OrderRepository;
+import com.javashop.javashop.repository.ShipmentMethodRepository;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
@@ -23,6 +28,34 @@ public class GraphQLProvider {
     private GraphQL graphQL;
     @Autowired
     GraphQLDataFetchers graphQLDataFetchers;
+    @Autowired
+    UserDataFetchers userDataFetchers;
+    @Autowired
+    ProductDataFetchers productDataFetchers;
+    @Autowired
+    OrderDataFetchers orderDataFetchers;
+    @Autowired
+    OpinionDataFetchers opinionDataFetchers;
+    @Autowired
+    CategoryDataFetchers categoryDataFetchers;
+    @Autowired
+    SubcategoryDataFetchers subcategoryDataFetchers;
+    @Autowired
+    ComplaintDataFetchers complaintDataFetchers;
+    @Autowired
+    ComplaintTypeDataFetchers complaintTypeDataFetchers;
+    @Autowired
+    DeliveryAddressDataFetchers deliveryAddressDataFetchers;
+    @Autowired
+    RoleDataFetchers roleDataFetchers;
+    @Autowired
+    ShipmentMethodDataFetchers shipmentMethodDataFetchers;
+    @Autowired
+    TaxCategoryDataFetchers taxCategoryDataFetchers;
+    @Autowired
+    SupplierDataFetchers supplierDataFetchers;
+    @Autowired
+    WarehouseDataFetchers warehouseDataFetchers;
 
     @Bean
     public GraphQL graphQL() {
@@ -47,47 +80,48 @@ public class GraphQLProvider {
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
-                        .dataFetcher("Complaint", graphQLDataFetchers.getComplaintDataFetcher())
-                        .dataFetcher("ComplaintType", graphQLDataFetchers.getComplaintTypeDataFetcher())
-                        .dataFetcher("Role", graphQLDataFetchers.getRoleDataFetcher())
-                        .dataFetcher("Product", graphQLDataFetchers.getProductDataFetcher())
-                        .dataFetcher("TaxCategory", graphQLDataFetchers.getTaxCategoryDataFetcher())
-                        .dataFetcher("User", graphQLDataFetchers.getUserDataFetcher())
-                        .dataFetcher("Order", graphQLDataFetchers.getOrderDataFetcher())
-                        .dataFetcher("Category", graphQLDataFetchers.getCategoryDataFetcher())
-                        .dataFetcher("Subcategory", graphQLDataFetchers.getSubcategoryDataFetcher())
-                        .dataFetcher("Supplier", graphQLDataFetchers.getSupplierDataFetcher())
-                        .dataFetcher("Opinion", graphQLDataFetchers.getOpinionDataFetcher())
+                        .dataFetcher("Complaint", complaintDataFetchers.getComplaintDataFetcher())
+                        .dataFetcher("ComplaintType", complaintTypeDataFetchers.getComplaintTypeDataFetcher())
+                        .dataFetcher("Role", roleDataFetchers.getRoleDataFetcher())
+                        .dataFetcher("Product", productDataFetchers.getProductDataFetcher())
+                        .dataFetcher("TaxCategory", taxCategoryDataFetchers.getTaxCategoryDataFetcher())
+                        .dataFetcher("User", userDataFetchers.getUserDataFetcher())
+                        .dataFetcher("Order", orderDataFetchers.getOrderDataFetcher())
+                        .dataFetcher("Category", categoryDataFetchers.getCategoryDataFetcher())
+                        .dataFetcher("Subcategory", subcategoryDataFetchers.getSubcategoryDataFetcher())
+                        .dataFetcher("Supplier", supplierDataFetchers.getSupplierDataFetcher())
+                        .dataFetcher("Opinion", opinionDataFetchers.getOpinionDataFetcher())
                         .dataFetcher("Warehouse", graphQLDataFetchers.getWarehouseDataFetcher())
-                        .dataFetcher("DeliveryAddress", graphQLDataFetchers.getDeliveryAddressDataFetcher())
-                        .dataFetcher("ShipmentMethod", graphQLDataFetchers.getShipmentMethodDataFetcher()))
+                        .dataFetcher("DeliveryAddress", deliveryAddressDataFetchers.getDeliveryAddressDataFetcher())
+                        .dataFetcher("ShipmentMethod", shipmentMethodDataFetchers.getShipmentMethodDataFetcher()))
                 .type(newTypeWiring("Mutation")
-                        .dataFetcher("createUser", graphQLDataFetchers.createUserDataFetcher())
-                        .dataFetcher("updateUser", graphQLDataFetchers.updateUserDataFetcher())
-                        .dataFetcher("createProduct", graphQLDataFetchers.createProductDataFetcher())
-                        .dataFetcher("updateProduct", graphQLDataFetchers.updateProductDataFetcher())
-                        .dataFetcher("createOrder", graphQLDataFetchers.createOrderDataFetcher())
-                        .dataFetcher("updateOrder", graphQLDataFetchers.updateOrderDataFetcher())
-                        .dataFetcher("createOpinion", graphQLDataFetchers.createOpinionDataFetcher())
-                        .dataFetcher("updateOpinion", graphQLDataFetchers.updateOpinionDataFetcher())
-                        .dataFetcher("createCategory", graphQLDataFetchers.createCategoryDataFetcher())
-                        .dataFetcher("updateCategory", graphQLDataFetchers.updateCategoryDataFetcher())
-                        .dataFetcher("createSubcategory", graphQLDataFetchers.createSubcategoryDataFetcher())
-                        .dataFetcher("updateSubcategory", graphQLDataFetchers.updateSubcategoryDataFetcher())
-                        .dataFetcher("createComplaint", graphQLDataFetchers.createComplaintDataFetcher())
-                        .dataFetcher("updateComplaint", graphQLDataFetchers.updateComplaintDataFetcher())
-                        .dataFetcher("createComplaintType", graphQLDataFetchers.createComplaintTypeDataFetcher())
-                        .dataFetcher("updateComplaintType", graphQLDataFetchers.updateComplaintTypeDataFetcher())
-                        .dataFetcher("createDeliveryAddress", graphQLDataFetchers.createDeliveryAddressDataFetcher())
-                        .dataFetcher("updateDeliveryAddress", graphQLDataFetchers.updateDeliveryAddressDataFetcher())
-                        .dataFetcher("createRole", graphQLDataFetchers.createRoleDataFetcher())
-                        .dataFetcher("updateRole", graphQLDataFetchers.updateRoleDataFetcher())
-                        .dataFetcher("createShipmentMethod", graphQLDataFetchers.createShipmentMethodDataFetcher())
-                        .dataFetcher("updateShipmentMethod", graphQLDataFetchers.updateShipmentMethodDataFetcher())
-                        .dataFetcher("createTaxCategory", graphQLDataFetchers.createTaxCategoryDataFetcher())
-                        .dataFetcher("updateTaxCategory", graphQLDataFetchers.updateTaxCategoryDataFetcher())
-                        .dataFetcher("createSupplier", graphQLDataFetchers.createSupplierDataFetcher())
-                        .dataFetcher("updateSupplier", graphQLDataFetchers.updateSupplierDataFetcher()))
+                        .dataFetcher("createUser", userDataFetchers.createUserDataFetcher())
+                        .dataFetcher("updateUser", userDataFetchers.updateUserDataFetcher())
+                        .dataFetcher("deleteUser", userDataFetchers.deleteUserDataFetcher())
+                        .dataFetcher("createProduct", productDataFetchers.createProductDataFetcher())
+                        .dataFetcher("updateProduct", productDataFetchers.updateProductDataFetcher())
+                        .dataFetcher("createOrder", orderDataFetchers.createOrderDataFetcher())
+                        .dataFetcher("updateOrder", orderDataFetchers.updateOrderDataFetcher())
+                        .dataFetcher("createOpinion", opinionDataFetchers.createOpinionDataFetcher())
+                        .dataFetcher("updateOpinion", opinionDataFetchers.updateOpinionDataFetcher())
+                        .dataFetcher("createCategory", categoryDataFetchers.createCategoryDataFetcher())
+                        .dataFetcher("updateCategory", categoryDataFetchers.updateCategoryDataFetcher())
+                        .dataFetcher("createSubcategory", subcategoryDataFetchers.createSubcategoryDataFetcher())
+                        .dataFetcher("updateSubcategory", subcategoryDataFetchers.updateSubcategoryDataFetcher())
+                        .dataFetcher("createComplaint", complaintDataFetchers.createComplaintDataFetcher())
+                        .dataFetcher("updateComplaint", complaintDataFetchers.updateComplaintDataFetcher())
+                        .dataFetcher("createComplaintType", complaintTypeDataFetchers.createComplaintTypeDataFetcher())
+                        .dataFetcher("updateComplaintType", complaintTypeDataFetchers.updateComplaintTypeDataFetcher())
+                        .dataFetcher("createDeliveryAddress", deliveryAddressDataFetchers.createDeliveryAddressDataFetcher())
+                        .dataFetcher("updateDeliveryAddress", deliveryAddressDataFetchers.updateDeliveryAddressDataFetcher())
+                        .dataFetcher("createRole", roleDataFetchers.createRoleDataFetcher())
+                        .dataFetcher("updateRole", roleDataFetchers.updateRoleDataFetcher())
+                        .dataFetcher("createShipmentMethod", shipmentMethodDataFetchers.createShipmentMethodDataFetcher())
+                        .dataFetcher("updateShipmentMethod", shipmentMethodDataFetchers.updateShipmentMethodDataFetcher())
+                        .dataFetcher("createTaxCategory", taxCategoryDataFetchers.createTaxCategoryDataFetcher())
+                        .dataFetcher("updateTaxCategory", taxCategoryDataFetchers.updateTaxCategoryDataFetcher())
+                        .dataFetcher("createSupplier", supplierDataFetchers.createSupplierDataFetcher())
+                        .dataFetcher("updateSupplier", supplierDataFetchers.updateSupplierDataFetcher()))
                 .build();
     }
 
