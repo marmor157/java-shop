@@ -201,6 +201,16 @@ public class GraphQLDataFetchers {
             return userRepository.save(user);
         };
     }
+    public DataFetcher deleteUserDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
+            System.out.println(l);
+            Integer id =Integer.parseInt((String) l.get("id"));
+            User user = userRepository.getOne(id);
+            userRepository.delete(user);
+            return user;
+        };
+    }
 
     public DataFetcher createProductDataFetcher() {
         return  dataFetchingEnvironment -> {
