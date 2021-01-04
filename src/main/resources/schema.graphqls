@@ -16,6 +16,7 @@ type Query{
     Supplier(id:ID): Supplier
     Opinion(id:ID): Opinion
     Warehouse(id:ID): Warehouse
+    DeliveryAddress(id:ID): DeliveryAddress
     ShipmentMethod(id:ID): ShipmentMethod
 }
 
@@ -171,18 +172,31 @@ type Mutation {
     createUser(input: CreateUserInput): User!
     updateUser(input: UpdateUserInput): User!
     createProduct(input: CreateProductInput): Product!
+    updateProduct(input: UpdateProductInput): Product!
     createOrder(input: CreateOrderInput): Order!
+    updateOrder(input: UpdateOrderInput): Order!
     createOpinion(input: CreateOpinionInput): Opinion!
+    updateOpinion(input: UpdateOpinionInput): Opinion!
     createCategory(input: CreateCategoryInput): Category!
+    updateCategory(input: UpdateCategoryInput): Category!
     createSubcategory(input: CreateSubcategoryInput): Subcategory!
+    updateSubcategory(input: UpdateSubcategoryInput): Subcategory!
     createComplaint(input: CreatComplaintInput): Complaint!
+    updateComplaint(input: UpdateComplaintInput): Complaint!
     createComplainttype(input: CreateComplaintTypeInput): ComplaintType!
+    updateComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
     createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
+    updateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
     createRole(input: CreateRoleInput): Role!
+    updateRole(input: UpdateRoleInput): Role!
     createShipmentMethod(input: CreateShipmentMethodInput): ShipmentMethod!
+    updateShipmentMethod(input: UpdateShipmentMethodInput): ShipmentMethod!
     createTaxCategory(input: CreateTaxCategoryInput): TaxCategory!
+    updateTaxCategory(input: UpdateTaxCategoryInput): TaxCategory!
     createVisited(input: CreateVisitedInput): Visited!
+    updateVisited(input: UpdateVisitedInput): Visited!
     createSupplier(input: CreateSupplierInput): Supplier!
+    updateSupplier(input: UpdateSupplierInput): Supplier!
 }
 
 input CreateUserInput {
@@ -208,19 +222,6 @@ input UpdateUserInput {
     telephone: String
 }
 
-
-input CreatComplaintInput {
-    date: String!
-}
-
-input CreateComplaintTypeInput {
-    name: String!
-}
-
-input CreateRoleInput {
-    name: String!
-}
-
 input CreateProductInput {
     name: String!
     price: Int!
@@ -231,26 +232,75 @@ input CreateProductInput {
     taxCategoryID: ID!
 }
 
-input CreateTaxCategoryInput {
-    taxRate: Int!
-    name: String!
+input UpdateProductInput {
+    id: ID!
+    name: String
+    price: Int
+    discountPrice: Int
+    noAvailable: Int
+    description: String
+    imagePath: String
+    taxCategoryID: ID
 }
 
-input CreateSupplierInput {
-    name: String!
-    telephone: String!
+input CreateOrderInput {
+    date: String!
+    price: Int!
+}
+
+input UpdateOrderInput {
+    id: ID!
+    date: String
+    price: Int
+}
+
+input CreateOpinionInput {
+    mark: Int!
+    text: String!
+    date: String!
+}
+
+input UpdateOpinionInput {
+    id: ID!
+    mark: Int
+    text: String
+    date: String
 }
 
 input CreateCategoryInput {
     name: String!
 }
 
+input UpdateCategoryInput {
+    id: ID!
+    name: String
+}
+
 input CreateSubcategoryInput {
     name: String!
 }
 
-input CreateVisitedInput {
+input UpdateSubcategoryInput {
+    id: ID!
+    name: String
+}
+
+input CreatComplaintInput {
     date: String!
+}
+
+input UpdateComplaintInput {
+    id: ID!
+    date: String
+}
+
+input CreateComplaintTypeInput {
+    name: String!
+}
+
+input UpdateComplaintTypeInput {
+    id: ID!
+    name: String
 }
 
 input CreateDeliveryAddressInput {
@@ -262,16 +312,23 @@ input CreateDeliveryAddressInput {
     postCode: String!
 }
 
-input CreateOpinionInput {
-    mark: Int!
-    text: String!
-    date: String!
+input UpdateDeliveryAddressInput {
+    id: ID!
+    name: String
+    surname: String
+    city: String
+    street: String
+    buildingNumber: String
+    postCode: String
 }
 
+input CreateRoleInput {
+    name: String!
+}
 
-input CreateOrderInput {
-    date: String!
-    price: Int!
+input UpdateRoleInput {
+    id: ID!
+    name: String
 }
 
 input CreateShipmentMethodInput {
@@ -279,4 +336,44 @@ input CreateShipmentMethodInput {
     price: Int!
     freeThreshold: Int!
 }
+
+input UpdateShipmentMethodInput {
+    id: ID!
+    name: String
+    price: Int
+    freeThreshold: Int
+}
+
+input CreateTaxCategoryInput {
+    taxRate: Int!
+    name: String!
+}
+
+input UpdateTaxCategoryInput {
+    id: ID!
+    taxRate: Int
+    name: String
+}
+
+input CreateVisitedInput {
+    date: String!
+}
+
+input UpdateVisitedInput {
+    id: ID!
+    date: String
+}
+
+input CreateSupplierInput {
+    name: String!
+    telephone: String!
+}
+
+input UpdateSupplierInput {
+    id: ID!
+    name: String
+    telephone: String
+}
+
+
 
