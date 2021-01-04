@@ -91,7 +91,7 @@ public class GraphQLProvider {
                         .dataFetcher("Subcategory", subcategoryDataFetchers.getSubcategoryDataFetcher())
                         .dataFetcher("Supplier", supplierDataFetchers.getSupplierDataFetcher())
                         .dataFetcher("Opinion", opinionDataFetchers.getOpinionDataFetcher())
-                        .dataFetcher("Warehouse", graphQLDataFetchers.getWarehouseDataFetcher())
+                        .dataFetcher("Warehouse", warehouseDataFetchers.getWarehouseDataFetcher())
                         .dataFetcher("DeliveryAddress", deliveryAddressDataFetchers.getDeliveryAddressDataFetcher())
                         .dataFetcher("ShipmentMethod", shipmentMethodDataFetchers.getShipmentMethodDataFetcher()))
                 .type(newTypeWiring("Mutation")
@@ -121,7 +121,9 @@ public class GraphQLProvider {
                         .dataFetcher("createTaxCategory", taxCategoryDataFetchers.createTaxCategoryDataFetcher())
                         .dataFetcher("updateTaxCategory", taxCategoryDataFetchers.updateTaxCategoryDataFetcher())
                         .dataFetcher("createSupplier", supplierDataFetchers.createSupplierDataFetcher())
-                        .dataFetcher("updateSupplier", supplierDataFetchers.updateSupplierDataFetcher()))
+                        .dataFetcher("updateSupplier", supplierDataFetchers.updateSupplierDataFetcher())
+                        .dataFetcher("createWarehouse", warehouseDataFetchers.createWarehouseDataFetcher())
+                        .dataFetcher("updateWarehouse", warehouseDataFetchers.updateWarehouseDataFetcher()))
                 .build();
     }
 
