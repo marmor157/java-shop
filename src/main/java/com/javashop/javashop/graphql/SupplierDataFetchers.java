@@ -50,4 +50,14 @@ public class SupplierDataFetchers {
             return supplierRepository.save(supplier);
         };
     }
+
+    public DataFetcher deleteSupplierDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Supplier supplier = supplierRepository.getOne(id);
+            supplierRepository.delete(supplier);
+
+            return supplier;
+        };
+    }
 }

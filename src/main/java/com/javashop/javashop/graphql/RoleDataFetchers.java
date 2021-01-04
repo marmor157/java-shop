@@ -45,4 +45,14 @@ public class RoleDataFetchers {
             return roleRepository.save(role);
         };
     }
+
+    public DataFetcher deleteRoleDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Role role = roleRepository.getOne(id);
+            roleRepository.delete(role);
+
+            return role;
+        };
+    }
 }

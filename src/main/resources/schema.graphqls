@@ -171,35 +171,49 @@ type ShipmentMethod {
 type Mutation {
     createUser(input: CreateUserInput): User!
     updateUser(input: UpdateUserInput): User!
-    deleteUser(id: ID!): User!
+    deleteUser(id: ID): User!
     createProduct(input: CreateProductInput): Product!
     updateProduct(input: UpdateProductInput): Product!
+    deleteProduct(input: UpdateProductInput): Product!
     createOrder(input: CreateOrderInput): Order!
     updateOrder(input: UpdateOrderInput): Order!
+    deleteOrder(input: UpdateOrderInput): Order!
     createOpinion(input: CreateOpinionInput): Opinion!
     updateOpinion(input: UpdateOpinionInput): Opinion!
+    deleteOpinion(input: UpdateOpinionInput): Opinion!
     createCategory(input: CreateCategoryInput): Category!
     updateCategory(input: UpdateCategoryInput): Category!
+    deleteCategory(input: UpdateCategoryInput): Category!
     createSubcategory(input: CreateSubcategoryInput): Subcategory!
     updateSubcategory(input: UpdateSubcategoryInput): Subcategory!
+    deleteSubcategory(input: UpdateSubcategoryInput): Subcategory!
     createComplaint(input: CreatComplaintInput): Complaint!
     updateComplaint(input: UpdateComplaintInput): Complaint!
+    deleteComplaint(input: UpdateComplaintInput): Complaint!
     createComplainttype(input: CreateComplaintTypeInput): ComplaintType!
     updateComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
+    deleteComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
     createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
     updateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
+    deleteDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
     createRole(input: CreateRoleInput): Role!
     updateRole(input: UpdateRoleInput): Role!
+    deleteRole(input: UpdateRoleInput): Role!
     createShipmentMethod(input: CreateShipmentMethodInput): ShipmentMethod!
     updateShipmentMethod(input: UpdateShipmentMethodInput): ShipmentMethod!
+    deleteShipmentMethod(input: UpdateShipmentMethodInput): ShipmentMethod!
     createTaxCategory(input: CreateTaxCategoryInput): TaxCategory!
     updateTaxCategory(input: UpdateTaxCategoryInput): TaxCategory!
+    deleteTaxCategory(input: UpdateTaxCategoryInput): TaxCategory!
     createVisited(input: CreateVisitedInput): Visited!
     updateVisited(input: UpdateVisitedInput): Visited!
+    deleteVisited(input: UpdateVisitedInput): Visited!
     createSupplier(input: CreateSupplierInput): Supplier!
     updateSupplier(input: UpdateSupplierInput): Supplier!
+    deleteSupplier(input: UpdateSupplierInput): Supplier!
     createWarehouse(input: CreateWarehouseInput): Warehouse!
     updateWarehouse(input: UpdateWarehouseInput): Warehouse!
+    deleteWarehouse(input: UpdateWarehouseInput): Warehouse!
 }
 
 input CreateUserInput {

@@ -81,11 +81,11 @@ public class UserDataFetchers {
     }
     public DataFetcher deleteUserDataFetcher() {
         return  dataFetchingEnvironment -> {
-            LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
-            System.out.println(l);
-            Integer id =Integer.parseInt((String) l.get("id"));
+
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             User user = userRepository.getOne(id);
             userRepository.delete(user);
+
             return user;
         };
     }

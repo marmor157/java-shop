@@ -49,4 +49,13 @@ public class TaxCategoryDataFetchers {
             return taxCategoryRepository.save(taxCategory);
         };
     }
+
+    public DataFetcher deleteTaxCategoryDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            TaxCategory taxCategory = taxCategoryRepository.getOne(id);
+            taxCategoryRepository.delete(taxCategory);
+            return taxCategory;
+        };
+    }
 }

@@ -86,4 +86,14 @@ public class ProductDataFetchers {
             return productRepository.save(product);
         };
     }
+
+    public DataFetcher deleteProductDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Product product = productRepository.getOne(id);
+            productRepository.delete(product);
+
+            return product;
+        };
+    }
 }

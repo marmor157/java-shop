@@ -45,4 +45,14 @@ public class CategoryDataFetchers {
             return categoryRepository.save(category);
         };
     }
+
+    public DataFetcher deleteCategoryDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Category category = categoryRepository.getOne(id);
+            categoryRepository.delete(category);
+
+            return category;
+        };
+    }
 }

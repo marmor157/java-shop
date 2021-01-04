@@ -54,4 +54,15 @@ public class OrderDataFetchers {
             return orderRepository.save(order);
         };
     }
+
+    public DataFetcher deleteOrderDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Order order = orderRepository.getOne(id);
+            orderRepository.delete(order);
+
+            return order;
+        };
+    }
+
 }

@@ -64,4 +64,14 @@ public class OpinionDataFetchers {
         };
     }
 
+    public DataFetcher deleteOpinionDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Opinion opinion = opinionRepository.getOne(id);
+            opinionRepository.delete(opinion);
+
+            return opinion;
+        };
+    }
+
 }

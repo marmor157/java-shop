@@ -45,4 +45,14 @@ public class SubcategoryDataFetchers {
             return subcategoryRepository.save(subcategory);
         };
     }
+
+    public DataFetcher deleteSubcategoryDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Subcategory subcategory = subcategoryRepository.getOne(id);
+            subcategoryRepository.delete(subcategory);
+
+            return subcategory;
+        };
+    }
 }
