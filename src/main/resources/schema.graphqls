@@ -198,6 +198,8 @@ type Mutation {
     updateVisited(input: UpdateVisitedInput): Visited!
     createSupplier(input: CreateSupplierInput): Supplier!
     updateSupplier(input: UpdateSupplierInput): Supplier!
+    createWarehouse(input: CreateWarehouseInput): Warehouse!
+    updateWarehouse(input: UpdateWarehouseInput): Warehouse!
 }
 
 input CreateUserInput {
@@ -374,6 +376,17 @@ input UpdateSupplierInput {
     id: ID!
     name: String
     telephone: String
+}
+
+input CreateWarehouseInput{
+    name: String!
+    address: String!
+}
+
+input UpdateWarehouseInput{
+    id: ID!
+    name: String
+    address: String
 }
 
 
