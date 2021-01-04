@@ -164,7 +164,6 @@ public class GraphQLDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
             Integer id =Integer.parseInt((String) l.get("id"));
-            userRepository.save(userRepository.findById(id).get());
             User user = userRepository.getOne(id);
             if(l.containsKey("name")){
                 String name = (String) l.get("name");
@@ -199,7 +198,7 @@ public class GraphQLDataFetchers {
                 String telephone = (String) l.get("telephone");
                 user.setTelephone(telephone);
             }
-            return userRepository.save(userRepository.getOne(id));
+            return userRepository.save(user);
         };
     }
 
