@@ -55,4 +55,14 @@ public class ShipmentMethodDataFetchers {
             return shipmentMethodRepository.save(shipmentMethod);
         };
     }
+
+    public DataFetcher deleteShipmentMethodDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            ShipmentMethod shipmentMethod = shipmentMethodRepository.getOne(id);
+            shipmentMethodRepository.delete(shipmentMethod);
+
+            return shipmentMethod;
+        };
+    }
 }

@@ -70,4 +70,14 @@ public class DeliveryAddressDataFetchers {
             return deliveryAddressRepository.save(deliveryAddress);
         };
     }
+
+    public DataFetcher deleteDeliveryAddressDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            DeliveryAddress deliveryAddress = deliveryAddressRepository.getOne(id);
+            deliveryAddressRepository.delete(deliveryAddress);
+
+            return deliveryAddress;
+        };
+    }
 }

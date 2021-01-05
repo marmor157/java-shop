@@ -53,4 +53,14 @@ public class WarehouseDataFetchers {
             return warehouseRepository.save(warehouse);
         };
     }
+
+    public DataFetcher deleteWarehouseDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            Warehouse warehouse = warehouseRepository.getOne(id);
+            warehouseRepository.delete(warehouse);
+
+            return warehouse;
+        };
+    }
 }

@@ -45,4 +45,14 @@ public class ComplaintTypeDataFetchers {
             return complaintTypeRepository.save(complaintType);
         };
     }
+
+    public DataFetcher deleteComplaintTypeDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            ComplaintType complaintType = complaintTypeRepository.getOne(id);
+            complaintTypeRepository.delete(complaintType);
+
+            return complaintType;
+        };
+    }
 }
