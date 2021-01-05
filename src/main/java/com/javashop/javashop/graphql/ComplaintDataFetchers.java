@@ -1,8 +1,9 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.Complaint;
-import com.javashop.javashop.repository.ComplaintRepository;
-import com.javashop.javashop.repository.UserRepository;
+import com.javashop.javashop.model.ComplaintType;
+import com.javashop.javashop.model.User;
+import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,11 @@ import java.util.LinkedHashMap;
 public class ComplaintDataFetchers {
     @Autowired
     private ComplaintRepository complaintRepository;
+    @Autowired
+    private ComplaintTypeRepository complaintTypeRepository;
+    private OrderRepository orderRepository;
+    private ProductRepository productRepository;
+    private UserRepository userRepository;
 
     public DataFetcher getComplaintDataFetcher() {
         return dataFetchingEnvironment -> {
@@ -29,8 +35,17 @@ public class ComplaintDataFetchers {
 
             String dateStr = (String) l.get("date");
             Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+            Integer complaintTypeID = Integer.parseInt((String) l.get("complaintTypeID"));
+            Integer orderID = Integer.parseInt((String) l.get("orderID"));
+            Integer productID = Integer.parseInt((String) l.get("productID"));
+            Integer userID = Integer.parseInt((String) l.get("userID"));
+            Complaint complaint = new Complaint(date);
+            complaint.setComplaintType(complaintTypeRepository.getOne(complaintTypeID));
+            complaint.setOrder(orderRepository.getOne(orderID));
+            complaint.setProduct(productRepository.getOne(productID));
+            complaint.setUser(userRepository.getOne(userID));
 
-            return complaintRepository.save(new Complaint(date));
+            return complaintRepository.save(complaint);
         };
     }
 
@@ -44,6 +59,22 @@ public class ComplaintDataFetchers {
                 String dateStr = (String) l.get("date");
                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
                 complaint.setDate(date);
+            }
+            if(l.containsKey("complaintTypeID")){
+                Integer complaintTypeID = Integer.parseInt((String) l.get("complaintTypeID"));
+                complaint.setComplaintType(complaintTypeRepository.getOne(complaintTypeID));
+            }
+            if(l.containsKey("orderID")){
+                Integer orderID = Integer.parseInt((String) l.get("orderID"));
+                complaint.setOrder(orderRepository.getOne(orderID));
+            }
+            if(l.containsKey("productID")){
+                Integer productID = Integer.parseInt((String) l.get("productID"));
+                complaint.setProduct(productRepository.getOne(productID));
+            }
+            if(l.containsKey("userID")){
+                Integer userID = Integer.parseInt((String) l.get("userID"));
+                complaint.setUser(userRepository.getOne(userID));
             }
 
             return complaintRepository.save(complaint);

@@ -1,8 +1,13 @@
 package com.javashop.javashop.graphql;
 
+import com.javashop.javashop.model.DeliveryAddress;
 import com.javashop.javashop.model.Order;
+import com.javashop.javashop.model.User;
+import com.javashop.javashop.repository.DeliveryAddressRepository;
 import com.javashop.javashop.repository.OrderRepository;
+import com.javashop.javashop.repository.ShipmentMethodRepository;
 import com.javashop.javashop.repository.UserRepository;
+import com.sun.xml.bind.v2.util.QNameMap;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +20,9 @@ import java.util.LinkedHashMap;
 public class OrderDataFetchers {
     @Autowired
     private OrderRepository orderRepository;
+    private DeliveryAddressRepository deliveryAddressRepository;
+    private ShipmentMethodRepository shipmentMethodRepository;
+    private UserRepository userRepository;
 
     public DataFetcher getOrderDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -30,8 +38,14 @@ public class OrderDataFetchers {
             Integer price = (Integer) l.get("price");
             String dateStr = (String) l.get("date");
             Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
-
-            return orderRepository.save(new Order(date, price));
+            Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
+            Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
+            Integer userID = Integer.parseInt((String) l.get("userID"));
+            Order order = new Order(date, price);
+            order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
+            order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
+            order.setUser(userRepository.getOne(userID));
+            return orderRepository.save(order);
         };
     }
 
@@ -49,6 +63,18 @@ public class OrderDataFetchers {
                 String dateStr = (String) l.get("date");
                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
                 order.setDate(date);
+            }
+            if(l.containsKey("deliveryAddressID")){
+                Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
+                order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
+            }
+            if(l.containsKey("shipmentMethodID")){
+                Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
+                order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
+            }
+            if(l.containsKey("userID")){
+                Integer userID = Integer.parseInt((String) l.get("userID"));
+                order.setUser(userRepository.getOne(userID));
             }
 
             return orderRepository.save(order);

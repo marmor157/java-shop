@@ -1,6 +1,7 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.User;
+import com.javashop.javashop.repository.RoleRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.util.LinkedHashMap;
 public class UserDataFetchers {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     public DataFetcher getUserDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -34,8 +37,10 @@ public class UserDataFetchers {
             String birthDateStr = (String) l.get("birthDate");
             Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
             String telephone = (String) l.get("telephone");
-
-            return userRepository.save(new User(login, password, email, name, surname, address, birthDate, telephone));
+            Integer roleID = Integer.parseInt((String) l.get("roleID"));
+            User user = new User(login, password, email, name, surname, address, birthDate, telephone);
+            user.setRole(roleRepository.getOne(roleID));
+            return userRepository.save(user);
         };
     }
     public DataFetcher updateUserDataFetcher() {
@@ -75,6 +80,10 @@ public class UserDataFetchers {
             if(l.containsKey("telephone")){
                 String telephone = (String) l.get("telephone");
                 user.setTelephone(telephone);
+            }
+            if(l.containsKey("roleID")){
+                Integer roleID = Integer.parseInt((String) l.get("roleID"));
+                user.setRole(roleRepository.getOne(roleID));
             }
             return userRepository.save(user);
         };
