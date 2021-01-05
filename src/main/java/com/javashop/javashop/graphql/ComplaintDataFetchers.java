@@ -18,8 +18,11 @@ public class ComplaintDataFetchers {
     private ComplaintRepository complaintRepository;
     @Autowired
     private ComplaintTypeRepository complaintTypeRepository;
+    @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private ProductRepository productRepository;
+    @Autowired
     private UserRepository userRepository;
 
     public DataFetcher getComplaintDataFetcher() {

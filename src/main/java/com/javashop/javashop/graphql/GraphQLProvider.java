@@ -56,6 +56,10 @@ public class GraphQLProvider {
     SupplierDataFetchers supplierDataFetchers;
     @Autowired
     WarehouseDataFetchers warehouseDataFetchers;
+    @Autowired
+    ProductSupplierDataFetchers productSupplierDataFetchers;
+    @Autowired
+    ProductWarehouseDataFetchers productWarehouseDataFetchers;
 
     @Bean
     public GraphQL graphQL() {
@@ -90,8 +94,10 @@ public class GraphQLProvider {
                         .dataFetcher("Category", categoryDataFetchers.getCategoryDataFetcher())
                         .dataFetcher("Subcategory", subcategoryDataFetchers.getSubcategoryDataFetcher())
                         .dataFetcher("Supplier", supplierDataFetchers.getSupplierDataFetcher())
+                        .dataFetcher("ProductSupplier", productSupplierDataFetchers.getProductSupplierDataFetcher())
                         .dataFetcher("Opinion", opinionDataFetchers.getOpinionDataFetcher())
                         .dataFetcher("Warehouse", warehouseDataFetchers.getWarehouseDataFetcher())
+                        .dataFetcher("ProductWarehouse", productWarehouseDataFetchers.getProductWarehouseDataFetcher())
                         .dataFetcher("DeliveryAddress", deliveryAddressDataFetchers.getDeliveryAddressDataFetcher())
                         .dataFetcher("ShipmentMethod", shipmentMethodDataFetchers.getShipmentMethodDataFetcher()))
                 .type(newTypeWiring("Mutation")
@@ -134,9 +140,12 @@ public class GraphQLProvider {
                         .dataFetcher("createSupplier", supplierDataFetchers.createSupplierDataFetcher())
                         .dataFetcher("updateSupplier", supplierDataFetchers.updateSupplierDataFetcher())
                         .dataFetcher("deleteSupplier", supplierDataFetchers.deleteSupplierDataFetcher())
-                        .dataFetcher("createWarehouse", warehouseDataFetchers.createWarehouseDataFetcher())
-                        .dataFetcher("updateWarehouse", warehouseDataFetchers.updateWarehouseDataFetcher())
-                        .dataFetcher("deleteWarehouse", warehouseDataFetchers.deleteWarehouseDataFetcher()))
+                        .dataFetcher("createProductSupplier", productSupplierDataFetchers.createProductSupplierDataFetcher())
+                        .dataFetcher("updateProductSupplier", productSupplierDataFetchers.updateProductSupplierDataFetcher())
+                        .dataFetcher("deleteProductSupplier", productSupplierDataFetchers.deleteProductSupplierDataFetcher())
+                        .dataFetcher("createProductWarehouse", productWarehouseDataFetchers.createProductWarehouseDataFetcher())
+                        .dataFetcher("updateProductWarehouse", productWarehouseDataFetchers.updateProductWarehouseDataFetcher())
+                        .dataFetcher("deleteProductWarehouse", productWarehouseDataFetchers.deleteProductWarehouseDataFetcher()))
                 .build();
     }
 

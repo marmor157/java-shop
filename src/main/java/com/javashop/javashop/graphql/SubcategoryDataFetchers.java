@@ -1,6 +1,8 @@
 package com.javashop.javashop.graphql;
 
+import com.javashop.javashop.model.Category;
 import com.javashop.javashop.model.Subcategory;
+import com.javashop.javashop.repository.CategoryRepository;
 import com.javashop.javashop.repository.SubcategoryRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
@@ -13,6 +15,8 @@ import java.util.LinkedHashMap;
 public class SubcategoryDataFetchers {
     @Autowired
     private SubcategoryRepository subcategoryRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public DataFetcher getSubcategoryDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -24,10 +28,12 @@ public class SubcategoryDataFetchers {
     public DataFetcher createSubcategoryDataFetcher() {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
-
             String name = (String) l.get("name");
+            Integer categoryID = Integer.parseInt((String) l.get("categoryID"));
+            Subcategory subcategory = new Subcategory(name);
+            subcategory.setCategory(categoryRepository.getOne(categoryID));
 
-            return subcategoryRepository.save(new Subcategory(name));
+            return subcategoryRepository.save(subcategory);
         };
     }
 
@@ -40,6 +46,10 @@ public class SubcategoryDataFetchers {
             if(l.containsKey("name")){
                 String name = (String) l.get("name");
                 subcategory.setName(name);
+            }
+            if(l.containsKey("name")){
+                Integer categoryID = Integer.parseInt((String) l.get("categoryID"));
+                subcategory.setCategory(categoryRepository.getOne(categoryID));
             }
 
             return subcategoryRepository.save(subcategory);

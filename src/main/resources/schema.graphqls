@@ -14,8 +14,10 @@ type Query{
     Category(id:ID): Category
     Subcategory(id: ID): Subcategory
     Supplier(id:ID): Supplier
+    ProductSupplier(id: ID): ProductSupplier
     Opinion(id:ID): Opinion
     Warehouse(id:ID): Warehouse
+    ProductWarehouse(id: ID): ProductWarehouse
     DeliveryAddress(id:ID): DeliveryAddress
     ShipmentMethod(id:ID): ShipmentMethod
 }
@@ -174,46 +176,52 @@ type Mutation {
     deleteUser(id: ID): User!
     createProduct(input: CreateProductInput): Product!
     updateProduct(input: UpdateProductInput): Product!
-    deleteProduct(input: UpdateProductInput): Product!
+    deleteProduct(id: ID): Product!
     createOrder(input: CreateOrderInput): Order!
     updateOrder(input: UpdateOrderInput): Order!
-    deleteOrder(input: UpdateOrderInput): Order!
+    deleteOrder(id: ID): Order!
     createOpinion(input: CreateOpinionInput): Opinion!
     updateOpinion(input: UpdateOpinionInput): Opinion!
-    deleteOpinion(input: UpdateOpinionInput): Opinion!
+    deleteOpinion(id: ID): Opinion!
     createCategory(input: CreateCategoryInput): Category!
     updateCategory(input: UpdateCategoryInput): Category!
-    deleteCategory(input: UpdateCategoryInput): Category!
+    deleteCategory(id: ID): Category!
     createSubcategory(input: CreateSubcategoryInput): Subcategory!
     updateSubcategory(input: UpdateSubcategoryInput): Subcategory!
-    deleteSubcategory(input: UpdateSubcategoryInput): Subcategory!
+    deleteSubcategory(id: ID): Subcategory!
     createComplaint(input: CreatComplaintInput): Complaint!
     updateComplaint(input: UpdateComplaintInput): Complaint!
-    deleteComplaint(input: UpdateComplaintInput): Complaint!
+    deleteComplaint(id: ID): Complaint!
     createComplainttype(input: CreateComplaintTypeInput): ComplaintType!
     updateComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
-    deleteComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
+    deleteComplainttype(id: ID): ComplaintType!
     createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
     updateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
-    deleteDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
+    deleteDeliveryAddress(id: ID): DeliveryAddress!
     createRole(input: CreateRoleInput): Role!
     updateRole(input: UpdateRoleInput): Role!
-    deleteRole(input: UpdateRoleInput): Role!
+    deleteRole(id: ID): Role!
     createShipmentMethod(input: CreateShipmentMethodInput): ShipmentMethod!
     updateShipmentMethod(input: UpdateShipmentMethodInput): ShipmentMethod!
-    deleteShipmentMethod(input: UpdateShipmentMethodInput): ShipmentMethod!
+    deleteShipmentMethod(id: ID): ShipmentMethod!
     createTaxCategory(input: CreateTaxCategoryInput): TaxCategory!
     updateTaxCategory(input: UpdateTaxCategoryInput): TaxCategory!
-    deleteTaxCategory(input: UpdateTaxCategoryInput): TaxCategory!
+    deleteTaxCategory(id: ID): TaxCategory!
     createVisited(input: CreateVisitedInput): Visited!
     updateVisited(input: UpdateVisitedInput): Visited!
-    deleteVisited(input: UpdateVisitedInput): Visited!
+    deleteVisited(id: ID): Visited!
     createSupplier(input: CreateSupplierInput): Supplier!
     updateSupplier(input: UpdateSupplierInput): Supplier!
-    deleteSupplier(input: UpdateSupplierInput): Supplier!
+    deleteSupplier(id: ID): Supplier!
+    createProductSupplier(input: CreateProductSupplierInput): ProductSupplier!
+    updateProductSupplier(input: UpdateProductSupplierInput): ProductSupplier!
+    deleteProductSupplier(id: ID): ProductSupplier!
     createWarehouse(input: CreateWarehouseInput): Warehouse!
     updateWarehouse(input: UpdateWarehouseInput): Warehouse!
-    deleteWarehouse(input: UpdateWarehouseInput): Warehouse!
+    deleteWarehouse(id: ID): Warehouse!
+    createProductWarehouse(input: CreateProductWarehouseInput): ProductWarehouse!
+    updateProductWarehouse(input: UpdateProductWarehouseInput): ProductWarehouse!
+    deleteProductWarehouse(id: ID): ProductWarehouse!
 }
 
 input CreateUserInput {
@@ -285,6 +293,8 @@ input CreateOpinionInput {
     mark: Int!
     text: String!
     date: String!
+    productID: ID!
+    userID: ID!
 }
 
 input UpdateOpinionInput {
@@ -292,6 +302,8 @@ input UpdateOpinionInput {
     mark: Int
     text: String
     date: String
+    productID: ID
+    userID: ID
 }
 
 input CreateCategoryInput {
@@ -305,11 +317,13 @@ input UpdateCategoryInput {
 
 input CreateSubcategoryInput {
     name: String!
+    categoryID: ID!
 }
 
 input UpdateSubcategoryInput {
     id: ID!
     name: String
+    categoryID: ID
 }
 
 input CreatComplaintInput {
@@ -412,6 +426,19 @@ input UpdateSupplierInput {
     telephone: String
 }
 
+input CreateProductSupplierInput {
+    price: Int!
+    productID: ID!
+    supplierID: ID!
+}
+
+input UpdateProductSupplierInput {
+    id: ID!
+    price: Int
+    productID: ID
+    supplierID: ID
+}
+
 input CreateWarehouseInput{
     name: String!
     address: String!
@@ -423,5 +450,15 @@ input UpdateWarehouseInput{
     address: String
 }
 
+input CreateProductWarehouseInput{
+    quantity: Int!
+    productID: ID!
+    warehouseID: ID!
+}
 
-
+input UpdateProductWarehouseInput{
+    id: ID!
+    quantity: Int
+    productID: ID
+    warehouseID: ID
+}

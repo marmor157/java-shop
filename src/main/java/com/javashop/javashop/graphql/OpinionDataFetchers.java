@@ -2,6 +2,7 @@ package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.Opinion;
 import com.javashop.javashop.repository.OpinionRepository;
+import com.javashop.javashop.repository.ProductRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ import java.util.LinkedHashMap;
 public class OpinionDataFetchers {
     @Autowired
     private OpinionRepository opinionRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public DataFetcher getOpinionDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -31,8 +36,13 @@ public class OpinionDataFetchers {
             String text = (String) l.get("text");
             String dateStr = (String) l.get("date");
             Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+            Integer productID = Integer.parseInt((String) l.get("productID"));
+            Integer userID = Integer.parseInt((String) l.get("userID"));
+            Opinion opinion = new Opinion(mark, text, date);
+            opinion.setUser(userRepository.getOne(userID));
+            opinion.setProduct(productRepository.getOne(productID));
 
-            return opinionRepository.save(new Opinion(mark, text, date));
+            return opinionRepository.save(opinion);
         };
     }
 
@@ -58,6 +68,14 @@ public class OpinionDataFetchers {
                 String dateStr = (String) l.get("date");
                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
                 opinion.setDate(date);
+            }
+            if(l.containsKey("text")){
+                Integer productID = Integer.parseInt((String) l.get("productID"));
+                opinion.setProduct(productRepository.getOne(productID));
+            }
+            if(l.containsKey("userID")){
+                Integer userID = Integer.parseInt((String) l.get("userID"));
+                opinion.setUser(userRepository.getOne(userID));
             }
 
             return opinionRepository.save(opinion);

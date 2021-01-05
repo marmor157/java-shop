@@ -20,8 +20,11 @@ import java.util.LinkedHashMap;
 public class OrderDataFetchers {
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private DeliveryAddressRepository deliveryAddressRepository;
+    @Autowired
     private ShipmentMethodRepository shipmentMethodRepository;
+    @Autowired
     private UserRepository userRepository;
 
     public DataFetcher getOrderDataFetcher() {
