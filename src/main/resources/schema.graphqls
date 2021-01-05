@@ -225,6 +225,7 @@ input CreateUserInput {
     address: String!
     birthDate: String!
     telephone: String!
+    roleID: ID!
 }
 
 input UpdateUserInput {
@@ -237,6 +238,7 @@ input UpdateUserInput {
     address: String
     birthDate: String
     telephone: String
+    roleID: ID
 }
 
 input CreateProductInput {
@@ -247,6 +249,8 @@ input CreateProductInput {
     description: String!
     imagePath: String!
     taxCategoryID: ID!
+    categoryID: ID!
+    subcategoryID: ID!
 }
 
 input UpdateProductInput {
@@ -263,12 +267,18 @@ input UpdateProductInput {
 input CreateOrderInput {
     date: String!
     price: Int!
+    deliveryAddressID: ID!
+    shipmentMethodID: ID!
+    userID: ID!
 }
 
 input UpdateOrderInput {
     id: ID!
     date: String
     price: Int
+    deliveryAddressID: ID
+    shipmentMethodID: ID
+    userID: ID
 }
 
 input CreateOpinionInput {
@@ -304,11 +314,19 @@ input UpdateSubcategoryInput {
 
 input CreatComplaintInput {
     date: String!
+    complaintTypeID: ID!
+    orderID: ID!
+    productID: ID!
+    userID: ID!
 }
 
 input UpdateComplaintInput {
     id: ID!
     date: String
+    complaintTypeID: ID
+    orderID: ID
+    productID: ID
+    userID: ID
 }
 
 input CreateComplaintTypeInput {
@@ -327,6 +345,7 @@ input CreateDeliveryAddressInput {
     street: String!
     buildingNumber: String!
     postCode: String!
+    userID: ID!
 }
 
 input UpdateDeliveryAddressInput {
@@ -337,6 +356,7 @@ input UpdateDeliveryAddressInput {
     street: String
     buildingNumber: String
     postCode: String
+    userID: ID
 }
 
 input CreateRoleInput {

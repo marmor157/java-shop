@@ -1,6 +1,7 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.DeliveryAddress;
+import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.DeliveryAddressRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
@@ -13,6 +14,8 @@ import java.util.LinkedHashMap;
 public class DeliveryAddressDataFetchers {
     @Autowired
     private DeliveryAddressRepository deliveryAddressRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public DataFetcher getDeliveryAddressDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -31,8 +34,10 @@ public class DeliveryAddressDataFetchers {
             String street = (String) l.get("street");
             String buildingNumber = (String) l.get("buildingNumber");
             String postCode = (String) l.get("postCode");
-
-            return deliveryAddressRepository.save(new DeliveryAddress(name,surname,city,street,buildingNumber,postCode));
+            Integer userID = Integer.parseInt((String) l.get("userID"));
+            DeliveryAddress deliveryAddress = new DeliveryAddress(name,surname,city,street,buildingNumber,postCode);
+            deliveryAddress.setUser(userRepository.getOne(userID));
+            return deliveryAddressRepository.save(deliveryAddress);
         };
     }
 
@@ -65,6 +70,10 @@ public class DeliveryAddressDataFetchers {
             if(l.containsKey("postCode")){
                 String postCode = (String) l.get("postCode");
                 deliveryAddress.setPostCode(postCode);
+            }
+            if(l.containsKey("userID")){
+                Integer userID = Integer.parseInt((String) l.get("userID"));
+                deliveryAddress.setUser(userRepository.getOne(userID));
             }
 
             return deliveryAddressRepository.save(deliveryAddress);
