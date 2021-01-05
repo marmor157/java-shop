@@ -44,10 +44,9 @@ public class ProductDataFetchers {
             Integer subcategoryID =Integer.parseInt((String) l.get("subcategoryID"));
             TaxCategory taxCategory = taxCategoryRepository.getOne(taxCategoryID);
             Product product = new Product(name, price, discountPrice, noAvailable, description, imagePath, taxCategory);
-            productRepository.save(new Product(name, price, discountPrice, noAvailable, description, imagePath, taxCategory));
             //product.getCategories().add(categoryRepository.getOne(categoryID));
             //product.getSubcategories().add(subcategoryRepository.getOne(subcategoryID));
-            return product;
+            return  productRepository.save(product);
         };
     }
 
