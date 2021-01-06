@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class ProductDataFetchers {
@@ -26,7 +27,9 @@ public class ProductDataFetchers {
     public DataFetcher getProductDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
-            return  productRepository.findById(id);
+            Product product = productRepository.getOne(id);
+            //List<Category> category = product.getCategories();
+            return  product;
         };
     }
 
@@ -40,13 +43,22 @@ public class ProductDataFetchers {
             String description = (String) l.get("description");
             String imagePath = (String) l.get("imagePath");
             Integer taxCategoryID = Integer.parseInt((String) l.get("taxCategoryID"));
-            Integer categoryID = Integer.parseInt((String) l.get("categoryID"));
-            Integer subcategoryID =Integer.parseInt((String) l.get("subcategoryID"));
+            //Integer categoryID = Integer.parseInt((String) l.get("categoryID"));
+            //Integer subcategoryID =Integer.parseInt((String) l.get("subcategoryID"));
+            List<String> categoryIDs = (List<String>) l.get("categoryID");
+            List<String> subcategoryIDs = (List<String>) l.get("subcategoryID");
             TaxCategory taxCategory = taxCategoryRepository.getOne(taxCategoryID);
             Product product = new Product(name, price, discountPrice, noAvailable, description, imagePath, taxCategory);
-            //product.getCategories().add(categoryRepository.getOne(categoryID));
-            //product.getSubcategories().add(subcategoryRepository.getOne(subcategoryID));
-            return  productRepository.save(product);
+            for (String catID: categoryIDs){
+                product.getCategories().add(categoryRepository.getOne(Integer.parseInt(catID)));
+                categoryRepository.getOne(Integer.parseInt(catID)).getProducts().add(product);
+            }
+            for (String subcatID: subcategoryIDs){
+                product.getSubcategories().add(subcategoryRepository.getOne(Integer.parseInt(subcatID)));
+                subcategoryRepository.getOne(Integer.parseInt(subcatID)).getProducts().add(product);
+            }
+
+            return productRepository.save(product);
         };
     }
 

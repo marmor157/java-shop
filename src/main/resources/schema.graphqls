@@ -171,6 +171,7 @@ type ShipmentMethod {
 }
 
 type Mutation {
+    login(email: String!, password: String!): SigninPayload!
     createUser(input: CreateUserInput): User!
     updateUser(input: UpdateUserInput): User!
     deleteUser(id: ID): User!
@@ -224,6 +225,11 @@ type Mutation {
     deleteProductWarehouse(id: ID): ProductWarehouse!
 }
 
+type SigninPayload {
+    token: String
+    user: User
+}
+
 input CreateUserInput {
     login: String!
     password: String!
@@ -257,8 +263,8 @@ input CreateProductInput {
     description: String!
     imagePath: String!
     taxCategoryID: ID!
-    categoryID: ID!
-    subcategoryID: ID!
+    categoryID: [ID!]!
+    subcategoryID: [ID!]!
 }
 
 input UpdateProductInput {
@@ -278,6 +284,7 @@ input CreateOrderInput {
     deliveryAddressID: ID!
     shipmentMethodID: ID!
     userID: ID!
+    productID: [ID!]!
 }
 
 input UpdateOrderInput {

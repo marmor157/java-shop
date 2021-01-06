@@ -34,6 +34,7 @@ public class DataLoader {
 
         TaxCategory taxCategory1 = new TaxCategory("podatek VAT", 23);
 
+
   //      taxCategoryRepository.save(taxCategory1);
 //        Complaint complaint1 = new Complaint(new Date(2020,12,10), 1);
 //        Complaint complaint2 = new Complaint(new Date(2020,12,11), 2);

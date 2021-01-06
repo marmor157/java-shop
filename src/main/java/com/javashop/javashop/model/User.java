@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,13 +47,17 @@ public class User {
     @ManyToOne()
     private Role role;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
     @JoinTable(
             name = "wishlist",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Product> wishlist;
+    private Set<Product> wishlistUser = new HashSet<Product>();
 
     @OneToMany(mappedBy = "user")
     private List<Visited> visited;

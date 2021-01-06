@@ -2,11 +2,9 @@ package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.DeliveryAddress;
 import com.javashop.javashop.model.Order;
+import com.javashop.javashop.model.Product;
 import com.javashop.javashop.model.User;
-import com.javashop.javashop.repository.DeliveryAddressRepository;
-import com.javashop.javashop.repository.OrderRepository;
-import com.javashop.javashop.repository.ShipmentMethodRepository;
-import com.javashop.javashop.repository.UserRepository;
+import com.javashop.javashop.repository.*;
 import com.sun.xml.bind.v2.util.QNameMap;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Component
 public class OrderDataFetchers {
@@ -26,6 +25,8 @@ public class OrderDataFetchers {
     private ShipmentMethodRepository shipmentMethodRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public DataFetcher getOrderDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -44,10 +45,17 @@ public class OrderDataFetchers {
             Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
             Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
+            List<String> productIDs = (List<String>) l.get("productID");
+
             Order order = new Order(date, price);
             order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
             order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
             order.setUser(userRepository.getOne(userID));
+            for (String prodID: productIDs){
+                order.getProducts().add(productRepository.getOne(Integer.parseInt(prodID)));
+                productRepository.getOne(Integer.parseInt(prodID)).getOrders().add(order);
+            }
+
             return orderRepository.save(order);
         };
     }
