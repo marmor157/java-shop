@@ -40,7 +40,9 @@ public class OpinionDataFetchers {
             Integer userID = Integer.parseInt((String) l.get("userID"));
             Opinion opinion = new Opinion(mark, text, date);
             opinion.setUser(userRepository.getOne(userID));
+            userRepository.getOne(userID).getOpinions().add(opinion);
             opinion.setProduct(productRepository.getOne(productID));
+            productRepository.getOne(productID).getOpinions().add(opinion);
 
             return opinionRepository.save(opinion);
         };
@@ -60,22 +62,20 @@ public class OpinionDataFetchers {
                 String text = (String) l.get("text");
                 opinion.setText(text);
             }
-            if(l.containsKey("text")){
-                String text = (String) l.get("text");
-                opinion.setText(text);
-            }
             if(l.containsKey("date")){
                 String dateStr = (String) l.get("date");
                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
                 opinion.setDate(date);
             }
-            if(l.containsKey("text")){
+            if(l.containsKey("productID")){
                 Integer productID = Integer.parseInt((String) l.get("productID"));
                 opinion.setProduct(productRepository.getOne(productID));
+                productRepository.getOne(productID).getOpinions().add(opinion);
             }
             if(l.containsKey("userID")){
                 Integer userID = Integer.parseInt((String) l.get("userID"));
                 opinion.setUser(userRepository.getOne(userID));
+                userRepository.getOne(userID).getOpinions().add(opinion);
             }
 
             return opinionRepository.save(opinion);

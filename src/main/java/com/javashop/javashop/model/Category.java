@@ -32,7 +32,7 @@ public class Category {
     private Set<Product> products = new HashSet<Product>();
 
     @OneToMany(mappedBy = "category")
-    private List<Subcategory> subcategories;
+    private Set<Subcategory> subcategories = new HashSet<Subcategory>();
 
     public Category(String name) {
         this.name = name;

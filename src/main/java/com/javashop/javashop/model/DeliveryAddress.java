@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,7 +42,7 @@ public class DeliveryAddress {
     private User user;
 
     @OneToMany(mappedBy = "deliveryAddress")
-    private List<Order> orders;
+    private Set<Order> orders = new HashSet<Order>();
 
     public DeliveryAddress(String name, String surname, String city, String street, String buildingNumber, String postCode) {
         this.name = name;

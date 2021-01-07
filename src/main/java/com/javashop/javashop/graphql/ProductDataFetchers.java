@@ -27,9 +27,7 @@ public class ProductDataFetchers {
     public DataFetcher getProductDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
-            Product product = productRepository.getOne(id);
-            //List<Category> category = product.getCategories();
-            return  product;
+            return  productRepository.findById(id);
         };
     }
 

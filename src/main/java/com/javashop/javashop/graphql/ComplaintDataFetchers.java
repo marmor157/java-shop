@@ -44,9 +44,13 @@ public class ComplaintDataFetchers {
             Integer userID = Integer.parseInt((String) l.get("userID"));
             Complaint complaint = new Complaint(date);
             complaint.setComplaintType(complaintTypeRepository.getOne(complaintTypeID));
+            complaintTypeRepository.getOne(complaintTypeID).getComplaints().add(complaint);
             complaint.setOrder(orderRepository.getOne(orderID));
+            orderRepository.getOne(orderID).getComplaints().add(complaint);
             complaint.setProduct(productRepository.getOne(productID));
+            productRepository.getOne(productID).getComplaints().add(complaint);
             complaint.setUser(userRepository.getOne(userID));
+            userRepository.getOne(userID).getComplaints().add(complaint);
 
             return complaintRepository.save(complaint);
         };
@@ -66,18 +70,22 @@ public class ComplaintDataFetchers {
             if(l.containsKey("complaintTypeID")){
                 Integer complaintTypeID = Integer.parseInt((String) l.get("complaintTypeID"));
                 complaint.setComplaintType(complaintTypeRepository.getOne(complaintTypeID));
+                complaintTypeRepository.getOne(complaintTypeID).getComplaints().add(complaint);
             }
             if(l.containsKey("orderID")){
                 Integer orderID = Integer.parseInt((String) l.get("orderID"));
                 complaint.setOrder(orderRepository.getOne(orderID));
+                orderRepository.getOne(orderID).getComplaints().add(complaint);
             }
             if(l.containsKey("productID")){
                 Integer productID = Integer.parseInt((String) l.get("productID"));
                 complaint.setProduct(productRepository.getOne(productID));
+                productRepository.getOne(productID).getComplaints().add(complaint);
             }
             if(l.containsKey("userID")){
                 Integer userID = Integer.parseInt((String) l.get("userID"));
                 complaint.setUser(userRepository.getOne(userID));
+                userRepository.getOne(userID).getComplaints().add(complaint);
             }
 
             return complaintRepository.save(complaint);

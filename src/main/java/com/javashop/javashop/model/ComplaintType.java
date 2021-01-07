@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,7 +24,7 @@ public class ComplaintType {
     private String name;
 
     @OneToMany(mappedBy = "complaintType")
-    private List<Complaint> complaints = new ArrayList<>();
+    private Set<Complaint> complaints = new HashSet<Complaint>();
 
     public ComplaintType(String name) {
         this.name = name;
