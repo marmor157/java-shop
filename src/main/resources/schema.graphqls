@@ -109,8 +109,9 @@ type Subcategory{
 }
 
 type Visited{
-    product: Product
-    user: User
+    date: String!
+    product: Product!
+    user: User!
 }
 
 type User{
@@ -253,6 +254,7 @@ input UpdateUserInput {
     birthDate: String
     telephone: String
     roleID: ID
+    wishlistProductIDs: [ID!]
 }
 
 input CreateProductInput {
@@ -263,8 +265,8 @@ input CreateProductInput {
     description: String!
     imagePath: String!
     taxCategoryID: ID!
-    categoryID: [ID!]!
-    subcategoryID: [ID!]!
+    categoryIDs: [ID!]!
+    subcategoryIDs: [ID!]!
 }
 
 input UpdateProductInput {
@@ -276,6 +278,8 @@ input UpdateProductInput {
     description: String
     imagePath: String
     taxCategoryID: ID
+    categoryIDs: [ID!]
+    subcategoryIDs: [ID!]
 }
 
 input CreateOrderInput {
@@ -284,7 +288,7 @@ input CreateOrderInput {
     deliveryAddressID: ID!
     shipmentMethodID: ID!
     userID: ID!
-    productID: [ID!]!
+    productIDs: [ID!]!
 }
 
 input UpdateOrderInput {
@@ -294,6 +298,7 @@ input UpdateOrderInput {
     deliveryAddressID: ID
     shipmentMethodID: ID
     userID: ID
+    productIDs: [ID!]
 }
 
 input CreateOpinionInput {
@@ -413,13 +418,17 @@ input UpdateTaxCategoryInput {
     name: String
 }
 
-input CreateVisitedInput {
+input CreateVisitedInput{
     date: String!
+    productID: ID!
+    userID: ID!
 }
 
-input UpdateVisitedInput {
+input UpdateVisitedInput{
     id: ID!
     date: String
+    productID: ID
+    userID: ID
 }
 
 input CreateSupplierInput {

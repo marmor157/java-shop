@@ -45,7 +45,7 @@ public class OrderDataFetchers {
             Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
             Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
-            List<String> productIDs = (List<String>) l.get("productID");
+            List<String> productIDs = (List<String>) l.get("productIDs");
 
             Order order = new Order(date, price);
             order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
@@ -86,6 +86,13 @@ public class OrderDataFetchers {
             if(l.containsKey("userID")){
                 Integer userID = Integer.parseInt((String) l.get("userID"));
                 order.setUser(userRepository.getOne(userID));
+            }
+            if(l.containsKey("productIDs")){
+                List<String> productIDs = (List<String>) l.get("productIDs");
+                for (String prodID: productIDs){
+                    order.getProducts().add(productRepository.getOne(Integer.parseInt(prodID)));
+                    productRepository.getOne(Integer.parseInt(prodID)).getOrders().add(order);
+                }
             }
 
             return orderRepository.save(order);
