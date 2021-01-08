@@ -60,6 +60,8 @@ public class GraphQLProvider {
     ProductSupplierDataFetchers productSupplierDataFetchers;
     @Autowired
     ProductWarehouseDataFetchers productWarehouseDataFetchers;
+    @Autowired
+    VisitedDataFetchers visitedDataFetchers;
 
     @Bean
     public GraphQL graphQL() {
@@ -97,6 +99,7 @@ public class GraphQLProvider {
                         .dataFetcher("ProductSupplier", productSupplierDataFetchers.getProductSupplierDataFetcher())
                         .dataFetcher("Opinion", opinionDataFetchers.getOpinionDataFetcher())
                         .dataFetcher("Warehouse", warehouseDataFetchers.getWarehouseDataFetcher())
+                        .dataFetcher("Visited", visitedDataFetchers.getVisitedDataFetcher())
                         .dataFetcher("ProductWarehouse", productWarehouseDataFetchers.getProductWarehouseDataFetcher())
                         .dataFetcher("DeliveryAddress", deliveryAddressDataFetchers.getDeliveryAddressDataFetcher())
                         .dataFetcher("ShipmentMethod", shipmentMethodDataFetchers.getShipmentMethodDataFetcher()))
@@ -137,6 +140,9 @@ public class GraphQLProvider {
                         .dataFetcher("createTaxCategory", taxCategoryDataFetchers.createTaxCategoryDataFetcher())
                         .dataFetcher("updateTaxCategory", taxCategoryDataFetchers.updateTaxCategoryDataFetcher())
                         .dataFetcher("deleteTaxCategory", taxCategoryDataFetchers.deleteTaxCategoryDataFetcher())
+                        .dataFetcher("createVisited", visitedDataFetchers.createVisitedDataFetcher())
+                        .dataFetcher("updateVisited", visitedDataFetchers.updateVisitedDataFetcher())
+                        .dataFetcher("deleteVisited", visitedDataFetchers.deleteVisitedDataFetcher())
                         .dataFetcher("createSupplier", supplierDataFetchers.createSupplierDataFetcher())
                         .dataFetcher("updateSupplier", supplierDataFetchers.updateSupplierDataFetcher())
                         .dataFetcher("deleteSupplier", supplierDataFetchers.deleteSupplierDataFetcher())

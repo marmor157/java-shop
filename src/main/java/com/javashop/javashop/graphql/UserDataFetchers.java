@@ -1,6 +1,8 @@
 package com.javashop.javashop.graphql;
 
+import com.javashop.javashop.model.Product;
 import com.javashop.javashop.model.User;
+import com.javashop.javashop.repository.ProductRepository;
 import com.javashop.javashop.repository.RoleRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Component
 public class UserDataFetchers {
@@ -17,6 +20,7 @@ public class UserDataFetchers {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    private ProductRepository productRepository;
 
     public DataFetcher getUserDataFetcher() {
         return  dataFetchingEnvironment -> {
@@ -85,6 +89,14 @@ public class UserDataFetchers {
                 Integer roleID = Integer.parseInt((String) l.get("roleID"));
                 user.setRole(roleRepository.getOne(roleID));
             }
+            if(l.containsKey("wishlistProductIDs")){
+                List<String> productIDs = (List<String>) l.get("wishlistProductIDs");
+                for (String prodID: productIDs){
+                    user.getWishlistUser().add(productRepository.getOne(Integer.parseInt(prodID)));
+                    productRepository.getOne(Integer.parseInt(prodID)).getWishlistProduct().add(user);
+                }
+            }
+
             return userRepository.save(user);
         };
     }
