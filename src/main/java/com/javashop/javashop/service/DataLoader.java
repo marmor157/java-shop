@@ -44,6 +44,7 @@ public class DataLoader {
 //
 //
 ////        Uncomment when seeds needed
+
 //        complaintTypeRepository.save(complaintType1);
 //        complaintTypeRepository.save(complaintType2);
 //        complaintTypeRepository.save(complaintType3);

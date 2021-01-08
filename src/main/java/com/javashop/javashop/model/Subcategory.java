@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,18 +22,16 @@ public class Subcategory {
     @Column(name = "Name")
     private String name;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "products_subcategories",
-            joinColumns = @JoinColumn(name = "subcategory_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "subcategories")
+    private Set<Product> products = new HashSet<Product>();
 
     @ManyToOne
     private Category category;
-
-
 
     public Subcategory(String name) {
         this.name = name;
