@@ -35,7 +35,9 @@ public class ProductWarehouseDataFetchers {
             Integer warehouseID = Integer.parseInt((String) l.get("warehouseID"));
             ProductWarehouse productWarehouse = new ProductWarehouse(quantity);
             productWarehouse.setProduct(productRepository.getOne(productID));
+            productRepository.getOne(productID).getWarehouses().add(productWarehouse);
             productWarehouse.setWarehouse(warehouseRepository.getOne(warehouseID));
+            warehouseRepository.getOne(warehouseID).getProducts().add(productWarehouse);
 
             return productWarehouseRepository.save(productWarehouse);
         };
@@ -54,10 +56,12 @@ public class ProductWarehouseDataFetchers {
             if(l.containsKey("productID")){
                 Integer productID = Integer.parseInt((String) l.get("productID"));
                 productWarehouse.setProduct(productRepository.getOne(productID));
+                productRepository.getOne(productID).getWarehouses().add(productWarehouse);
             }
             if(l.containsKey("warehouseID")){
                 Integer warehouseID = Integer.parseInt((String) l.get("warehouseID"));
                 productWarehouse.setWarehouse(warehouseRepository.getOne(warehouseID));
+                warehouseRepository.getOne(warehouseID).getProducts().add(productWarehouse);
             }
 
             return productWarehouseRepository.save(productWarehouse);

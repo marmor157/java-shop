@@ -49,7 +49,7 @@ public class Order {
     private ShipmentMethod shipmentMethod;
 
     @OneToMany(mappedBy = "order")
-    private List<Complaint> complaints;
+    private Set<Complaint> complaints = new HashSet<Complaint>();
 
     public Order(Date date, Integer price) {
         this.date = date;

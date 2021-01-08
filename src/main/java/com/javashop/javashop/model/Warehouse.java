@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,7 +26,7 @@ public class Warehouse {
     private String address;
 
     @OneToMany(mappedBy = "warehouse")
-    private List<ProductWarehouse> products;
+    private Set<ProductWarehouse> products = new HashSet<ProductWarehouse>();
 
     public Warehouse(String name, String address) {
         this.name = name;

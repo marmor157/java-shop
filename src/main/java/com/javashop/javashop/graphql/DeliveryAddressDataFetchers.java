@@ -37,6 +37,7 @@ public class DeliveryAddressDataFetchers {
             Integer userID = Integer.parseInt((String) l.get("userID"));
             DeliveryAddress deliveryAddress = new DeliveryAddress(name,surname,city,street,buildingNumber,postCode);
             deliveryAddress.setUser(userRepository.getOne(userID));
+            userRepository.getOne(userID).getDeliveryAddresses().add(deliveryAddress);
             return deliveryAddressRepository.save(deliveryAddress);
         };
     }
@@ -74,6 +75,7 @@ public class DeliveryAddressDataFetchers {
             if(l.containsKey("userID")){
                 Integer userID = Integer.parseInt((String) l.get("userID"));
                 deliveryAddress.setUser(userRepository.getOne(userID));
+                userRepository.getOne(userID).getDeliveryAddresses().add(deliveryAddress);
             }
 
             return deliveryAddressRepository.save(deliveryAddress);

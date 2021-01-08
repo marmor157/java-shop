@@ -32,6 +32,7 @@ public class SubcategoryDataFetchers {
             Integer categoryID = Integer.parseInt((String) l.get("categoryID"));
             Subcategory subcategory = new Subcategory(name);
             subcategory.setCategory(categoryRepository.getOne(categoryID));
+            categoryRepository.getOne(categoryID).getSubcategories().add(subcategory);
 
             return subcategoryRepository.save(subcategory);
         };
@@ -47,9 +48,10 @@ public class SubcategoryDataFetchers {
                 String name = (String) l.get("name");
                 subcategory.setName(name);
             }
-            if(l.containsKey("name")){
+            if(l.containsKey("categoryID")){
                 Integer categoryID = Integer.parseInt((String) l.get("categoryID"));
                 subcategory.setCategory(categoryRepository.getOne(categoryID));
+                categoryRepository.getOne(categoryID).getSubcategories().add(subcategory);
             }
 
             return subcategoryRepository.save(subcategory);

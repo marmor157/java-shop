@@ -6,7 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,7 +27,7 @@ public class TaxCategory {
     private Integer taxRate;
 
     @OneToMany(mappedBy = "taxCategory")
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<Product>();
 
     public TaxCategory(String name, Integer taxRate) {
         this.name = name;

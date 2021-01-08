@@ -38,7 +38,9 @@ public class VisitedDataFetchers {
             Integer userID = Integer.parseInt((String) l.get("userID"));
             Visited visited = new Visited(date);
             visited.setProduct(productRepository.getOne(productID));
+            productRepository.getOne(productID).getVisited().add(visited);
             visited.setUser(userRepository.getOne(userID));
+            userRepository.getOne(userID).getVisited().add(visited);
 
             return visitedRepository.save(visited);
         };
@@ -58,10 +60,12 @@ public class VisitedDataFetchers {
             if(l.containsKey("productID")){
                 Integer productID = Integer.parseInt((String) l.get("productID"));
                 visited.setProduct(productRepository.getOne(productID));
+                productRepository.getOne(productID).getVisited().add(visited);
             }
             if(l.containsKey("userID")){
                 Integer userID = Integer.parseInt((String) l.get("userID"));
                 visited.setUser(userRepository.getOne(userID));
+                userRepository.getOne(userID).getVisited().add(visited);
             }
 
             return visitedRepository.save(visited);

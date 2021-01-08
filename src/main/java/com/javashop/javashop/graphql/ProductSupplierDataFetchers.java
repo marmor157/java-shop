@@ -38,7 +38,9 @@ public class ProductSupplierDataFetchers {
             Integer supplierID = Integer.parseInt((String) l.get("supplierID"));
             ProductSupplier productSupplier = new ProductSupplier(price);
             productSupplier.setProduct(productRepository.getOne(productID));
+            productRepository.getOne(productID).getSuppliers().add(productSupplier);
             productSupplier.setSupplier(supplierRepository.getOne(supplierID));
+            supplierRepository.getOne(supplierID).getProducts().add(productSupplier);
 
             return productSupplierRepository.save(productSupplier);
         };
@@ -57,10 +59,12 @@ public class ProductSupplierDataFetchers {
             if(l.containsKey("productID")){
                 Integer productID = Integer.parseInt((String) l.get("productID"));
                 productSupplier.setProduct(productRepository.getOne(productID));
+                productRepository.getOne(productID).getSuppliers().add(productSupplier);
             }
             if(l.containsKey("supplierID")){
                 Integer supplierID = Integer.parseInt((String) l.get("supplierID"));
                 productSupplier.setSupplier(supplierRepository.getOne(supplierID));
+                supplierRepository.getOne(supplierID).getProducts().add(productSupplier);
             }
 
             return productSupplierRepository.save(productSupplier);

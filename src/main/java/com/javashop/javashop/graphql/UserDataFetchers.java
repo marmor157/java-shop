@@ -42,8 +42,11 @@ public class UserDataFetchers {
             Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
             String telephone = (String) l.get("telephone");
             Integer roleID = Integer.parseInt((String) l.get("roleID"));
+
             User user = new User(login, password, email, name, surname, address, birthDate, telephone);
             user.setRole(roleRepository.getOne(roleID));
+            roleRepository.getOne(roleID).getUsers().add(user);
+
             return userRepository.save(user);
         };
     }
@@ -88,6 +91,7 @@ public class UserDataFetchers {
             if(l.containsKey("roleID")){
                 Integer roleID = Integer.parseInt((String) l.get("roleID"));
                 user.setRole(roleRepository.getOne(roleID));
+                roleRepository.getOne(roleID).getUsers().add(user);
             }
             if(l.containsKey("wishlistProductIDs")){
                 List<String> productIDs = (List<String>) l.get("wishlistProductIDs");

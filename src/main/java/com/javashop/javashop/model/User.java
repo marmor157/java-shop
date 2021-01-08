@@ -60,19 +60,19 @@ public class User {
     private Set<Product> wishlistUser = new HashSet<Product>();
 
     @OneToMany(mappedBy = "user")
-    private List<Visited> visited;
+    private Set<Visited> visited= new HashSet<Visited>();
 
     @OneToMany(mappedBy = "user")
-    private List<Opinion> opinions;
+    private Set<Opinion> opinions= new HashSet<Opinion>();
 
     @OneToMany(mappedBy = "user")
-    private List<Complaint> complaints;
+    private Set<Complaint> complaints= new HashSet<Complaint>();
 
     @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    private Set<Order> orders= new HashSet<Order>();
 
     @OneToMany(mappedBy = "user")
-    private List<DeliveryAddress> deliveryAddresses;
+    private Set<DeliveryAddress> deliveryAddresses= new HashSet<DeliveryAddress>();
 
     public User(String login, String password, String email, String name, String surname, String address, Date birthDate, String telephone) {
         this.login = login;

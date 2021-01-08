@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +29,7 @@ public class ShipmentMethod {
     private Integer freeThreshold;
 
     @OneToMany(mappedBy = "shipmentMethod")
-    private List<Order> orders;
+    private Set<Order> orders = new HashSet<Order>();
 
     public ShipmentMethod(String name, Integer price, Integer freeThreshold) {
         this.name = name;

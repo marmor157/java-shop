@@ -1,11 +1,7 @@
 package com.javashop.javashop.graphql;
 
-import com.javashop.javashop.model.DeliveryAddress;
 import com.javashop.javashop.model.Order;
-import com.javashop.javashop.model.Product;
-import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.*;
-import com.sun.xml.bind.v2.util.QNameMap;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,8 +45,11 @@ public class OrderDataFetchers {
 
             Order order = new Order(date, price);
             order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
+            deliveryAddressRepository.getOne(deliveryAddressID).getOrders().add(order);
             order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
+            shipmentMethodRepository.getOne(shipmentMethodID).getOrders().add(order);
             order.setUser(userRepository.getOne(userID));
+            userRepository.getOne(userID).getOrders().add(order);
             for (String prodID: productIDs){
                 order.getProducts().add(productRepository.getOne(Integer.parseInt(prodID)));
                 productRepository.getOne(Integer.parseInt(prodID)).getOrders().add(order);
@@ -78,14 +77,17 @@ public class OrderDataFetchers {
             if(l.containsKey("deliveryAddressID")){
                 Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
                 order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
+                deliveryAddressRepository.getOne(deliveryAddressID).getOrders().add(order);
             }
             if(l.containsKey("shipmentMethodID")){
                 Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
                 order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
+                shipmentMethodRepository.getOne(shipmentMethodID).getOrders().add(order);
             }
             if(l.containsKey("userID")){
                 Integer userID = Integer.parseInt((String) l.get("userID"));
                 order.setUser(userRepository.getOne(userID));
+                userRepository.getOne(userID).getOrders().add(order);
             }
             if(l.containsKey("productIDs")){
                 List<String> productIDs = (List<String>) l.get("productIDs");

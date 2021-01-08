@@ -41,10 +41,10 @@ public class Product {
     private TaxCategory taxCategory;
 
     @OneToMany(mappedBy = "product")
-    private List<ProductWarehouse> warehouses;
+    private Set<ProductWarehouse> warehouses = new HashSet<ProductWarehouse>();
 
     @OneToMany(mappedBy = "product")
-    private List<ProductSupplier> suppliers;
+    private Set<ProductSupplier> suppliers = new HashSet<ProductSupplier>();
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -79,7 +79,7 @@ public class Product {
     private Set<Order> orders = new HashSet<Order>();
 
     @OneToMany(mappedBy = "product")
-    private List<Visited> visited;
+    private Set<Visited> visited = new HashSet<Visited>();
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -90,10 +90,10 @@ public class Product {
     private Set<User> wishlistProduct = new HashSet<User>();
 
     @OneToMany(mappedBy = "product")
-    private List<Opinion> opinions;
+    private Set<Opinion> opinions = new HashSet<Opinion>();
 
     @OneToMany(mappedBy = "user")
-    private List<Complaint> complaints;
+    private Set<Complaint> complaints = new HashSet<Complaint>();
 
     public Product(String name, Integer price, Integer discountPrice, Integer noAvailable, String description, String imagePath, TaxCategory taxCategory) {
         this.name = name;
