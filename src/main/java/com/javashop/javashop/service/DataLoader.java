@@ -34,14 +34,17 @@ public class DataLoader {
 
         TaxCategory taxCategory1 = new TaxCategory("podatek VAT", 23);
 
+//        taxCategoryRepository.save(taxCategory1);
+//        Complaint complaint1 = new Complaint(new Date(2020,12,10));
+//        Complaint complaint2 = new Complaint(new Date(2020,12,11));
+//        Complaint complaint3 = new Complaint(new Date(2020,12,12));
+//        complaint1.setComplaintType(complaintType1);
+//        complaint2.setComplaintType(complaintType2);
+//        complaint3.setComplaintType(complaintType3);
+//
+//
+////        Uncomment when seeds needed
 
-  //      taxCategoryRepository.save(taxCategory1);
-//        Complaint complaint1 = new Complaint(new Date(2020,12,10), 1);
-//        Complaint complaint2 = new Complaint(new Date(2020,12,11), 2);
-//        Complaint complaint3 = new Complaint(new Date(2020,12,12), 3);
-
-
-//        Uncomment when seeds needed
 //        complaintTypeRepository.save(complaintType1);
 //        complaintTypeRepository.save(complaintType2);
 //        complaintTypeRepository.save(complaintType3);
