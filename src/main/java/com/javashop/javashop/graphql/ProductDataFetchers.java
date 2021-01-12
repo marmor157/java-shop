@@ -78,7 +78,7 @@ public class ProductDataFetchers {
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField==""){
+            if(sortField.equals("")){
                 sortField = "id";
             }
 
@@ -102,11 +102,12 @@ public class ProductDataFetchers {
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField==""){
+            if(sortField.equals("")){
                 sortField = "id";
             }
             Page<Product> productPage = productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
-            return productPage.getTotalElements();
+            Metadata metadata = new Metadata(productPage.stream().count());
+            return metadata;
         };
     }
 
@@ -141,7 +142,6 @@ public class ProductDataFetchers {
     public DataFetcher updateProductDataFetcher() {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
-
 
             Integer id =Integer.parseInt((String) l.get("id"));
             Product product = productRepository.getOne(id);

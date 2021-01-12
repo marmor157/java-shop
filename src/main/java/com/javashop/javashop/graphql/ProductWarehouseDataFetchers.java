@@ -1,9 +1,6 @@
 package com.javashop.javashop.graphql;
 
-import com.javashop.javashop.model.ProductSupplier;
-import com.javashop.javashop.model.ProductWarehouse;
-import com.javashop.javashop.model.User;
-import com.javashop.javashop.model.Warehouse;
+import com.javashop.javashop.model.*;
 import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +43,7 @@ public class ProductWarehouseDataFetchers {
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField==""){
+            if(sortField.equals("")){
                 sortField = "id";
             }
 
@@ -57,8 +54,25 @@ public class ProductWarehouseDataFetchers {
 
     public DataFetcher getAllProductWarehouseMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
-            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
-            return  productWarehouseRepository.findById(id);
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField.equals("")){
+                sortField = "id";
+            }
+            Page<ProductWarehouse> productPage = productWarehouseRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            Metadata metadata = new Metadata(productPage.stream().count());
+            return metadata;
         };
     }
 
