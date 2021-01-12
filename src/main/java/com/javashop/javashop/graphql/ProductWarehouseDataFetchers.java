@@ -2,10 +2,14 @@ package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.ProductSupplier;
 import com.javashop.javashop.model.ProductWarehouse;
+import com.javashop.javashop.model.User;
 import com.javashop.javashop.model.Warehouse;
 import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
@@ -20,6 +24,38 @@ public class ProductWarehouseDataFetchers {
     private WarehouseRepository warehouseRepository;
 
     public DataFetcher getProductWarehouseDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            return  productWarehouseRepository.findById(id);
+        };
+    }
+
+    public DataFetcher getAllProductWarehouseDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField==""){
+                sortField = "id";
+            }
+
+            Page<ProductWarehouse> productWarehousePage = productWarehouseRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            return productWarehousePage;
+        };
+    }
+
+    public DataFetcher getAllProductWarehouseMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             return  productWarehouseRepository.findById(id);

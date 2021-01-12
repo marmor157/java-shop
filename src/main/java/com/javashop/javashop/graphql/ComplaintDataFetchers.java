@@ -6,6 +6,9 @@ import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +29,38 @@ public class ComplaintDataFetchers {
     private UserRepository userRepository;
 
     public DataFetcher getComplaintDataFetcher() {
+        return dataFetchingEnvironment -> {
+            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            return complaintRepository.findById(id);
+        };
+    }
+
+    public DataFetcher getAllComplaintDataFetcher() {
+        return dataFetchingEnvironment -> {
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField==""){
+                sortField = "id";
+            }
+
+            Page<Complaint> complaintPage = complaintRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            return complaintPage;
+        };
+    }
+
+    public DataFetcher getAllComplaintMetaDataFetcher() {
         return dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             return complaintRepository.findById(id);
@@ -101,4 +136,6 @@ public class ComplaintDataFetchers {
             return complaint;
         };
     }
+
+
 }

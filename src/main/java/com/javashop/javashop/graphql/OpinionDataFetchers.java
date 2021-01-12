@@ -1,11 +1,15 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.Opinion;
+import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.OpinionRepository;
 import com.javashop.javashop.repository.ProductRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +26,38 @@ public class OpinionDataFetchers {
     private ProductRepository productRepository;
 
     public DataFetcher getOpinionDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            return  opinionRepository.findById(id);
+        };
+    }
+
+    public DataFetcher getAllOpinionDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField==""){
+                sortField = "id";
+            }
+
+            Page<Opinion> opinionPage = opinionRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            return opinionPage;
+        };
+    }
+
+    public DataFetcher getAllOpinionMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             return  opinionRepository.findById(id);

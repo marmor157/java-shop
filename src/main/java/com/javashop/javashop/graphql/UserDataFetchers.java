@@ -5,8 +5,12 @@ import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.ProductRepository;
 import com.javashop.javashop.repository.RoleRepository;
 import com.javashop.javashop.repository.UserRepository;
+import com.javashop.javashop.service.MailService;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -20,9 +24,45 @@ public class UserDataFetchers {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private MailService mailService;
+
 
     public DataFetcher getUserDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            return  userRepository.findById(id);
+        };
+    }
+
+    public DataFetcher getAllUserDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField==""){
+                sortField = "id";
+            }
+
+            Page<User> userPage = userRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            return userPage;
+        };
+    }
+
+    public DataFetcher getAllUserMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             return  userRepository.findById(id);
