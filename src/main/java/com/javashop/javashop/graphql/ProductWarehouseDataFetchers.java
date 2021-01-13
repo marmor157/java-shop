@@ -27,47 +27,53 @@ public class ProductWarehouseDataFetchers {
         };
     }
 
-    public DataFetcher getAllProductWarehouseDataFetcher() {
+    public DataFetcher getAllProductWarehousesDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
-
             Page<ProductWarehouse> productWarehousePage = productWarehouseRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return productWarehousePage;
         };
     }
 
-    public DataFetcher getAllProductWarehouseMetaDataFetcher() {
+    public DataFetcher getAllProductWarehousesMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
             Page<ProductWarehouse> productPage = productWarehouseRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
