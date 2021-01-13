@@ -1,6 +1,6 @@
 package com.javashop.javashop.graphql;
 
-import com.javashop.javashop.model.Product;
+import com.javashop.javashop.model.Metadata;
 import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.ProductRepository;
 import com.javashop.javashop.repository.RoleRepository;
@@ -11,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -29,6 +28,8 @@ public class UserDataFetchers {
     private ProductRepository productRepository;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public DataFetcher getUserDataFetcher() {
@@ -38,47 +39,53 @@ public class UserDataFetchers {
         };
     }
 
-    public DataFetcher getAllUserDataFetcher() {
+    public DataFetcher getAllUsersDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
-
             Page<User> userPage = userRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return userPage;
         };
     }
 
-    public DataFetcher getAllUserMetaDataFetcher() {
+    public DataFetcher getAllUsersMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
             Page<User> productPage = userRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
@@ -101,7 +108,7 @@ public class UserDataFetchers {
             String telephone = (String) l.get("telephone");
             Integer roleID = Integer.parseInt((String) l.get("roleID"));
 
-            User user = new User(login, password, email, name, surname, address, birthDate, telephone);
+            User user = new User(login, passwordEncoder.encode(password), email, name, surname, address, birthDate, telephone);
             user.setRole(roleRepository.getOne(roleID));
             roleRepository.getOne(roleID).getUsers().add(user);
 
@@ -127,7 +134,7 @@ public class UserDataFetchers {
             }
             if(l.containsKey("password")){
                 String password = (String) l.get("password");
-                user.setPassword(password);
+                user.setPassword(passwordEncoder.encode(password));
             }
             if(l.containsKey("email")){
                 String email = (String) l.get("email");

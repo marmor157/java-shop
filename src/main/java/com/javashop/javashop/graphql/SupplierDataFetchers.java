@@ -1,10 +1,8 @@
 package com.javashop.javashop.graphql;
 
-import com.javashop.javashop.model.Product;
+import com.javashop.javashop.model.Metadata;
 import com.javashop.javashop.model.Supplier;
-import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.SupplierRepository;
-import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,47 +24,53 @@ public class SupplierDataFetchers {
         };
     }
 
-    public DataFetcher getAllSupplierDataFetcher() {
+    public DataFetcher getAllSuppliersDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
-
             Page<Supplier> supplierPage = supplierRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return supplierPage;
         };
     }
 
-    public DataFetcher getAllSupplierMetaDataFetcher() {
+    public DataFetcher getAllSuppliersMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
             Page<Supplier> productPage = supplierRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));

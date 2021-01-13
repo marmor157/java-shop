@@ -3,20 +3,15 @@ package com.javashop.javashop.graphql;
 import com.javashop.javashop.model.*;
 import com.javashop.javashop.repository.*;
 import com.javashop.javashop.service.MailService;
-import com.sun.xml.bind.v2.util.QNameMap;
-import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class ProductDataFetchers {
@@ -43,10 +38,12 @@ public class ProductDataFetchers {
         };
     }
 
-    public DataFetcher getAllProductDataFetcher() {
+    public DataFetcher getAllProductsDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
@@ -70,15 +67,18 @@ public class ProductDataFetchers {
             String description = (String) filter.get("description");
             String imagePath = (String) filter.get("imagePath");
 
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+
+
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
 
@@ -87,22 +87,26 @@ public class ProductDataFetchers {
         };
     }
 
-    public DataFetcher getAllProductMetaDataFetcher() {
+    public DataFetcher getAllProductsMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
             Page<Product> productPage = productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));

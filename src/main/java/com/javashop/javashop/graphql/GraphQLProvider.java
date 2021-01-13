@@ -13,6 +13,8 @@ import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -26,8 +28,6 @@ import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 public class GraphQLProvider {
 
     private GraphQL graphQL;
-    @Autowired
-    GraphQLDataFetchers graphQLDataFetchers;
     @Autowired
     UserDataFetchers userDataFetchers;
     @Autowired
@@ -68,6 +68,11 @@ public class GraphQLProvider {
         return graphQL;
     }
 
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @PostConstruct
     public void init() throws IOException {
         URL url = Resources.getResource("schema.graphqls");
@@ -87,56 +92,56 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
                         .dataFetcher("Complaint", complaintDataFetchers.getComplaintDataFetcher())
-                        .dataFetcher("allComplaint", complaintDataFetchers.getAllComplaintDataFetcher())
-                        .dataFetcher("_allComplaintMeta", complaintDataFetchers.getAllComplaintMetaDataFetcher())
+                        .dataFetcher("allComplaints", complaintDataFetchers.getAllComplaintsDataFetcher())
+                        .dataFetcher("_allComplaintsMeta", complaintDataFetchers.getAllComplaintsMetaDataFetcher())
                         .dataFetcher("ComplaintType", complaintTypeDataFetchers.getComplaintTypeDataFetcher())
-                        .dataFetcher("allComplaintType", complaintTypeDataFetchers.getAllComplaintTypeDataFetcher())
-                        .dataFetcher("_allComplaintTypeMeta", complaintTypeDataFetchers.getAllComplaintTypeMetaDataFetcher())
+                        .dataFetcher("allComplaintTypes", complaintTypeDataFetchers.getAllComplaintTypesDataFetcher())
+                        .dataFetcher("_allComplaintTypesMeta", complaintTypeDataFetchers.getAllComplaintTypesMetaDataFetcher())
                         .dataFetcher("Role", roleDataFetchers.getRoleDataFetcher())
-                        .dataFetcher("allRole", roleDataFetchers.getAllRoleDataFetcher())
-                        .dataFetcher("_allRoleMeta", roleDataFetchers.getAllRoleMetaDataFetcher())
+                        .dataFetcher("allRoles", roleDataFetchers.getAllRolesDataFetcher())
+                        .dataFetcher("_allRolesMeta", roleDataFetchers.getAllRolesMetaDataFetcher())
                         .dataFetcher("Product", productDataFetchers.getProductDataFetcher())
-                        .dataFetcher("allProduct", productDataFetchers.getAllProductDataFetcher())
-                        .dataFetcher("_allProductMeta", productDataFetchers.getAllProductMetaDataFetcher())
+                        .dataFetcher("allProducts", productDataFetchers.getAllProductsDataFetcher())
+                        .dataFetcher("_allProductsMeta", productDataFetchers.getAllProductsMetaDataFetcher())
                         .dataFetcher("TaxCategory", taxCategoryDataFetchers.getTaxCategoryDataFetcher())
-                        .dataFetcher("allTaxCategory", taxCategoryDataFetchers.getAllTaxCategoryDataFetcher())
-                        .dataFetcher("_allTaxCategory", taxCategoryDataFetchers.getAllTaxCategoryMetaDataFetcher())
+                        .dataFetcher("allTaxCategories", taxCategoryDataFetchers.getAllTaxCategoriesDataFetcher())
+                        .dataFetcher("_allTaxCategoriesMeta", taxCategoryDataFetchers.getAllTaxCategoriesMetaDataFetcher())
                         .dataFetcher("User", userDataFetchers.getUserDataFetcher())
-                        .dataFetcher("allUser", userDataFetchers.getAllUserDataFetcher())
-                        .dataFetcher("_allUserMeta", userDataFetchers.getAllUserMetaDataFetcher())
+                        .dataFetcher("allUsers", userDataFetchers.getAllUsersDataFetcher())
+                        .dataFetcher("_allUsersMeta", userDataFetchers.getAllUsersMetaDataFetcher())
                         .dataFetcher("Order", orderDataFetchers.getOrderDataFetcher())
-                        .dataFetcher("allOrder", orderDataFetchers.getAllOrderDataFetcher())
-                        .dataFetcher("allOrderMeta", orderDataFetchers.getAllOrderMetaDataFetcher())
+                        .dataFetcher("allOrders", orderDataFetchers.getAllOrdersDataFetcher())
+                        .dataFetcher("allOrdersMeta", orderDataFetchers.getAllOrdersMetaDataFetcher())
                         .dataFetcher("Category", categoryDataFetchers.getCategoryDataFetcher())
-                        .dataFetcher("allCategory", categoryDataFetchers.getAllCategoryDataFetcher())
-                        .dataFetcher("_allCategoryMeta", categoryDataFetchers.getAllCategoryMetaDataFetcher())
+                        .dataFetcher("allCategories", categoryDataFetchers.getAllCategoriesDataFetcher())
+                        .dataFetcher("_allCategoriesMeta", categoryDataFetchers.getAllCategoriesMetaDataFetcher())
                         .dataFetcher("Subcategory", subcategoryDataFetchers.getSubcategoryDataFetcher())
-                        .dataFetcher("allSubcategory", subcategoryDataFetchers.getAllSubcategoryDataFetcher())
-                        .dataFetcher("_allSubcategoryMeta", subcategoryDataFetchers.getAllSubcategoryMetaDataFetcher())
+                        .dataFetcher("allSubcategories", subcategoryDataFetchers.getAllSubcategoriesDataFetcher())
+                        .dataFetcher("_allSubcategoriesMeta", subcategoryDataFetchers.getAllSubcategoriesMetaDataFetcher())
                         .dataFetcher("Supplier", supplierDataFetchers.getSupplierDataFetcher())
-                        .dataFetcher("allSupplier", supplierDataFetchers.getAllSupplierDataFetcher())
-                        .dataFetcher("_allSupplierMeta", supplierDataFetchers.getAllSupplierMetaDataFetcher())
+                        .dataFetcher("allSuppliers", supplierDataFetchers.getAllSuppliersDataFetcher())
+                        .dataFetcher("_allSuppliersMeta", supplierDataFetchers.getAllSuppliersMetaDataFetcher())
                         .dataFetcher("ProductSupplier", productSupplierDataFetchers.getProductSupplierDataFetcher())
-                        .dataFetcher("allProductSupplier", productSupplierDataFetchers.getAllProductSupplierDataFetcher())
-                        .dataFetcher("_allProductSupplierMeta", productSupplierDataFetchers.getAllProductSupplierMetaDataFetcher())
+                        .dataFetcher("allProductSuppliers", productSupplierDataFetchers.getAllProductSuppliersDataFetcher())
+                        .dataFetcher("_allProductSuppliersMeta", productSupplierDataFetchers.getAllProductSuppliersMetaDataFetcher())
                         .dataFetcher("Opinion", opinionDataFetchers.getOpinionDataFetcher())
-                        .dataFetcher("allOpinion", opinionDataFetchers.getAllOpinionDataFetcher())
-                        .dataFetcher("_allOpinionMeta", opinionDataFetchers.getAllOpinionMetaDataFetcher())
+                        .dataFetcher("allOpinions", opinionDataFetchers.getAllOpinionsDataFetcher())
+                        .dataFetcher("_allOpinionsMeta", opinionDataFetchers.getAllOpinionsMetaDataFetcher())
                         .dataFetcher("Warehouse", warehouseDataFetchers.getWarehouseDataFetcher())
-                        .dataFetcher("allWarehouse", warehouseDataFetchers.getAllWarehouseDataFetcher())
-                        .dataFetcher("_allWarehouseMeta", warehouseDataFetchers.getAllWarehouseMetaDataFetcher())
+                        .dataFetcher("allWarehouses", warehouseDataFetchers.getAllWarehousesDataFetcher())
+                        .dataFetcher("_allWarehousesMeta", warehouseDataFetchers.getAllWarehousesMetaDataFetcher())
                         .dataFetcher("Visited", visitedDataFetchers.getVisitedDataFetcher())
                         .dataFetcher("allVisited", visitedDataFetchers.getAllVisitedDataFetcher())
                         .dataFetcher("_allVisitedMeta", visitedDataFetchers.getAllVisitedMetaDataFetcher())
                         .dataFetcher("ProductWarehouse", productWarehouseDataFetchers.getProductWarehouseDataFetcher())
-                        .dataFetcher("allProductWarehouse", productWarehouseDataFetchers.getAllProductWarehouseDataFetcher())
-                        .dataFetcher("_allProductWarehouseMeta", productWarehouseDataFetchers.getAllProductWarehouseMetaDataFetcher())
+                        .dataFetcher("allProductWarehouses", productWarehouseDataFetchers.getAllProductWarehousesDataFetcher())
+                        .dataFetcher("_allProductWarehousesMeta", productWarehouseDataFetchers.getAllProductWarehousesMetaDataFetcher())
                         .dataFetcher("DeliveryAddress", deliveryAddressDataFetchers.getDeliveryAddressDataFetcher())
-                        .dataFetcher("allDeliveryAddress", deliveryAddressDataFetchers.getAllDeliveryAddressDataFetcher())
-                        .dataFetcher("_allDeliveryAddressMeta", deliveryAddressDataFetchers.getAllDeliveryAddressMetaDataFetcher())
+                        .dataFetcher("allDeliveryAddresses", deliveryAddressDataFetchers.getAllDeliveryAddressesDataFetcher())
+                        .dataFetcher("_allDeliveryAddressesMeta", deliveryAddressDataFetchers.getAllDeliveryAddressesMetaDataFetcher())
                         .dataFetcher("ShipmentMethod", shipmentMethodDataFetchers.getShipmentMethodDataFetcher())
-                        .dataFetcher("allShipmentMethod", shipmentMethodDataFetchers.getAllShipmentMethodDataFetcher())
-                        .dataFetcher("_allShipmentMethodMeta", shipmentMethodDataFetchers.getAllShipmentMethodMetaDataFetcher()))
+                        .dataFetcher("allShipmentMethods", shipmentMethodDataFetchers.getAllShipmentMethodsDataFetcher())
+                        .dataFetcher("_allShipmentMethodsMeta", shipmentMethodDataFetchers.getAllShipmentMethodsMetaDataFetcher()))
                 .type(newTypeWiring("Mutation")
                         .dataFetcher("createUser", userDataFetchers.createUserDataFetcher())
                         .dataFetcher("updateUser", userDataFetchers.updateUserDataFetcher())

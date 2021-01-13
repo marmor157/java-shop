@@ -1,10 +1,8 @@
 package com.javashop.javashop.graphql;
 
-import com.javashop.javashop.model.Product;
+import com.javashop.javashop.model.Metadata;
 import com.javashop.javashop.model.Role;
-import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.RoleRepository;
-import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,47 +24,53 @@ public class RoleDataFetchers {
         };
     }
 
-    public DataFetcher getAllRoleDataFetcher() {
+    public DataFetcher getAllRolesDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
-
             Page<Role> rolePage = roleRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return rolePage;
         };
     }
 
-    public DataFetcher getAllRoleMetaDataFetcher() {
+    public DataFetcher getAllRolesMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? 100: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-            Sort.Direction order = null;
-            if(sortOrder.toUpperCase().equals("DESC")){
+
+            Sort.Direction order = Sort.Direction.DESC;;
+            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
             }
             else{
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField.equals("")){
+            if(sortField==null) sortField = "";
+            if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
             Page<Role> productPage = roleRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));

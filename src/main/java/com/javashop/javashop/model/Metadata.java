@@ -1,4 +1,4 @@
-package com.javashop.javashop.graphql;
+package com.javashop.javashop.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
