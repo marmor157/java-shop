@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -154,7 +155,7 @@ public class GraphQLDataFetchers {
             String surname = (String) l.get("surname");
             String address = (String) l.get("address");
             String birthDateStr = (String) l.get("birthDate");
-            Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
+            LocalDate birthDate = LocalDate.parse(birthDateStr);
             String telephone = (String) l.get("telephone");
 
             return userRepository.save(new User(login, password, email, name, surname, address, birthDate, telephone));
@@ -191,7 +192,7 @@ public class GraphQLDataFetchers {
             }
             if(l.containsKey("birthDate")){
                 String birthDateStr = (String) l.get("birthDate");
-                Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
+                LocalDate birthDate = LocalDate.parse(birthDateStr);
                 user.setBirthDate(birthDate);
             }
             if(l.containsKey("telephone")){

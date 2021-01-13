@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -53,7 +54,7 @@ public class UserDataFetchers {
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField==""){
+            if(sortField.equals("")){
                 sortField = "id";
             }
 
@@ -64,8 +65,25 @@ public class UserDataFetchers {
 
     public DataFetcher getAllUserMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
-            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
-            return  userRepository.findById(id);
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField.equals("")){
+                sortField = "id";
+            }
+            Page<User> productPage = userRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            Metadata metadata = new Metadata(productPage.stream().count());
+            return metadata;
         };
     }
 
@@ -79,7 +97,7 @@ public class UserDataFetchers {
             String surname = (String) l.get("surname");
             String address = (String) l.get("address");
             String birthDateStr = (String) l.get("birthDate");
-            Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
+            LocalDate birthDate = LocalDate.parse(birthDateStr);
             String telephone = (String) l.get("telephone");
             Integer roleID = Integer.parseInt((String) l.get("roleID"));
 
@@ -121,7 +139,7 @@ public class UserDataFetchers {
             }
             if(l.containsKey("birthDate")){
                 String birthDateStr = (String) l.get("birthDate");
-                Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateStr);
+                LocalDate birthDate = LocalDate.parse(birthDateStr);
                 user.setBirthDate(birthDate);
             }
             if(l.containsKey("telephone")){

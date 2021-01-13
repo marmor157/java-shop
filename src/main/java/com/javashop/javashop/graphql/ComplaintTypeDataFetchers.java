@@ -1,6 +1,7 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.ComplaintType;
+import com.javashop.javashop.model.Product;
 import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.ComplaintTypeRepository;
 import com.javashop.javashop.repository.UserRepository;
@@ -41,7 +42,7 @@ public class ComplaintTypeDataFetchers {
                 order = Sort.Direction.ASC;
             }
 
-            if(sortField==""){
+            if(sortField.equals("")){
                 sortField = "id";
             }
 
@@ -52,8 +53,25 @@ public class ComplaintTypeDataFetchers {
 
     public DataFetcher getAllComplaintTypeMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
-            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
-            return  complaintTypeRepository.findById(id);
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField.equals("")){
+                sortField = "id";
+            }
+            Page<ComplaintType> productPage = complaintTypeRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            Metadata metadata = new Metadata(productPage.stream().count());
+            return metadata;
         };
     }
 

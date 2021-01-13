@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -38,8 +39,8 @@ public class User {
     @Column(name = "Address")
     private String address;
 
-    @Column(name = "BirthDate")
-    private Date birthDate;
+    @Column(name = "BirthDate", columnDefinition = "DATE")
+    private LocalDate birthDate;
 
     @Column(name = "Telephone")
     private String telephone;
@@ -74,7 +75,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<DeliveryAddress> deliveryAddresses= new HashSet<DeliveryAddress>();
 
-    public User(String login, String password, String email, String name, String surname, String address, Date birthDate, String telephone) {
+    public User(String login, String password, String email, String name, String surname, String address, LocalDate birthDate, String telephone) {
         this.login = login;
         this.password = password;
         this.email = email;
