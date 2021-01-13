@@ -31,7 +31,7 @@ public class SubcategoryDataFetchers {
             Integer page = dataFetchingEnvironment.getArgument("page");
             page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
-            perPage = perPage == null ? 100: perPage;
+            perPage = perPage == null ? Integer.MAX_VALUE: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
@@ -55,28 +55,9 @@ public class SubcategoryDataFetchers {
 
     public DataFetcher getAllSubcategoriesMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
-            Integer page = dataFetchingEnvironment.getArgument("page");
-            page = page == null ? 0: page;
-            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
-            perPage = perPage == null ? 100: perPage;
-            String sortField = dataFetchingEnvironment.getArgument("sortField");
-            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = Sort.Direction.DESC;;
-            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
-                order = Sort.Direction.DESC;
-            }
-            else{
-                order = Sort.Direction.ASC;
-            }
-
-            if(sortField==null) sortField = "";
-            if(sortField!=null && sortField.equals("")){
-                sortField = "id";
-            }
-            Page<Subcategory> productPage = subcategoryRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
-            Metadata metadata = new Metadata(productPage.stream().count());
+            Metadata metadata = new Metadata(subcategoryRepository.count());
             return metadata;
         };
     }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductDataFetchers {
@@ -43,32 +45,29 @@ public class ProductDataFetchers {
             Integer page = dataFetchingEnvironment.getArgument("page");
             page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
-            perPage = perPage == null ? 100: perPage;
+            perPage = perPage == null ? Integer.MAX_VALUE: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-            Integer id = (Integer) filter.get("id");
-            String name = (String) filter.get("name");
-            Integer price = (Integer) filter.get("price");
-            Integer price_lt = (Integer) filter.get("price_lt");
-            Integer price_lte = (Integer) filter.get("price_lte");
-            Integer price_gt = (Integer) filter.get("price_gt");
-            Integer price_gte = (Integer) filter.get("price_gte");
-            Integer discountPrice = (Integer) filter.get("discountPrice");
-            Integer discountPrice_lt = (Integer) filter.get("discountPrice_lt");
-            Integer discountPrice_lte = (Integer) filter.get("discountPrice_lte");
-            Integer discountPrice_gt = (Integer) filter.get("discountPrice_gt");
-            Integer discountPrice_gte = (Integer) filter.get("discountPrice_gte");
-            Integer noAvailable = (Integer) filter.get("noAvailable");
-            Integer noAvailable_lt = (Integer) filter.get("noAvailable_lt");
-            Integer noAvailable_lte = (Integer) filter.get("noAvailable_lte");
-            Integer noAvailable_gt = (Integer) filter.get("noAvailable_gt");
-            Integer noAvailable_gte = (Integer) filter.get("noAvailable_gte");
-            String description = (String) filter.get("description");
-            String imagePath = (String) filter.get("imagePath");
-
-
-
+//            Integer id = (Integer) filter.get("id");
+//            String name = (String) filter.get("name");
+//            Integer price = (Integer) filter.get("price");
+//            Integer price_lt = (Integer) filter.get("price_lt");
+//            Integer price_lte = (Integer) filter.get("price_lte");
+//            Integer price_gt = (Integer) filter.get("price_gt");
+//            Integer price_gte = (Integer) filter.get("price_gte");
+//            Integer discountPrice = (Integer) filter.get("discountPrice");
+//            Integer discountPrice_lt = (Integer) filter.get("discountPrice_lt");
+//            Integer discountPrice_lte = (Integer) filter.get("discountPrice_lte");
+//            Integer discountPrice_gt = (Integer) filter.get("discountPrice_gt");
+//            Integer discountPrice_gte = (Integer) filter.get("discountPrice_gte");
+//            Integer noAvailable = (Integer) filter.get("noAvailable");
+//            Integer noAvailable_lt = (Integer) filter.get("noAvailable_lt");
+//            Integer noAvailable_lte = (Integer) filter.get("noAvailable_lte");
+//            Integer noAvailable_gt = (Integer) filter.get("noAvailable_gt");
+//            Integer noAvailable_gte = (Integer) filter.get("noAvailable_gte");
+//            String description = (String) filter.get("description");
+//            String imagePath = (String) filter.get("imagePath");
             Sort.Direction order = Sort.Direction.DESC;;
             if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
@@ -81,36 +80,27 @@ public class ProductDataFetchers {
             if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
-
-            Page<Product> productPage = productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
-            return productPage;
+            if(filter!=null){
+                if(filter.containsKey("subcategoryID")){
+                    final Integer subcategoryID = Integer.parseInt((String) filter.get("subcategoryID"));
+                    Predicate<Product> predicate = product -> product.getSubcategories().contains(subcategoryRepository.getOne(subcategoryID));
+                    return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).filter(predicate).toList();
+                }
+                else if(filter.containsKey("categoryID")){
+                    final Integer categoryID = Integer.parseInt((String) filter.get("categoryID"));
+                    Predicate<Product> predicate = product -> product.getCategories().contains(categoryRepository.getOne(categoryID));
+                    return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).toList();
+                }
+            }
+            return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).toList();
         };
     }
 
     public DataFetcher getAllProductsMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
-            Integer page = dataFetchingEnvironment.getArgument("page");
-            page = page == null ? 0: page;
-            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
-            perPage = perPage == null ? 100: perPage;
-            String sortField = dataFetchingEnvironment.getArgument("sortField");
-            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = Sort.Direction.DESC;;
-            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
-                order = Sort.Direction.DESC;
-            }
-            else{
-                order = Sort.Direction.ASC;
-            }
-
-            if(sortField==null) sortField = "";
-            if(sortField!=null && sortField.equals("")){
-                sortField = "id";
-            }
-            Page<Product> productPage = productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
-            Metadata metadata = new Metadata(productPage.stream().count());
+            Metadata metadata = new Metadata(productRepository.count());
             return metadata;
         };
     }

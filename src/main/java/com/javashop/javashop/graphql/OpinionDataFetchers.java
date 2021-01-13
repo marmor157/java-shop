@@ -37,7 +37,7 @@ public class OpinionDataFetchers {
             Integer page = dataFetchingEnvironment.getArgument("page");
             page = page == null ? 0: page;
             Integer perPage = dataFetchingEnvironment.getArgument("perPage");
-            perPage = perPage == null ? 100: perPage;
+            perPage = perPage == null ? Integer.MAX_VALUE: perPage;
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
@@ -61,28 +61,9 @@ public class OpinionDataFetchers {
 
     public DataFetcher getAllOpinionsMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
-            Integer page = dataFetchingEnvironment.getArgument("page");
-            page = page == null ? 0: page;
-            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
-            perPage = perPage == null ? 100: perPage;
-            String sortField = dataFetchingEnvironment.getArgument("sortField");
-            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
-            Sort.Direction order = Sort.Direction.DESC;;
-            if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
-                order = Sort.Direction.DESC;
-            }
-            else{
-                order = Sort.Direction.ASC;
-            }
-
-            if(sortField==null) sortField = "";
-            if(sortField!=null && sortField.equals("")){
-                sortField = "id";
-            }
-            Page<Opinion> productPage = opinionRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
-            Metadata metadata = new Metadata(productPage.stream().count());
+            Metadata metadata = new Metadata(opinionRepository.count());
             return metadata;
         };
     }
