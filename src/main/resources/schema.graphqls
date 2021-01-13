@@ -5,21 +5,57 @@ schema {
 
 type Query{
     Complaint(id: ID): Complaint
+    allComplaint(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintFilter): [Complaint]
+    _allComplaintMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintFilter): Metadata
     ComplaintType(id: ID): ComplaintType
+    allComplaintType(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintTypeFilter): [ComplaintType]
+    _allComplaintTypeMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintTypeFilter): Metadata
     Role(id: ID): Role
+    allRole(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: RoleFilter): [Role]
+    _allRoleMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: RoleFilter): Metadata
     Product(id: ID): Product
+    allProduct(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductFilter): [Product]
+    _allProductMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductFilter): Metadata
     TaxCategory(id: ID): TaxCategory
+    allTaxCategory(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: TaxCategoryFilter): [TaxCategory]
+    _allTaxCategoryMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: TaxCategoryFilter): Metadata
     User(id:ID): User
+    allUser(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: UserFilter): [User]
+    _allUserMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: UserFilter): Metadata
     Order(id:ID): Order
+    allOrder(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderFilter): [Order]
+    _allOrderMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderFilter): Metadata
     Category(id:ID): Category
+    allCategory(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): [Category]
+    _allCategoryMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): Metadata
     Subcategory(id: ID): Subcategory
+    allSubcategory(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SubcategoryFilter): [Subcategory]
+    _allSubcategoryMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SubcategoryFilter): Metadata
     Supplier(id:ID): Supplier
+    allSupplier(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SupplierFilter): [Supplier]
+    _allSupplierMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SupplierFilter): Metadata
     ProductSupplier(id: ID): ProductSupplier
+    allProductSupplier(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductSupplierFilter): [ProductSupplier]
+    _allProductSupplierMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductSupplierFilter): Metadata
     Opinion(id:ID): Opinion
+    allOpinion(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): [Opinion]
+    _allOpinionMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): Metadata
     Warehouse(id:ID): Warehouse
+    allWarehouse(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Warehouse]
+    _allWarehouseMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
     ProductWarehouse(id: ID): ProductWarehouse
+    allProductWarehouse(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductWarehouseFilter): [ProductWarehouse]
+    _allProductWarehouseMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductWarehouseFilter): Metadata
     DeliveryAddress(id:ID): DeliveryAddress
+    allDeliveryAddress(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: DeliveryAddressFilter): [DeliveryAddress]
+    _allDeliveryAddressMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: DeliveryAddressFilter): Metadata
     ShipmentMethod(id:ID): ShipmentMethod
+    allShipmentMethod(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): [ShipmentMethod]
+    _allShipmentMethodMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): Metadata
+}
+
+type Metadata{
+    count: Int!
 }
 
 type Complaint {
@@ -31,15 +67,33 @@ type Complaint {
     date: String!
 }
 
+input ComplaintFilter {
+    q: String
+    id: ID
+    date: String
+}
+
 type ComplaintType {
-    id: ID!,
+    id: ID!
     name: String!
+}
+
+input ComplaintTypeFilter {
+    q: String
+    id: ID
+    name: String
 }
 
 type Role {
     id: ID!
     name: String!
     users: [User!]!
+}
+
+input RoleFilter {
+    q: String
+    id: ID
+    name: String
 }
 
 type Product {
@@ -62,16 +116,59 @@ type Product {
     visitedBy: [Visited!]!
 }
 
+input ProductFilter {
+    q: String
+    id: ID
+    name: String
+    price: Int
+    price_lt: Int
+    price_lte: Int
+    price_gt: Int
+    price_gte: Int
+    discountPrice: Int
+    discountPrice_lt: Int
+    discountPrice_lte: Int
+    discountPrice_gt: Int
+    discountPrice_gte: Int
+    noAvailable: Int
+    noAvailable_lt: Int
+    noAvailable_lte: Int
+    noAvailable_gt: Int
+    noAvailable_gte: Int
+    description: String
+    imagePath: String
+}
+
 type TaxCategory {
     id: ID!
     taxRate: Int!
     name: String!
 }
 
+input TaxCategoryFilter {
+    q: String
+    id: ID
+    taxRate: Int
+    taxRate_lt: Int
+    taxRate_lte: Int
+    taxRate_gt: Int
+    taxRate_gte: Int
+    name: String
+}
+
 type ProductWarehouse{
     product: Product!
     warehouse: Warehouse!
     quantity: Int!
+}
+
+input ProductWarehouseFilter {
+    q: String
+    quantity: Int
+    quantity_lt: Int
+    quantity_lte: Int
+    quantity_gt: Int
+    quantity_gte: Int
 }
 
 type Warehouse{
@@ -81,6 +178,13 @@ type Warehouse{
     products: [ProductWarehouse!]!
 }
 
+input WarehouseFilter{
+    q: String
+    id: ID
+    name: String
+    address: String
+}
+
 type Supplier{
     id: ID!
     name: String!
@@ -88,10 +192,26 @@ type Supplier{
     products: [ProductSupplier!]!
 }
 
+input SupplierFilter{
+    q: String
+    id: ID
+    name: String
+    telephone: String
+}
+
 type ProductSupplier{
     product: Product!
     supplier: Supplier!
     price: Int!
+}
+
+input ProductSupplierFilter{
+    q: String
+    price: Int
+    price_lt: Int
+    price_lte: Int
+    price_gt: Int
+    price_gte: Int
 }
 
 type Category{
@@ -101,6 +221,12 @@ type Category{
     subcategories: [Subcategory!]!
 }
 
+input CategoryFilter{
+    q: String
+    id: ID
+    name: String
+}
+
 type Subcategory{
     id: ID!
     name: String!
@@ -108,10 +234,21 @@ type Subcategory{
     category: Category
 }
 
+input SubcategoryFilter{
+    q: String
+    id: ID
+    name: String
+}
+
 type Visited{
     date: String!
     product: Product!
     user: User!
+}
+
+input VisitedFilter{
+    q: String
+    date: String
 }
 
 type User{
@@ -132,6 +269,18 @@ type User{
     deliveryAddresses: [DeliveryAddress!]!
 }
 
+input UserFilter{
+    q: String
+    id: ID
+    login: String
+    email: String
+    name: String
+    surname: String
+    address: String
+    birthDate: String
+    telephone: String
+}
+
 type DeliveryAddress {
     id: ID!
     name: String!
@@ -144,6 +293,17 @@ type DeliveryAddress {
     orders: [Order!]!
 }
 
+input DeliveryAddressFilter {
+    q: String
+    id: ID
+    name: String
+    surnname: String
+    city: String
+    street: String
+    buildingNumber: String
+    postCode: String
+}
+
 type Opinion {
     mark: Int!
     text: String!
@@ -152,6 +312,16 @@ type Opinion {
     date: String!
 }
 
+input OpinionFilter {
+    q: String
+    mark: Int
+    mark_lt: Int
+    mark_lte: Int
+    mark_gt: Int
+    mark_gte: Int
+    text: String
+    date: String
+}
 
 type Order {
     id: ID!
@@ -163,12 +333,34 @@ type Order {
     shipmentMethod: ShipmentMethod!
 }
 
+input OrderFilter {
+    q: String
+    id: ID
+    date: String
+}
+
 type ShipmentMethod {
     id: ID!
     name: String!
     price: Int!
     freeThreshold: Int!
     orders: [Order!]!
+}
+
+input ShipmentMethodFilter {
+    q: String
+    id: ID
+    name: String
+    price: Int
+    price_lt: Int
+    price_lte: Int
+    price_gt: Int
+    price_gte: Int
+    freeThreshold: Int
+    freeThreshold_lt: Int
+    freeThreshold_lte: Int
+    freeThreshold_gt: Int
+    freeThreshold_gte: Int
 }
 
 type Mutation {

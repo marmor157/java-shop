@@ -1,12 +1,12 @@
 package com.javashop.javashop.graphql;
 
-import com.javashop.javashop.model.Opinion;
-import com.javashop.javashop.model.Product;
-import com.javashop.javashop.model.ProductSupplier;
-import com.javashop.javashop.model.Supplier;
+import com.javashop.javashop.model.*;
 import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +23,38 @@ public class ProductSupplierDataFetchers {
     private SupplierRepository supplierRepository;
 
     public DataFetcher getProductSupplierDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            return  productSupplierRepository.findById(id);
+        };
+    }
+
+    public DataFetcher getAllProductSupplierDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField==""){
+                sortField = "id";
+            }
+
+            Page<ProductSupplier> productSupplierPage = productSupplierRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            return productSupplierPage;
+        };
+    }
+
+    public DataFetcher getAllProductSupplierMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             return  productSupplierRepository.findById(id);

@@ -1,10 +1,14 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.Supplier;
+import com.javashop.javashop.model.User;
 import com.javashop.javashop.repository.SupplierRepository;
 import com.javashop.javashop.repository.UserRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
@@ -15,6 +19,38 @@ public class SupplierDataFetchers {
     private SupplierRepository supplierRepository;
 
     public DataFetcher getSupplierDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
+            return  supplierRepository.findById(id);
+        };
+    }
+
+    public DataFetcher getAllSupplierDataFetcher() {
+        return  dataFetchingEnvironment -> {
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            String sortField = dataFetchingEnvironment.getArgument("sortField");
+            String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
+            LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
+
+            Sort.Direction order = null;
+            if(sortOrder.toUpperCase().equals("DESC")){
+                order = Sort.Direction.DESC;
+            }
+            else{
+                order = Sort.Direction.ASC;
+            }
+
+            if(sortField==""){
+                sortField = "id";
+            }
+
+            Page<Supplier> supplierPage = supplierRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
+            return supplierPage;
+        };
+    }
+
+    public DataFetcher getAllSupplierMetaDataFetcher() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             return  supplierRepository.findById(id);
