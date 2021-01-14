@@ -142,8 +142,8 @@ public class UserDataFetchers {
             if(l.containsKey("wishlistProductIDs")){
                 List<String> productIDs = (List<String>) l.get("wishlistProductIDs");
                 for (String prodID: productIDs){
-                    user.getWishlistUser().add(productRepository.getOne(Integer.parseInt(prodID)));
-                    productRepository.getOne(Integer.parseInt(prodID)).getWishlistProduct().add(user);
+                    user.getWishlist().add(productRepository.getOne(Integer.parseInt(prodID)));
+                    productRepository.getOne(Integer.parseInt(prodID)).getWishlist().add(user);
                 }
             }
 

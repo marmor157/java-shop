@@ -55,7 +55,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private Set<Product> wishlistUser = new HashSet<Product>();
+    private Set<Product> wishlist = new HashSet<Product>();
 
     @OneToMany(mappedBy = "user")
     private Set<Visited> visited= new HashSet<Visited>();

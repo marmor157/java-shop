@@ -75,7 +75,6 @@ public class OrderDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
 
-            Integer price = (Integer) l.get("price");
             String dateStr = (String) l.get("date");
             Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
             Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
@@ -83,7 +82,7 @@ public class OrderDataFetchers {
             Integer userID = Integer.parseInt((String) l.get("userID"));
             List<String> productIDs = (List<String>) l.get("productIDs");
 
-            Order order = new Order(date, price);
+            Order order = new Order(date, 0);
             order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
             deliveryAddressRepository.getOne(deliveryAddressID).getOrders().add(order);
             order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
@@ -105,10 +104,6 @@ public class OrderDataFetchers {
 
             Integer id =Integer.parseInt((String) l.get("id"));
             Order order = orderRepository.getOne(id);
-            if(l.containsKey("price")){
-                Integer price = (Integer) l.get("price");
-                order.setPrice(price);
-            }
             if(l.containsKey("date")){
                 String dateStr = (String) l.get("date");
                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);

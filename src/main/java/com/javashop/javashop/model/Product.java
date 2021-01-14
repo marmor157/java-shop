@@ -86,8 +86,8 @@ public class Product {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "wishlistUser")
-    private Set<User> wishlistProduct = new HashSet<User>();
+            mappedBy = "wishlist")
+    private Set<User> wishlist = new HashSet<User>();
 
     @OneToMany(mappedBy = "product")
     private Set<Opinion> opinions = new HashSet<Opinion>();

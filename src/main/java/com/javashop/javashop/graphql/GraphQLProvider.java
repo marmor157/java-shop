@@ -62,6 +62,8 @@ public class GraphQLProvider {
     ProductWarehouseDataFetchers productWarehouseDataFetchers;
     @Autowired
     VisitedDataFetchers visitedDataFetchers;
+    @Autowired
+    LoginDataFetcher loginDataFetcher;
 
     @Bean
     public GraphQL graphQL() {
@@ -143,6 +145,7 @@ public class GraphQLProvider {
                         .dataFetcher("allShipmentMethods", shipmentMethodDataFetchers.getAllShipmentMethodsDataFetcher())
                         .dataFetcher("_allShipmentMethodsMeta", shipmentMethodDataFetchers.getAllShipmentMethodsMetaDataFetcher()))
                 .type(newTypeWiring("Mutation")
+                        .dataFetcher("login", loginDataFetcher.getLoginDataFetcher())
                         .dataFetcher("createUser", userDataFetchers.createUserDataFetcher())
                         .dataFetcher("updateUser", userDataFetchers.updateUserDataFetcher())
                         .dataFetcher("deleteUser", userDataFetchers.deleteUserDataFetcher())

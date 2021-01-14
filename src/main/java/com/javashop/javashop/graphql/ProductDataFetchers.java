@@ -152,7 +152,7 @@ public class ProductDataFetchers {
                 if(discountPrice < product.getPrice()){
                     List<User> users = userRepository.findAll();
                     for(User u : users){
-                        if(u.getWishlistUser().contains(product)) {
+                        if(u.getWishlist().contains(product)) {
                             String text = u.getName() + "!\nProdukt z twojej list życzeń "+ product.getName()+" jest na promcji! Sprawdź sam!\n Stara cena:" + product.getPrice() +"\nNowa cena: "+ discountPrice;
                             mailService.sendMail(u.getEmail(), "Promocja w sklepie komputerowym!", text, false);
                         }
