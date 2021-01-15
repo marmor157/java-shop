@@ -30,7 +30,7 @@ public class WishlistDataFetchers {
             Integer product_id = Integer.parseInt(dataFetchingEnvironment.getArgument("product_id"));
             User user = userRepository.getOne(user_id);
             user.getWishlist().removeIf(product->
-                    product.getId().compareTo(product_id) == 0
+                    product.getId().equals(product_id)
             );
             return userRepository.save(user);
         };
