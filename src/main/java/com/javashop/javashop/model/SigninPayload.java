@@ -9,11 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SigninPayload {
     private String token;
-    private User user;
 
 
-    public SigninPayload(String token, User user) {
+    public SigninPayload(String token) {
         this.token = token;
-        this.user = user;
     }
 }
