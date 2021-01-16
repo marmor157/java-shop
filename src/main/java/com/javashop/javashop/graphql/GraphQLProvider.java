@@ -64,6 +64,8 @@ public class GraphQLProvider {
     VisitedDataFetchers visitedDataFetchers;
     @Autowired
     LoginDataFetcher loginDataFetcher;
+    @Autowired
+    WishlistDataFetchers wishlistDataFetchers;
 
     @Bean
     public GraphQL graphQL() {
@@ -143,7 +145,9 @@ public class GraphQLProvider {
                         .dataFetcher("_allDeliveryAddressesMeta", deliveryAddressDataFetchers.getAllDeliveryAddressesMetaDataFetcher())
                         .dataFetcher("ShipmentMethod", shipmentMethodDataFetchers.getShipmentMethodDataFetcher())
                         .dataFetcher("allShipmentMethods", shipmentMethodDataFetchers.getAllShipmentMethodsDataFetcher())
-                        .dataFetcher("_allShipmentMethodsMeta", shipmentMethodDataFetchers.getAllShipmentMethodsMetaDataFetcher()))
+                        .dataFetcher("_allShipmentMethodsMeta", shipmentMethodDataFetchers.getAllShipmentMethodsMetaDataFetcher())
+                        .dataFetcher("getUserWishlist", wishlistDataFetchers.getUserWishlist())
+                )
                 .type(newTypeWiring("Mutation")
                         .dataFetcher("login", loginDataFetcher.getLoginDataFetcher())
                         .dataFetcher("createUser", userDataFetchers.createUserDataFetcher())
@@ -196,7 +200,9 @@ public class GraphQLProvider {
                         .dataFetcher("deleteWarehouse", warehouseDataFetchers.deleteWarehouseDataFetcher())
                         .dataFetcher("createProductWarehouse", productWarehouseDataFetchers.createProductWarehouseDataFetcher())
                         .dataFetcher("updateProductWarehouse", productWarehouseDataFetchers.updateProductWarehouseDataFetcher())
-                        .dataFetcher("deleteProductWarehouse", productWarehouseDataFetchers.deleteProductWarehouseDataFetcher()))
+                        .dataFetcher("deleteProductWarehouse", productWarehouseDataFetchers.deleteProductWarehouseDataFetcher())
+                        .dataFetcher("deleteProductFromWishlist", wishlistDataFetchers.deleteProductFromWishlist())
+                )
                 .build();
     }
 

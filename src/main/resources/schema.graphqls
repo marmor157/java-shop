@@ -55,6 +55,7 @@ type Query{
     ShipmentMethod(id:ID): ShipmentMethod
     allShipmentMethods(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): [ShipmentMethod]
     _allShipmentMethodsMeta(filter: ShipmentMethodFilter): Metadata
+    getUserWishlist(id:ID!): [Product!]!
 }
 
 type Metadata{
@@ -421,6 +422,7 @@ type Mutation {
     createProductWarehouse(input: CreateProductWarehouseInput): ProductWarehouse!
     updateProductWarehouse(input: UpdateProductWarehouseInput): ProductWarehouse!
     deleteProductWarehouse(id: ID): ProductWarehouse!
+    deleteProductFromWishlist(user_id: ID!, product_id: ID!): User!
 }
 
 type SigninPayload {
