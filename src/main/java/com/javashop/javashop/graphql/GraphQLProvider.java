@@ -115,7 +115,7 @@ public class GraphQLProvider {
                         .dataFetcher("_allUsersMeta", userDataFetchers.getAllUsersMetaDataFetcher())
                         .dataFetcher("Order", orderDataFetchers.getOrderDataFetcher())
                         .dataFetcher("allOrders", orderDataFetchers.getAllOrdersDataFetcher())
-                        .dataFetcher("allOrdersMeta", orderDataFetchers.getAllOrdersMetaDataFetcher())
+                        .dataFetcher("_allOrdersMeta", orderDataFetchers.getAllOrdersMetaDataFetcher())
                         .dataFetcher("Category", categoryDataFetchers.getCategoryDataFetcher())
                         .dataFetcher("allCategories", categoryDataFetchers.getAllCategoriesDataFetcher())
                         .dataFetcher("_allCategoriesMeta", categoryDataFetchers.getAllCategoriesMetaDataFetcher())

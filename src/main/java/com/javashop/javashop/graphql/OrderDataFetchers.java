@@ -4,6 +4,7 @@ import com.javashop.javashop.model.Metadata;
 import com.javashop.javashop.model.Order;
 import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -75,14 +77,12 @@ public class OrderDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
 
-            String dateStr = (String) l.get("date");
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
             Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
             Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
             List<String> productIDs = (List<String>) l.get("productIDs");
 
-            Order order = new Order(date, 0);
+            Order order = new Order(LocalDate.now(), 0);
             order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
             deliveryAddressRepository.getOne(deliveryAddressID).getOrders().add(order);
             order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
@@ -106,7 +106,7 @@ public class OrderDataFetchers {
             Order order = orderRepository.getOne(id);
             if(l.containsKey("date")){
                 String dateStr = (String) l.get("date");
-                Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+                LocalDate date = LocalDate.parse(dateStr);
                 order.setDate(date);
             }
             if(l.containsKey("deliveryAddressID")){

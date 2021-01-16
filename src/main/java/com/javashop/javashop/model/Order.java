@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Order {
     private Integer id;
 
     @Column(name = "Date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "Price")
     private Integer price;
@@ -51,7 +52,7 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private Set<Complaint> complaints = new HashSet<Complaint>();
 
-    public Order(Date date, Integer price) {
+    public Order(LocalDate date, Integer price) {
         this.date = date;
         this.price = price;
     }

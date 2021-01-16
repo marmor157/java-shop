@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -72,8 +73,7 @@ public class VisitedDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
 
-            String dateStr = (String) l.get("date");
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+            LocalDate date = LocalDate.now();
             Integer productID = Integer.parseInt((String) l.get("productID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
             Visited visited = new Visited(date);
@@ -94,7 +94,7 @@ public class VisitedDataFetchers {
             Visited visited = visitedRepository.getOne(id);
             if(l.containsKey("date")){
                 String dateStr = (String) l.get("date");
-                Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+                LocalDate date = LocalDate.parse(dateStr);
                 visited.setDate(date);
             }
             if(l.containsKey("productID")){
