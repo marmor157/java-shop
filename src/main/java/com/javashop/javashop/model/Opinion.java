@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -28,9 +29,9 @@ public class Opinion {
     private String text;
 
     @Column(name = "Date")
-    private Date date;
+    private LocalDate date;
 
-    public Opinion(Integer mark, String text, Date date) {
+    public Opinion(Integer mark, String text, LocalDate date) {
         this.mark = mark;
         this.text = text;
         this.date = date;

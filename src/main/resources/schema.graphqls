@@ -390,11 +390,11 @@ type Mutation {
     createSubcategory(input: CreateSubcategoryInput): Subcategory!
     updateSubcategory(input: UpdateSubcategoryInput): Subcategory!
     deleteSubcategory(id: ID): Subcategory!
-    createComplaint(input: CreatComplaintInput): Complaint!
+    createComplaint(input: CreateComplaintInput): Complaint!
     updateComplaint(input: UpdateComplaintInput): Complaint!
     deleteComplaint(id: ID): Complaint!
-    createComplainttype(input: CreateComplaintTypeInput): ComplaintType!
-    updateComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
+    createComplaintType(input: CreateComplaintTypeInput): ComplaintType!
+    updateComplaintType(input: UpdateComplaintTypeInput): ComplaintType!
     deleteComplainttype(id: ID): ComplaintType!
     createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
     updateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
@@ -534,7 +534,7 @@ input UpdateSubcategoryInput {
     categoryID: ID
 }
 
-input CreatComplaintInput {
+input CreateComplaintInput {
     date: String!
     complaintTypeID: ID!
     orderID: ID!

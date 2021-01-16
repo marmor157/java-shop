@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -75,7 +76,7 @@ public class OpinionDataFetchers {
             Integer mark = (Integer) l.get("mark");
             String text = (String) l.get("text");
             String dateStr = (String) l.get("date");
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+            LocalDate date = LocalDate.parse(dateStr);
             Integer productID = Integer.parseInt((String) l.get("productID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
             Opinion opinion = new Opinion(mark, text, date);
@@ -104,7 +105,7 @@ public class OpinionDataFetchers {
             }
             if(l.containsKey("date")){
                 String dateStr = (String) l.get("date");
-                Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+                LocalDate date = LocalDate.parse(dateStr);
                 opinion.setDate(date);
             }
             if(l.containsKey("productID")){
