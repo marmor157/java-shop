@@ -2,6 +2,7 @@ package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.ComplaintType;
 import com.javashop.javashop.model.Metadata;
+import com.javashop.javashop.model.Product;
 import com.javashop.javashop.repository.ComplaintTypeRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.function.Predicate;
 
 @Component
 public class ComplaintTypeDataFetchers {
@@ -46,6 +50,15 @@ public class ComplaintTypeDataFetchers {
             if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
+
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  complaintTypeRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+            }
             Page<ComplaintType> complaintTypePage = complaintTypeRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return complaintTypePage;
         };
@@ -55,6 +68,14 @@ public class ComplaintTypeDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return new Metadata(complaintTypeRepository.countByIdIn(idsInt));
+                }
+            }
             Metadata metadata = new Metadata(complaintTypeRepository.count());
             return metadata;
         };

@@ -33,8 +33,7 @@ public class LoginDataFetcher {
             }
             String jwt = null;
             if(BCrypt.checkpw(password, user.getPassword())){
-                jwt = Jwts.builder().setIssuer("http://trustyapp.com/")
-                                .setExpiration(new Date())
+                jwt = Jwts.builder().setExpiration(new Date())
                                 .claim("id", user.getId())
                                 .claim("name", user.getName())
                                 .claim("surname", user.getSurname())
