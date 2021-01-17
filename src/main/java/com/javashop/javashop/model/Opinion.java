@@ -13,13 +13,15 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@IdClass(OpinionId.class)
 public class Opinion {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Integer id;
+
     @ManyToOne
     Product product;
 
-    @Id
     @ManyToOne User user;
 
     @Column(name = "Mark")
@@ -38,9 +40,5 @@ public class Opinion {
     }
 }
 
-class OpinionId implements Serializable {
-    int product;
-    int user;
-}
 
 

@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface SubcategoryRepository extends JpaRepository<Subcategory, Integer> {
     List<Subcategory> findByIdIn(List<Integer> id, Pageable pageable);
+    List<Subcategory> findByCategoryId(Integer id, Pageable pageable);
+    List<Subcategory> findByCategoryIdAndIdIn(Integer category_id, List<Integer> id, Pageable pageable);
     Long countByIdIn(List<Integer> id);
 }

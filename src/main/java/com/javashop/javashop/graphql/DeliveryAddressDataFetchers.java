@@ -52,11 +52,22 @@ public class DeliveryAddressDataFetchers {
                 sortField = "id";
             }
             if(filter!=null){
-                if(filter.containsKey("ids")){
+                if(filter.containsKey("ids") && filter.containsKey("userID")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    Integer userID = Integer.parseInt((String) filter.get("userID"));
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  deliveryAddressRepository.findByUserIdAndIdIn(userID,idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("ids")){
                     final List<String> ids = (List<String>) filter.get("ids");
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  deliveryAddressRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("userID")){
+                    Integer userID = Integer.parseInt((String) filter.get("userID"));
+                    return  deliveryAddressRepository.findByUserId(userID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
             }
             Page<DeliveryAddress> deliveryAddressPage = deliveryAddressRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));

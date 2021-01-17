@@ -60,12 +60,32 @@ public class ComplaintDataFetchers {
             }
 
             if(filter!=null){
+                List<Integer> idsInt = null;
+                Integer productID = null;
+                Integer complaintTypeID = null;
+                Integer orderID = null;
+                Integer userID = null;
+
                 if(filter.containsKey("ids")){
+                    idsInt = new ArrayList<>();
                     final List<String> ids = (List<String>) filter.get("ids");
-                    List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
-                    return  complaintRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                if(filter.containsKey("productID")){
+                    productID = Integer.parseInt((String) filter.get("productID"));
+                }
+                if(filter.containsKey("complaintTypeID")){
+                    complaintTypeID = Integer.parseInt((String) filter.get("complaintTypeID"));
+                }
+                if(filter.containsKey("orderID")){
+                    orderID = Integer.parseInt((String) filter.get("orderID"));
+                }
+                if(filter.containsKey("userID")){
+                    userID = Integer.parseInt((String) filter.get("userID"));
+                }
+                return complaintRepository.findByComplaintTypeIdAndOrderIdAndProductIdAndUserIdAndIdIn(complaintTypeID,orderID, productID, userID,
+                                                                                        idsInt,PageRequest.of(page,perPage, Sort.by(order,sortField)));
+
             }
             Page<Complaint> complaintPage = complaintRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return complaintPage;

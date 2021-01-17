@@ -51,11 +51,22 @@ public class SubcategoryDataFetchers {
                 sortField = "id";
             }
             if(filter!=null){
-                if(filter.containsKey("ids")){
+                if(filter.containsKey("ids") && filter.containsKey("categoryID")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    Integer categoryID = Integer.parseInt((String) filter.get("categoryID"));
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  subcategoryRepository.findByCategoryIdAndIdIn(categoryID,idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("ids")){
                     final List<String> ids = (List<String>) filter.get("ids");
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  subcategoryRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("categoryID")){
+                    Integer categoryID = Integer.parseInt((String) filter.get("categoryID"));
+                    return  subcategoryRepository.findByCategoryId(categoryID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
             }
             Page<Subcategory> subcategoryPage = subcategoryRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));

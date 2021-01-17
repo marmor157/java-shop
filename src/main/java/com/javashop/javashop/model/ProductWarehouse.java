@@ -11,12 +11,15 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @Entity
-@IdClass(ProductWarehouseId.class)
 public class ProductWarehouse {
-    @Id
-    @ManyToOne Product product;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Integer id;
+
+    @ManyToOne Product product;
+
     @ManyToOne Warehouse warehouse;
 
     @Column(name = "Quantity")
@@ -27,9 +30,5 @@ public class ProductWarehouse {
     }
 }
 
-class ProductWarehouseId implements Serializable {
-    int product;
-    int warehouse;
-}
 
 
