@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -75,7 +76,7 @@ public class ComplaintDataFetchers {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
 
             String dateStr = (String) l.get("date");
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+            LocalDate date = LocalDate.parse(dateStr);
             Integer complaintTypeID = Integer.parseInt((String) l.get("complaintTypeID"));
             Integer orderID = Integer.parseInt((String) l.get("orderID"));
             Integer productID = Integer.parseInt((String) l.get("productID"));
@@ -102,7 +103,7 @@ public class ComplaintDataFetchers {
             Complaint complaint = complaintRepository.getOne(id);
             if(l.containsKey("date")){
                 String dateStr = (String) l.get("date");
-                Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+                LocalDate date = LocalDate.parse(dateStr);
                 complaint.setDate(date);
             }
             if(l.containsKey("complaintTypeID")){

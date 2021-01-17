@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -18,7 +19,7 @@ public class Complaint {
     private Integer id;
 
     @Column(name = "Date")
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne()
     private ComplaintType complaintType;
@@ -32,7 +33,7 @@ public class Complaint {
     @ManyToOne()
     private Order order;
 
-    public Complaint(Date date) {
+    public Complaint(LocalDate date) {
         this.date = date;
     }
 }

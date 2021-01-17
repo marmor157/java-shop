@@ -6,55 +6,55 @@ schema {
 type Query{
     Complaint(id: ID): Complaint
     allComplaints(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintFilter): [Complaint]
-    _allComplaintsMeta(filter: ComplaintFilter): Metadata
+    _allComplaintsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintFilter): Metadata
     ComplaintType(id: ID): ComplaintType
     allComplaintTypes(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintTypeFilter): [ComplaintType]
-    _allComplaintTypesMeta(filter: ComplaintTypeFilter): Metadata
+    _allComplaintTypesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ComplaintTypeFilter): Metadata
     Role(id: ID): Role
     allRoles(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: RoleFilter): [Role]
-    _allRolesMeta(filter: RoleFilter): Metadata
+    _allRolesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: RoleFilter): Metadata
     Product(id: ID): Product
     allProducts(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductFilter): [Product]
-    _allProductsMeta(filter: ProductFilter): Metadata
+    _allProductsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductFilter): Metadata
     TaxCategory(id: ID): TaxCategory
     allTaxCategories(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: TaxCategoryFilter): [TaxCategory]
-    _allTaxCategoriesMeta(filter: TaxCategoryFilter): Metadata
+    _allTaxCategoriesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: TaxCategoryFilter): Metadata
     User(id:ID): User
     allUsers(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: UserFilter): [User]
-    _allUsersMeta(filter: UserFilter): Metadata
+    _allUsersMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: UserFilter): Metadata
     Order(id:ID): Order
     allOrders(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderFilter): [Order]
-    _allOrdersMeta(filter: OrderFilter): Metadata
+    _allOrdersMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderFilter): Metadata
     Category(id:ID): Category
     allCategories(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): [Category]
-    _allCategoryMeta(filter: CategoryFilter): Metadata
+    _allCategoryMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): Metadata
     Subcategory(id: ID): Subcategory
     allSubcategories(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SubcategoryFilter): [Subcategory]
-    _allSubcategoriesMeta(filter: SubcategoryFilter): Metadata
+    _allSubcategoriesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SubcategoryFilter): Metadata
     Supplier(id:ID): Supplier
     allSuppliers(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SupplierFilter): [Supplier]
-    _allSuppliersMeta(filter: SupplierFilter): Metadata
+    _allSuppliersMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SupplierFilter): Metadata
     ProductSupplier(id: ID): ProductSupplier
     allProductSuppliers(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductSupplierFilter): [ProductSupplier]
-    _allProductSuppliersMeta(filter: ProductSupplierFilter): Metadata
+    _allProductSuppliersMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductSupplierFilter): Metadata
     Opinion(id:ID): Opinion
     allOpinions(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): [Opinion]
-    _allOpiniosnMeta(filter: OpinionFilter): Metadata
+    _allOpiniosnMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): Metadata
     Warehouse(id:ID): Warehouse
     allWarehouses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Warehouse]
-    _allWarehousesMeta(filter: WarehouseFilter): Metadata
+    _allWarehousesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
     ProductWarehouse(id: ID): ProductWarehouse
     allProductWarehouses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductWarehouseFilter): [ProductWarehouse]
-    _allProductWarehousesMeta(filter: ProductWarehouseFilter): Metadata
+    _allProductWarehousesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductWarehouseFilter): Metadata
     Visited(id: ID): Visited
     allVisited(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Visited]
-    _allVisitedMeta(filter: WarehouseFilter): Metadata
+    _allVisitedMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
     DeliveryAddress(id:ID): DeliveryAddress
     allDeliveryAddresses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: DeliveryAddressFilter): [DeliveryAddress]
-    _allDeliveryAddressesMeta(filter: DeliveryAddressFilter): Metadata
+    _allDeliveryAddressesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: DeliveryAddressFilter): Metadata
     ShipmentMethod(id:ID): ShipmentMethod
     allShipmentMethods(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): [ShipmentMethod]
-    _allShipmentMethodsMeta(filter: ShipmentMethodFilter): Metadata
+    _allShipmentMethodsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): Metadata
     getUserWishlist(id:ID!): [Product!]!
 }
 
@@ -290,7 +290,7 @@ input UserFilter{
 type DeliveryAddress {
     id: ID!
     name: String!
-    surnname: String!
+    surname: String!
     city: String!
     street: String!
     buildingNumber: String!
@@ -303,7 +303,7 @@ input DeliveryAddressFilter {
     q: String
     id: ID
     name: String
-    surnname: String
+    surname: String
     city: String
     street: String
     buildingNumber: String
@@ -337,6 +337,7 @@ type Order {
     date: String!
     complaints: [Complaint!]!
     shipmentMethod: ShipmentMethod!
+    price: Int!
 }
 
 input OrderFilter {
@@ -389,11 +390,11 @@ type Mutation {
     createSubcategory(input: CreateSubcategoryInput): Subcategory!
     updateSubcategory(input: UpdateSubcategoryInput): Subcategory!
     deleteSubcategory(id: ID): Subcategory!
-    createComplaint(input: CreatComplaintInput): Complaint!
+    createComplaint(input: CreateComplaintInput): Complaint!
     updateComplaint(input: UpdateComplaintInput): Complaint!
     deleteComplaint(id: ID): Complaint!
-    createComplainttype(input: CreateComplaintTypeInput): ComplaintType!
-    updateComplainttype(input: UpdateComplaintTypeInput): ComplaintType!
+    createComplaintType(input: CreateComplaintTypeInput): ComplaintType!
+    updateComplaintType(input: UpdateComplaintTypeInput): ComplaintType!
     deleteComplainttype(id: ID): ComplaintType!
     createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress!
     updateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress!
@@ -481,7 +482,6 @@ input UpdateProductInput {
 }
 
 input CreateOrderInput {
-    date: String!
     deliveryAddressID: ID!
     shipmentMethodID: ID!
     userID: ID!
@@ -534,7 +534,7 @@ input UpdateSubcategoryInput {
     categoryID: ID
 }
 
-input CreatComplaintInput {
+input CreateComplaintInput {
     date: String!
     complaintTypeID: ID!
     orderID: ID!
@@ -615,7 +615,6 @@ input UpdateTaxCategoryInput {
 }
 
 input CreateVisitedInput{
-    date: String!
     productID: ID!
     userID: ID!
 }

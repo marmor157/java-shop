@@ -7,6 +7,7 @@ import org.checkerframework.checker.signature.qual.Identifier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -28,9 +29,9 @@ public class Visited {
 
     @Id
     @Column(name = "Date")
-    private Date date;
+    private LocalDate date;
 
-    public Visited(Date date) {
+    public Visited(LocalDate date) {
         this.date = date;
     }
 }
@@ -38,7 +39,7 @@ public class Visited {
 class VisitedId implements Serializable {
     int product;
     int user;
-    Date date;
+    LocalDate date;
 }
 
 
