@@ -27,7 +27,7 @@ type Query{
     _allOrdersMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderFilter): Metadata
     Category(id:ID): Category
     allCategories(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): [Category]
-    _allCategoryMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): Metadata
+    _allCategoriesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: CategoryFilter): Metadata
     Subcategory(id: ID): Subcategory
     allSubcategories(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SubcategoryFilter): [Subcategory]
     _allSubcategoriesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: SubcategoryFilter): Metadata

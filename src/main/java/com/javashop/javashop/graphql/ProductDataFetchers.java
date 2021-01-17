@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Predicate;
@@ -81,6 +82,12 @@ public class ProductDataFetchers {
                 sortField = "id";
             }
             if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  productRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
                 if(filter.containsKey("subcategoryID")){
                     final Integer subcategoryID = Integer.parseInt((String) filter.get("subcategoryID"));
                     Predicate<Product> predicate = product -> product.getSubcategories().contains(subcategoryRepository.getOne(subcategoryID));
@@ -100,6 +107,14 @@ public class ProductDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return new Metadata(productRepository.countByIdIn(idsInt));
+                }
+            }
             Metadata metadata = new Metadata(productRepository.count());
             return metadata;
         };
