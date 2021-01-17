@@ -14,8 +14,10 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Component
 public class VisitedDataFetchers {
@@ -55,6 +57,14 @@ public class VisitedDataFetchers {
             if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  visitedRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+            }
             Page<Visited> visitedPage = visitedRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return visitedPage;
         };
@@ -64,6 +74,14 @@ public class VisitedDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return new Metadata(visitedRepository.countByIdIn(idsInt));
+                }
+            }
             Metadata metadata = new Metadata(visitedRepository.count());
             return metadata;
         };

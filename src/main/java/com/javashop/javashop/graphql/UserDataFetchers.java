@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -61,6 +62,14 @@ public class UserDataFetchers {
             if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  userRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+            }
             Page<User> userPage = userRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return userPage;
         };
@@ -70,6 +79,14 @@ public class UserDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return new Metadata(userRepository.countByIdIn(idsInt));
+                }
+            }
             Metadata metadata = new Metadata(userRepository.count());
             return metadata;
         };

@@ -9,7 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Component
 public class ProductWarehouseDataFetchers {
@@ -49,6 +51,14 @@ public class ProductWarehouseDataFetchers {
             if(sortField!=null && sortField.equals("")){
                 sortField = "id";
             }
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  productWarehouseRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+            }
             Page<ProductWarehouse> productWarehousePage = productWarehouseRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return productWarehousePage;
         };
@@ -58,6 +68,14 @@ public class ProductWarehouseDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
 
+            if(filter!=null){
+                if(filter.containsKey("ids")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return new Metadata(productWarehouseRepository.countByIdIn(idsInt));
+                }
+            }
             Metadata metadata = new Metadata(productWarehouseRepository.count());
             return metadata;
         };
