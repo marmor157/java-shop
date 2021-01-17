@@ -75,6 +75,7 @@ input ComplaintFilter {
     q: String
     id: ID
     date: String
+    ids: [ID!]
 }
 
 type ComplaintType {
@@ -86,6 +87,7 @@ input ComplaintTypeFilter {
     q: String
     id: ID
     name: String
+    ids: [ID!]
 }
 
 type Role {
@@ -98,6 +100,7 @@ input RoleFilter {
     q: String
     id: ID
     name: String
+    ids: [ID!]
 }
 
 type Product {
@@ -143,6 +146,7 @@ input ProductFilter {
     imagePath: String
     categoryID: ID
     subcategoryID: ID
+    ids: [ID!]
 }
 
 type TaxCategory {
@@ -160,6 +164,7 @@ input TaxCategoryFilter {
     taxRate_gt: Int
     taxRate_gte: Int
     name: String
+    ids: [ID!]
 }
 
 type ProductWarehouse{
@@ -175,6 +180,7 @@ input ProductWarehouseFilter {
     quantity_lte: Int
     quantity_gt: Int
     quantity_gte: Int
+    ids: [ID!]
 }
 
 type Warehouse{
@@ -189,6 +195,7 @@ input WarehouseFilter{
     id: ID
     name: String
     address: String
+    ids: [ID!]
 }
 
 type Supplier{
@@ -203,6 +210,7 @@ input SupplierFilter{
     id: ID
     name: String
     telephone: String
+    ids: [ID!]
 }
 
 type ProductSupplier{
@@ -218,6 +226,7 @@ input ProductSupplierFilter{
     price_lte: Int
     price_gt: Int
     price_gte: Int
+    ids: [ID!]
 }
 
 type Category{
@@ -231,6 +240,7 @@ input CategoryFilter{
     q: String
     id: ID
     name: String
+    ids: [ID!]
 }
 
 type Subcategory{
@@ -244,6 +254,7 @@ input SubcategoryFilter{
     q: String
     id: ID
     name: String
+    ids: [ID!]
 }
 
 type Visited{
@@ -255,6 +266,7 @@ type Visited{
 input VisitedFilter{
     q: String
     date: String
+    ids: [ID!]
 }
 
 type User{
@@ -285,6 +297,7 @@ input UserFilter{
     address: String
     birthDate: String
     telephone: String
+    ids: [ID!]
 }
 
 type DeliveryAddress {
@@ -308,6 +321,7 @@ input DeliveryAddressFilter {
     street: String
     buildingNumber: String
     postCode: String
+    ids: [ID!]
 }
 
 type Opinion {
@@ -327,6 +341,7 @@ input OpinionFilter {
     mark_gte: Int
     text: String
     date: String
+    ids: [ID!]
 }
 
 type Order {
@@ -344,6 +359,7 @@ input OrderFilter {
     q: String
     id: ID
     date: String
+    ids: [ID!]
 }
 
 type ShipmentMethod {
@@ -368,6 +384,7 @@ input ShipmentMethodFilter {
     freeThreshold_lte: Int
     freeThreshold_gt: Int
     freeThreshold_gte: Int
+    ids: [ID!]
 }
 
 type Mutation {
