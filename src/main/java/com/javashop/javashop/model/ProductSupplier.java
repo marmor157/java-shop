@@ -11,13 +11,15 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @Entity
-@IdClass(ProductSupplierId.class)
 public class ProductSupplier {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Integer id;
+
     @ManyToOne
     Product product;
 
-    @Id
     @ManyToOne Supplier supplier;
 
     @Column(name = "Price")
@@ -28,9 +30,5 @@ public class ProductSupplier {
     }
 }
 
-class ProductSupplierId implements Serializable {
-    int product;
-    int supplier;
-}
 
 

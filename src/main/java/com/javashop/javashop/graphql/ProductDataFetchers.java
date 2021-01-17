@@ -82,13 +82,24 @@ public class ProductDataFetchers {
                 sortField = "id";
             }
             if(filter!=null){
-                if(filter.containsKey("ids")){
+                if(filter.containsKey("ids") && filter.containsKey("taxCategoryID")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    Integer taxCategoryID = Integer.parseInt((String) filter.get("taxCategoryID"));
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  productRepository.findByTaxCategoryIdAndIdIn(taxCategoryID,idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("ids")){
                     final List<String> ids = (List<String>) filter.get("ids");
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  productRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
-                if(filter.containsKey("subcategoryID")){
+                else if(filter.containsKey("taxCategoryID")){
+                    Integer taxCategoryID = Integer.parseInt((String) filter.get("taxCategoryID"));
+                    return  productRepository.findByTaxCategoryId(taxCategoryID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("subcategoryID")){
                     final Integer subcategoryID = Integer.parseInt((String) filter.get("subcategoryID"));
                     Predicate<Product> predicate = product -> product.getSubcategories().contains(subcategoryRepository.getOne(subcategoryID));
                     return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).filter(predicate).toList();

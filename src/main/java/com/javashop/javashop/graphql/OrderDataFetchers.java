@@ -61,12 +61,31 @@ public class OrderDataFetchers {
                 sortField = "id";
             }
             if(filter!=null){
+                List<Integer> idsInt = null;
+                Integer productID = null;
+                Integer deliveryAddressID = null;
+                Integer shipmentMethodID = null;
+                Integer userID = null;
+
                 if(filter.containsKey("ids")){
+                    idsInt = new ArrayList<>();
                     final List<String> ids = (List<String>) filter.get("ids");
-                    List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
-                    return  orderRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                if(filter.containsKey("deliveryAddressID")){
+                    deliveryAddressID = Integer.parseInt((String) filter.get("deliveryAddressID"));
+                }
+                if(filter.containsKey("shipmentMethodID")){
+                    shipmentMethodID = Integer.parseInt((String) filter.get("shipmentMethodID"));
+                }
+                if(filter.containsKey("productID")){
+                    productID = Integer.parseInt((String) filter.get("productID"));
+                }
+                if(filter.containsKey("userID")){
+                    userID = Integer.parseInt((String) filter.get("userID"));
+                }
+                return orderRepository.findByDeliveryAddressIdAndShipmentMethodIdAndUserIdAndIdIn(deliveryAddressID,shipmentMethodID, userID,
+                                                                                                    idsInt,PageRequest.of(page,perPage, Sort.by(order,sortField)));
             }
             Page<Order> orderPage = orderRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return orderPage;

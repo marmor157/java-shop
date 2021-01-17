@@ -76,6 +76,10 @@ input ComplaintFilter {
     id: ID
     date: String
     ids: [ID!]
+    productID: ID
+    complaintTypeID: ID
+    orderID: ID
+    userID: ID
 }
 
 type ComplaintType {
@@ -147,6 +151,7 @@ input ProductFilter {
     categoryID: ID
     subcategoryID: ID
     ids: [ID!]
+    taxCategoryID: ID
 }
 
 type TaxCategory {
@@ -255,6 +260,7 @@ input SubcategoryFilter{
     id: ID
     name: String
     ids: [ID!]
+    categoryID: ID
 }
 
 type Visited{
@@ -298,6 +304,7 @@ input UserFilter{
     birthDate: String
     telephone: String
     ids: [ID!]
+    roleID: ID
 }
 
 type DeliveryAddress {
@@ -322,6 +329,7 @@ input DeliveryAddressFilter {
     buildingNumber: String
     postCode: String
     ids: [ID!]
+    userID: ID
 }
 
 type Opinion {
@@ -360,6 +368,10 @@ input OrderFilter {
     id: ID
     date: String
     ids: [ID!]
+    deliveryAddressID: ID
+    shipmentMethodID: ID
+    productID: ID
+    userID: ID
 }
 
 type ShipmentMethod {

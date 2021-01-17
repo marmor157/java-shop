@@ -18,28 +18,24 @@ import java.util.Date;
         @Index(columnList = "product_id", name = "visited_product_idx"),
         @Index(columnList = "user_id", name = "visited_user_idx")
 })
-@IdClass(VisitedId.class)
 public class Visited {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Integer id;
+
     @ManyToOne
     Product product;
 
-    @Id
-    @ManyToOne User user;
+    @ManyToOne
+    User user;
 
-    @Id
     @Column(name = "Date")
     private LocalDate date;
 
     public Visited(LocalDate date) {
         this.date = date;
     }
-}
-
-class VisitedId implements Serializable {
-    int product;
-    int user;
-    LocalDate date;
 }
 
 

@@ -63,11 +63,22 @@ public class UserDataFetchers {
                 sortField = "id";
             }
             if(filter!=null){
-                if(filter.containsKey("ids")){
+                if(filter.containsKey("ids") && filter.containsKey("roleID")){
+                    final List<String> ids = (List<String>) filter.get("ids");
+                    Integer roleID = Integer.parseInt((String) filter.get("roleID"));
+                    List<Integer> idsInt = new ArrayList<>();
+                    for(String s : ids) idsInt.add(Integer.valueOf(s));
+                    return  userRepository.findByRoleIdAndIdIn(roleID,idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("ids")){
                     final List<String> ids = (List<String>) filter.get("ids");
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  userRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("roleID")){
+                    Integer roleID = Integer.parseInt((String) filter.get("roleID"));
+                    return  userRepository.findByRoleId(roleID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
             }
             Page<User> userPage = userRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
