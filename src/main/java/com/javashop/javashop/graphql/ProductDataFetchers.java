@@ -101,16 +101,15 @@ public class ProductDataFetchers {
                 }
                 else if(filter.containsKey("subcategoryID")){
                     final Integer subcategoryID = Integer.parseInt((String) filter.get("subcategoryID"));
-                    Predicate<Product> predicate = product -> product.getSubcategories().contains(subcategoryRepository.getOne(subcategoryID));
-                    return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).filter(predicate).toList();
+
+                    return productRepository.findBySubcategories_Id(subcategoryID,PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
                 else if(filter.containsKey("categoryID")){
                     final Integer categoryID = Integer.parseInt((String) filter.get("categoryID"));
-                    Predicate<Product> predicate = product -> product.getCategories().contains(categoryRepository.getOne(categoryID));
-                    return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).toList();
+                    return productRepository.findByCategories_Id(categoryID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
             }
-            return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField))).toList();
+            return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
         };
     }
 

@@ -124,7 +124,7 @@ type Product {
     complaints: [Complaint!]!
     opinions: [Opinion!]!
     wishlist: [User!]!
-    visitedBy: [Visited!]!
+    visited: [Visited!]!
 }
 
 input ProductFilter {
@@ -173,6 +173,7 @@ input TaxCategoryFilter {
 }
 
 type ProductWarehouse{
+    id: ID!,
     product: Product!
     warehouse: Warehouse!
     quantity: Int!
@@ -219,6 +220,7 @@ input SupplierFilter{
 }
 
 type ProductSupplier{
+    id: ID!,
     product: Product!
     supplier: Supplier!
     price: Int!
@@ -264,6 +266,7 @@ input SubcategoryFilter{
 }
 
 type Visited{
+    id: ID!,
     date: String!
     product: Product!
     user: User!
@@ -333,6 +336,7 @@ input DeliveryAddressFilter {
 }
 
 type Opinion {
+    id: ID!
     mark: Int!
     text: String!
     user: User!
