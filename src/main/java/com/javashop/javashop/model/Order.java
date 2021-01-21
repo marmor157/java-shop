@@ -28,6 +28,9 @@ public class Order {
     @Column(name = "Price")
     private Integer price;
 
+    @Column(name = "Status")
+    private String status;
+
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -52,8 +55,9 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private Set<Complaint> complaints = new HashSet<Complaint>();
 
-    public Order(LocalDate date, Integer price) {
+    public Order(LocalDate date, Integer price, String status) {
         this.date = date;
         this.price = price;
+        this.status = status;
     }
 }

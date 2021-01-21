@@ -21,6 +21,9 @@ public class Complaint {
     @Column(name = "Date")
     private LocalDate date;
 
+    @Column(name = "Status")
+    private String status;
+
     @ManyToOne()
     private ComplaintType complaintType;
 
@@ -33,7 +36,8 @@ public class Complaint {
     @ManyToOne()
     private Order order;
 
-    public Complaint(LocalDate date) {
+    public Complaint(LocalDate date, String status) {
         this.date = date;
+        this.status = status;
     }
 }
