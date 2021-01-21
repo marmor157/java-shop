@@ -117,8 +117,12 @@ public class OrderDataFetchers {
             Integer shipmentMethodID = Integer.parseInt((String) l.get("shipmentMethodID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
             List<String> productIDs = (List<String>) l.get("productIDs");
+            String status = "zgłoszone";
+            if(l.containsKey("status")){
+                status = (String) l.get("status");
+            }
 
-            Order order = new Order(LocalDate.now(), 0);
+            Order order = new Order(LocalDate.now(), 0, status);
             order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
             deliveryAddressRepository.getOne(deliveryAddressID).getOrders().add(order);
             order.setShipmentMethod(shipmentMethodRepository.getOne(shipmentMethodID));
@@ -144,6 +148,10 @@ public class OrderDataFetchers {
                 String dateStr = (String) l.get("date");
                 LocalDate date = LocalDate.parse(dateStr);
                 order.setDate(date);
+            }
+            if(l.containsKey("status")){
+                String status = (String) l.get("status");
+                order.setStatus(status);
             }
             if(l.containsKey("deliveryAddressID")){
                 Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));

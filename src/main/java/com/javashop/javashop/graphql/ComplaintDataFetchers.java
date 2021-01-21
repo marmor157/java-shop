@@ -119,7 +119,11 @@ public class ComplaintDataFetchers {
             Integer orderID = Integer.parseInt((String) l.get("orderID"));
             Integer productID = Integer.parseInt((String) l.get("productID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
-            Complaint complaint = new Complaint(date);
+            String status = "zgłoszona";
+            if(l.containsKey("status")){
+                status = (String) l.get("status");
+            }
+            Complaint complaint = new Complaint(date, status);
             complaint.setComplaintType(complaintTypeRepository.getOne(complaintTypeID));
             complaintTypeRepository.getOne(complaintTypeID).getComplaints().add(complaint);
             complaint.setOrder(orderRepository.getOne(orderID));
@@ -143,6 +147,10 @@ public class ComplaintDataFetchers {
                 String dateStr = (String) l.get("date");
                 LocalDate date = LocalDate.parse(dateStr);
                 complaint.setDate(date);
+            }
+            if(l.containsKey("status")){
+                String status = (String) l.get("status");
+                complaint.setStatus(status);
             }
             if(l.containsKey("complaintTypeID")){
                 Integer complaintTypeID = Integer.parseInt((String) l.get("complaintTypeID"));

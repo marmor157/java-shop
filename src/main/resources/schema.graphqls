@@ -69,6 +69,7 @@ type Complaint {
     product: Product!
     order: Order!
     date: String!
+    status: String!
 }
 
 input ComplaintFilter {
@@ -80,6 +81,7 @@ input ComplaintFilter {
     complaintTypeID: ID
     orderID: ID
     userID: ID
+    status: String
 }
 
 type ComplaintType {
@@ -365,6 +367,7 @@ type Order {
     complaints: [Complaint!]!
     shipmentMethod: ShipmentMethod!
     price: Int!
+    status: String!
 }
 
 input OrderFilter {
@@ -376,6 +379,7 @@ input OrderFilter {
     shipmentMethodID: ID
     productID: ID
     userID: ID
+    status: String
 }
 
 type ShipmentMethod {
@@ -519,6 +523,7 @@ input CreateOrderInput {
     shipmentMethodID: ID!
     userID: ID!
     productIDs: [ID!]!
+    status: String
 }
 
 input UpdateOrderInput {
@@ -528,6 +533,7 @@ input UpdateOrderInput {
     shipmentMethodID: ID
     userID: ID
     productIDs: [ID!]
+    status: String
 }
 
 input CreateOpinionInput {
@@ -586,11 +592,13 @@ input UpdateComplaintInput {
 
 input CreateComplaintTypeInput {
     name: String!
+    status: String
 }
 
 input UpdateComplaintTypeInput {
     id: ID!
     name: String
+    status: String
 }
 
 input CreateDeliveryAddressInput {
