@@ -189,8 +189,8 @@ public class ProductDataFetchers {
             String description = (String) l.get("description");
             String imagePath = (String) l.get("imagePath");
             Integer taxCategoryID = Integer.parseInt((String) l.get("taxCategoryID"));
-            List<String> categoryIDs = (List<String>) l.get("categoryIDs");
-            List<String> subcategoryIDs = (List<String>) l.get("subcategoryIDs");
+            List<String> categoryIDs = (List<String>) l.get("categoriesIDs");
+            List<String> subcategoryIDs = (List<String>) l.get("subcategoriesIDs");
             TaxCategory taxCategory = taxCategoryRepository.getOne(taxCategoryID);
             Product product = new Product(name, price, discountPrice, noAvailable, description, imagePath, taxCategory);
             for (String catID: categoryIDs){
@@ -251,15 +251,15 @@ public class ProductDataFetchers {
                 TaxCategory taxCategory = taxCategoryRepository.getOne(Integer.parseInt(taxCategoryID));
                 product.setTaxCategory(taxCategory);
             }
-            if(l.containsKey("categoryIDs")){
-                List<String> categoryIDs = (List<String>) l.get("categoryIDs");
+            if(l.containsKey("categoriesIDs")){
+                List<String> categoryIDs = (List<String>) l.get("categoriesIDs");
                 for (String catID: categoryIDs){
                     product.getCategories().add(categoryRepository.getOne(Integer.parseInt(catID)));
                     categoryRepository.getOne(Integer.parseInt(catID)).getProducts().add(product);
                 }
             }
-            if(l.containsKey("subcategoryIDs")){
-                List<String> subcategoryIDs = (List<String>) l.get("subcategoryIDs");
+            if(l.containsKey("subcategoriesIDs")){
+                List<String> subcategoryIDs = (List<String>) l.get("subcategoriesIDs");
                 for (String subcatID: subcategoryIDs){
                     product.getSubcategories().add(subcategoryRepository.getOne(Integer.parseInt(subcatID)));
                     subcategoryRepository.getOne(Integer.parseInt(subcatID)).getProducts().add(product);

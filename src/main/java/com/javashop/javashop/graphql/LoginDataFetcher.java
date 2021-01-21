@@ -38,6 +38,7 @@ public class LoginDataFetcher {
                                 .claim("name", user.getName())
                                 .claim("surname", user.getSurname())
                                 .claim("email", user.getEmail())
+                                .claim("role", user.getRole().getName())
                                 .signWith(SignatureAlgorithm.HS256,"shop".getBytes("UTF-8"))
                                 .compact();
             }
