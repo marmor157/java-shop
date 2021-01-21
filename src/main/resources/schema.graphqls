@@ -154,6 +154,12 @@ input ProductFilter {
     subcategoryID: ID
     ids: [ID!]
     taxCategoryID: ID
+    orderID: ID
+    opinionID: ID
+    visitedID:ID
+    wishlistID: ID
+    warehouseID: ID
+    supplierID: ID
 }
 
 type TaxCategory {
@@ -204,6 +210,7 @@ input WarehouseFilter{
     name: String
     address: String
     ids: [ID!]
+    productID: ID
 }
 
 type Supplier{
@@ -219,6 +226,7 @@ input SupplierFilter{
     name: String
     telephone: String
     ids: [ID!]
+    productID: ID
 }
 
 type ProductSupplier{

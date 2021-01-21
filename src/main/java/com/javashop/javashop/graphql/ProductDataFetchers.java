@@ -108,6 +108,31 @@ public class ProductDataFetchers {
                     final Integer categoryID = Integer.parseInt((String) filter.get("categoryID"));
                     return productRepository.findByCategories_Id(categoryID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                else if(filter.containsKey("orderID")){
+                    final Integer orderID = Integer.parseInt((String) filter.get("orderID"));
+                    return productRepository.findByOrders_Id(orderID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("opinionID")){
+                    final Integer opinionID = Integer.parseInt((String) filter.get("opinionID"));
+                    return productRepository.findByOpinions_Id(opinionID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("visitedID")){
+                    final Integer visitedID = Integer.parseInt((String) filter.get("visitedID"));
+                    return productRepository.findByVisited_Id(visitedID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("wishlistID")){
+                    final Integer wishlistID = Integer.parseInt((String) filter.get("wishlistID"));
+                    return productRepository.findByWishlist_Id(wishlistID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("warehouseID")){
+                    final Integer warehouseID = Integer.parseInt((String) filter.get("warehouseID"));
+                    return productRepository.findByWarehouses_Id(warehouseID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+                else if(filter.containsKey("supplierID")){
+                    final Integer supplierID = Integer.parseInt((String) filter.get("supplierID"));
+                    return productRepository.findBySuppliers_Id(supplierID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
+
             }
             return productRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
         };
@@ -123,6 +148,30 @@ public class ProductDataFetchers {
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return new Metadata(productRepository.countByIdIn(idsInt));
+                }
+                else if(filter.containsKey("orderID")){
+                    final Integer orderID = Integer.parseInt((String) filter.get("orderID"));
+                    return new Metadata(productRepository.countByOrders_Id(orderID));
+                }
+                else if(filter.containsKey("opinionID")){
+                    final Integer opinionID = Integer.parseInt((String) filter.get("opinionID"));
+                    return new Metadata(productRepository.countByOpinions_Id(opinionID));
+                }
+                else if(filter.containsKey("visitedID")){
+                    final Integer visitedID = Integer.parseInt((String) filter.get("visitedID"));
+                    return new Metadata(productRepository.countByVisited_Id(visitedID));
+                }
+                else if(filter.containsKey("wishlistID")){
+                    final Integer wishlistID = Integer.parseInt((String) filter.get("wishlistID"));
+                    return new Metadata(productRepository.countByWishlist_Id(wishlistID));
+                }
+                else if(filter.containsKey("warehouseID")){
+                    final Integer warehouseID = Integer.parseInt((String) filter.get("warehouseID"));
+                    return new Metadata(productRepository.countByWarehouses_Id(warehouseID));
+                }
+                else if(filter.containsKey("supplierID")){
+                    final Integer supplierID = Integer.parseInt((String) filter.get("supplierID"));
+                    return new Metadata(productRepository.countBySuppliers_Id(supplierID));
                 }
             }
             Metadata metadata = new Metadata(productRepository.count());
