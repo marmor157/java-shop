@@ -55,6 +55,10 @@ public class SupplierDataFetchers {
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  supplierRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                else if(filter.containsKey("productID")){
+                    final Integer productID = Integer.parseInt((String) filter.get("productID"));
+                    return supplierRepository.findByProducts_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
             }
             Page<Supplier> supplierPage = supplierRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return supplierPage;
@@ -71,6 +75,10 @@ public class SupplierDataFetchers {
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return new Metadata(supplierRepository.countByIdIn(idsInt));
+                }
+                else if(filter.containsKey("productID")){
+                    final Integer productID = Integer.parseInt((String) filter.get("productID"));
+                    return new Metadata(supplierRepository.countByProducts_Id(productID));
                 }
             }
             Metadata metadata = new Metadata(supplierRepository.count());

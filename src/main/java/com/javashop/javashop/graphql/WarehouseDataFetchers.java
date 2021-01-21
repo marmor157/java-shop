@@ -54,6 +54,10 @@ public class WarehouseDataFetchers {
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  warehouseRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                else if(filter.containsKey("productID")){
+                    final Integer productID = Integer.parseInt((String) filter.get("productID"));
+                    return warehouseRepository.findByProducts_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
             }
             Page<Warehouse> warehousePage= warehouseRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return warehousePage;
@@ -70,6 +74,10 @@ public class WarehouseDataFetchers {
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return new Metadata(warehouseRepository.countByIdIn(idsInt));
+                }
+                else if(filter.containsKey("productID")){
+                    final Integer productID = Integer.parseInt((String) filter.get("productID"));
+                    return new Metadata(warehouseRepository.countByProducts_Id(productID));
                 }
             }
             Metadata metadata = new Metadata(warehouseRepository.count());
