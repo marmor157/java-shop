@@ -55,6 +55,10 @@ public class CategoryDataFetchers {
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  categoryRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                else if(filter.containsKey("productID")){
+                    final Integer productID = Integer.parseInt((String) filter.get("productID"));
+                    return categoryRepository.findByProduct_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
             }
             Page<Category> categoryPage = categoryRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return categoryPage;
@@ -71,6 +75,10 @@ public class CategoryDataFetchers {
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return new Metadata(categoryRepository.countByIdIn(idsInt));
+                }
+                else if(filter.containsKey("productID")){
+                    final Integer productID = Integer.parseInt((String) filter.get("productID"));
+                    return new Metadata(categoryRepository.countByProduct_Id(productID));
                 }
             }
             Metadata metadata = new Metadata(categoryRepository.count());
