@@ -39,7 +39,7 @@ type Query{
     _allProductSuppliersMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductSupplierFilter): Metadata
     Opinion(id:ID): Opinion
     allOpinions(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): [Opinion]
-    _allOpiniosnMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): Metadata
+    _allOpinionsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): Metadata
     Warehouse(id:ID): Warehouse
     allWarehouses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Warehouse]
     _allWarehousesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
@@ -47,8 +47,8 @@ type Query{
     allProductWarehouses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductWarehouseFilter): [ProductWarehouse]
     _allProductWarehousesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ProductWarehouseFilter): Metadata
     Visited(id: ID): Visited
-    allVisited(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Visited]
-    _allVisitedMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
+    allVisiteds(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Visited]
+    _allVisitedsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
     DeliveryAddress(id:ID): DeliveryAddress
     allDeliveryAddresses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: DeliveryAddressFilter): [DeliveryAddress]
     _allDeliveryAddressesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: DeliveryAddressFilter): Metadata
@@ -522,8 +522,8 @@ input UpdateProductInput {
     description: String
     imagePath: String
     taxCategoryID: ID
-    categoryIDs: [ID!]
-    subcategoryIDs: [ID!]
+    categoriesIDs: [ID!]
+    subcategoriesIDs: [ID!]
 }
 
 input CreateOrderInput {
@@ -547,7 +547,6 @@ input UpdateOrderInput {
 input CreateOpinionInput {
     mark: Int!
     text: String!
-    date: String!
     productID: ID!
     userID: ID!
 }

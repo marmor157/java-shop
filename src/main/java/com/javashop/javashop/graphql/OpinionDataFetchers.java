@@ -93,8 +93,7 @@ public class OpinionDataFetchers {
 
             Integer mark = (Integer) l.get("mark");
             String text = (String) l.get("text");
-            String dateStr = (String) l.get("date");
-            LocalDate date = LocalDate.parse(dateStr);
+            LocalDate date = LocalDate.now();
             Integer productID = Integer.parseInt((String) l.get("productID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
             Opinion opinion = new Opinion(mark, text, date);
