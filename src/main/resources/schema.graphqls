@@ -258,6 +258,7 @@ input CategoryFilter{
     id: ID
     name: String
     ids: [ID!]
+    productID: ID
 }
 
 type Subcategory{
@@ -273,6 +274,7 @@ input SubcategoryFilter{
     name: String
     ids: [ID!]
     categoryID: ID
+    productID: ID
 }
 
 type Visited{
