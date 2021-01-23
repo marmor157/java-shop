@@ -398,7 +398,7 @@ type Order {
     shipmentMethod: ShipmentMethod!
     price: Int!
     status: String!
-    orderOpinon: OrderOpinion!
+    orderOpinon: OrderOpinion
 }
 
 input OrderFilter {
