@@ -27,6 +27,8 @@ public class OrderDataFetchers {
     @Autowired
     private ShipmentMethodRepository shipmentMethodRepository;
     @Autowired
+    private OrderOpinionRepository orderOpinionRepository;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
@@ -184,9 +186,9 @@ public class OrderDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Order order = orderRepository.getOne(id);
-            orderRepository.delete(order);
+            order.setDeleteDate(LocalDate.now());
 
-            return order;
+            return orderRepository.save(order);
         };
     }
 

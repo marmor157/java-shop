@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -111,8 +112,9 @@ public class TaxCategoryDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             TaxCategory taxCategory = taxCategoryRepository.getOne(id);
-            taxCategoryRepository.delete(taxCategory);
-            return taxCategory;
+            taxCategory.setDeleteDate(LocalDate.now());
+
+            return taxCategoryRepository.save(taxCategory);
         };
     }
 }

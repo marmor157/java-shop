@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -154,9 +155,9 @@ public class DeliveryAddressDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             DeliveryAddress deliveryAddress = deliveryAddressRepository.getOne(id);
-            deliveryAddressRepository.delete(deliveryAddress);
+            deliveryAddress.setDeleteDate(LocalDate.now());
 
-            return deliveryAddress;
+            return deliveryAddressRepository.save(deliveryAddress);
         };
     }
 }

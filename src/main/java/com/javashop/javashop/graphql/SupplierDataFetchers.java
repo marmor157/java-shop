@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -120,9 +121,9 @@ public class SupplierDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Supplier supplier = supplierRepository.getOne(id);
-            supplierRepository.delete(supplier);
+            supplier.setDeleteDate(LocalDate.now());
 
-            return supplier;
+            return supplierRepository.save(supplier);
         };
     }
 }

@@ -181,9 +181,9 @@ public class ComplaintDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Complaint complaint = complaintRepository.getOne(id);
-            complaintRepository.delete(complaint);
+            complaint.setDeleteDate(LocalDate.now());
 
-            return complaint;
+            return complaintRepository.save(complaint);
         };
     }
 

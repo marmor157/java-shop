@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,25 +51,7 @@ public class ProductDataFetchers {
             String sortField = dataFetchingEnvironment.getArgument("sortField");
             String sortOrder = dataFetchingEnvironment.getArgument("sortOrder");
             LinkedHashMap<String, Object> filter = dataFetchingEnvironment.getArgument("filter");
-//            Integer id = (Integer) filter.get("id");
-//            String name = (String) filter.get("name");
-//            Integer price = (Integer) filter.get("price");
-//            Integer price_lt = (Integer) filter.get("price_lt");
-//            Integer price_lte = (Integer) filter.get("price_lte");
-//            Integer price_gt = (Integer) filter.get("price_gt");
-//            Integer price_gte = (Integer) filter.get("price_gte");
-//            Integer discountPrice = (Integer) filter.get("discountPrice");
-//            Integer discountPrice_lt = (Integer) filter.get("discountPrice_lt");
-//            Integer discountPrice_lte = (Integer) filter.get("discountPrice_lte");
-//            Integer discountPrice_gt = (Integer) filter.get("discountPrice_gt");
-//            Integer discountPrice_gte = (Integer) filter.get("discountPrice_gte");
-//            Integer noAvailable = (Integer) filter.get("noAvailable");
-//            Integer noAvailable_lt = (Integer) filter.get("noAvailable_lt");
-//            Integer noAvailable_lte = (Integer) filter.get("noAvailable_lte");
-//            Integer noAvailable_gt = (Integer) filter.get("noAvailable_gt");
-//            Integer noAvailable_gte = (Integer) filter.get("noAvailable_gte");
-//            String description = (String) filter.get("description");
-//            String imagePath = (String) filter.get("imagePath");
+
             Sort.Direction order = Sort.Direction.DESC;;
             if(sortOrder!=null && sortOrder.toUpperCase().equals("DESC")){
                 order = Sort.Direction.DESC;
@@ -273,9 +256,9 @@ public class ProductDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Product product = productRepository.getOne(id);
-            productRepository.delete(product);
+            product.setDeleteDate(LocalDate.now());
 
-            return product;
+            return productRepository.save(product);
         };
     }
 }

@@ -3,8 +3,10 @@ package com.javashop.javashop.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@Where(clause="delete_date is null")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +42,9 @@ public class Product {
 
     @ManyToOne()
     private TaxCategory taxCategory;
+
+    @Column(name = "DeleteDate")
+    private LocalDate deleteDate;
 
     @OneToMany(mappedBy = "product")
     private Set<ProductWarehouse> warehouses = new HashSet<ProductWarehouse>();
@@ -103,5 +109,6 @@ public class Product {
         this.description = description;
         this.imagePath = imagePath;
         this.taxCategory = taxCategory;
+        this.deleteDate = null;
     }
 }
