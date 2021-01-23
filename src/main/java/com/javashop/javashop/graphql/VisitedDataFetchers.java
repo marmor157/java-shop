@@ -134,9 +134,9 @@ public class VisitedDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Visited visited = visitedRepository.getOne(id);
-            visitedRepository.delete(visited);
+            visited.setDeleteDate(LocalDate.now());
 
-            return visited;
+            return visitedRepository.save(visited);
         };
     }
 

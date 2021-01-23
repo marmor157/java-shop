@@ -3,11 +3,6 @@ package com.javashop.javashop.graphql;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.javashop.javashop.model.Complaint;
-import com.javashop.javashop.model.ComplaintType;
-import com.javashop.javashop.model.Opinion;
-import com.javashop.javashop.repository.OrderRepository;
-import com.javashop.javashop.repository.ShipmentMethodRepository;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
@@ -36,6 +31,8 @@ public class GraphQLProvider {
     OrderDataFetchers orderDataFetchers;
     @Autowired
     OpinionDataFetchers opinionDataFetchers;
+    @Autowired
+    OrderOpinionDataFetchers orderOpinionDataFetchers;
     @Autowired
     CategoryDataFetchers categoryDataFetchers;
     @Autowired
@@ -66,6 +63,8 @@ public class GraphQLProvider {
     LoginDataFetcher loginDataFetcher;
     @Autowired
     WishlistDataFetchers wishlistDataFetchers;
+    @Autowired
+    SendMailDataFetcher sendMailDataFetcher;
 
     @Bean
     public GraphQL graphQL() {
@@ -131,6 +130,9 @@ public class GraphQLProvider {
                         .dataFetcher("Opinion", opinionDataFetchers.getOpinionDataFetcher())
                         .dataFetcher("allOpinions", opinionDataFetchers.getAllOpinionsDataFetcher())
                         .dataFetcher("_allOpinionsMeta", opinionDataFetchers.getAllOpinionsMetaDataFetcher())
+                        .dataFetcher("OrderOpinion", orderOpinionDataFetchers.getOrderOpinionDataFetcher())
+                        .dataFetcher("allOrderOpinions", orderOpinionDataFetchers.getAllOrderOpinionsDataFetcher())
+                        .dataFetcher("_allOrderOpinionsMeta", orderOpinionDataFetchers.getAllOrderOpinionsMetaDataFetcher())
                         .dataFetcher("Warehouse", warehouseDataFetchers.getWarehouseDataFetcher())
                         .dataFetcher("allWarehouses", warehouseDataFetchers.getAllWarehousesDataFetcher())
                         .dataFetcher("_allWarehousesMeta", warehouseDataFetchers.getAllWarehousesMetaDataFetcher())
@@ -149,6 +151,7 @@ public class GraphQLProvider {
                         .dataFetcher("getUserWishlist", wishlistDataFetchers.getUserWishlist())
                 )
                 .type(newTypeWiring("Mutation")
+                        .dataFetcher("sendMail", sendMailDataFetcher.sendMailToUser())
                         .dataFetcher("login", loginDataFetcher.getLoginDataFetcher())
                         .dataFetcher("createUser", userDataFetchers.createUserDataFetcher())
                         .dataFetcher("updateUser", userDataFetchers.updateUserDataFetcher())
@@ -162,6 +165,9 @@ public class GraphQLProvider {
                         .dataFetcher("createOpinion", opinionDataFetchers.createOpinionDataFetcher())
                         .dataFetcher("updateOpinion", opinionDataFetchers.updateOpinionDataFetcher())
                         .dataFetcher("deleteOpinion", opinionDataFetchers.deleteOpinionDataFetcher())
+                        .dataFetcher("createOrderOpinion", orderOpinionDataFetchers.createOrderOpinionDataFetcher())
+                        .dataFetcher("updateOrderOpinion", orderOpinionDataFetchers.updateOrderOpinionDataFetcher())
+                        .dataFetcher("deleteOrderOpinion", orderOpinionDataFetchers.deleteOrderOpinionDataFetcher())
                         .dataFetcher("createCategory", categoryDataFetchers.createCategoryDataFetcher())
                         .dataFetcher("updateCategory", categoryDataFetchers.updateCategoryDataFetcher())
                         .dataFetcher("deleteCategory", categoryDataFetchers.deleteCategoryDataFetcher())
@@ -205,5 +211,4 @@ public class GraphQLProvider {
                 )
                 .build();
     }
-
 }

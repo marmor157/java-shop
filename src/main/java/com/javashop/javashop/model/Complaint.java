@@ -3,6 +3,7 @@ package com.javashop.javashop.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
+@Where(clause="delete_date is null")
 public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,9 @@ public class Complaint {
 
     @Column(name = "Status")
     private String status;
+
+    @Column(name = "DeleteDate")
+    private LocalDate deleteDate;
 
     @ManyToOne()
     private ComplaintType complaintType;
@@ -39,5 +44,6 @@ public class Complaint {
     public Complaint(LocalDate date, String status) {
         this.date = date;
         this.status = status;
+        this.deleteDate = null;
     }
 }

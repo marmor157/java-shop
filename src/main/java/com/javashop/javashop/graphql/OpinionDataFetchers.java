@@ -144,9 +144,9 @@ public class OpinionDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Opinion opinion = opinionRepository.getOne(id);
-            opinionRepository.delete(opinion);
+            opinion.setDeleteDate(LocalDate.now());
 
-            return opinion;
+            return opinionRepository.save(opinion);
         };
     }
 

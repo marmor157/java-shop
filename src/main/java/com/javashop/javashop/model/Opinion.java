@@ -3,6 +3,7 @@ package com.javashop.javashop.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,11 +14,15 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
+@Where(clause="delete_date is null")
 public class Opinion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
+
+    @Column(name = "DeleteDate")
+    private LocalDate deleteDate;
 
     @ManyToOne
     Product product;
@@ -37,6 +42,7 @@ public class Opinion {
         this.mark = mark;
         this.text = text;
         this.date = date;
+        this.deleteDate = null;
     }
 }
 

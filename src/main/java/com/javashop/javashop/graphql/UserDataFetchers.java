@@ -1,7 +1,9 @@
 package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.Metadata;
+import com.javashop.javashop.model.OrderOpinion;
 import com.javashop.javashop.model.User;
+import com.javashop.javashop.repository.OrderOpinionRepository;
 import com.javashop.javashop.repository.ProductRepository;
 import com.javashop.javashop.repository.RoleRepository;
 import com.javashop.javashop.repository.UserRepository;
@@ -27,6 +29,8 @@ public class UserDataFetchers {
     private RoleRepository roleRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private OrderOpinionRepository orderOpinionRepository;
     @Autowired
     private MailService mailService;
     @Autowired
@@ -183,9 +187,9 @@ public class UserDataFetchers {
 
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             User user = userRepository.getOne(id);
-            userRepository.delete(user);
+            user.setDeleteDate(LocalDate.now());
 
-            return user;
+            return userRepository.save(user);
         };
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -127,9 +128,9 @@ public class ProductWarehouseDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             ProductWarehouse productWarehouse = productWarehouseRepository.getOne(id);
-            productWarehouseRepository.delete(productWarehouse);
+            productWarehouse.setDeleteDate(LocalDate.now());
 
-            return productWarehouse;
+            return productWarehouseRepository.save(productWarehouse);
         };
     }
 

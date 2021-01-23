@@ -40,6 +40,9 @@ type Query{
     Opinion(id:ID): Opinion
     allOpinions(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): [Opinion]
     _allOpinionsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OpinionFilter): Metadata
+    OrderOpinion(id:ID): OrderOpinion
+    allOrderOpinions(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderOpinionFilter): [OrderOpinion]
+    _allOrderOpinionsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: OrderOpinionFilter): Metadata
     Warehouse(id:ID): Warehouse
     allWarehouses(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): [Warehouse]
     _allWarehousesMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: WarehouseFilter): Metadata
@@ -306,6 +309,7 @@ type User{
     complaints: [Complaint!]!
     orders: [Order!]!
     deliveryAddresses: [DeliveryAddress!]!
+    orderOpinions: [OrderOpinion!]!
 }
 
 input UserFilter{
@@ -368,6 +372,22 @@ input OpinionFilter {
     ids: [ID!]
 }
 
+type OrderOpinion {
+    id: ID!
+    markShipment: Int!
+    markTime: Int!
+    markCustomerService: Int!
+    user: User!
+    order: Order!
+    date: String!
+}
+
+input OrderOpinionFilter {
+    ids: [ID!]
+    userID: ID
+    orderID: ID
+}
+
 type Order {
     id: ID!
     products: [Product!]!
@@ -378,6 +398,7 @@ type Order {
     shipmentMethod: ShipmentMethod!
     price: Int!
     status: String!
+    orderOpinon: OrderOpinion!
 }
 
 input OrderFilter {
@@ -419,6 +440,7 @@ input ShipmentMethodFilter {
 
 type Mutation {
     login(login: String!, password: String!): SigninPayload!
+    sendMail(mail: String!, text: String!, title:String!): String!
     createUser(input: CreateUserInput): User!
     updateUser(input: UpdateUserInput): User!
     deleteUser(id: ID): User!
@@ -431,6 +453,9 @@ type Mutation {
     createOpinion(input: CreateOpinionInput): Opinion!
     updateOpinion(input: UpdateOpinionInput): Opinion!
     deleteOpinion(id: ID): Opinion!
+    createOrderOpinion(input: CreateOrderOpinionInput): OrderOpinion!
+    updateOrderOpinion(input: UpdateOrderOpinionInput): OrderOpinion!
+    deleteOrderOpinion(id: ID): Opinion!
     createCategory(input: CreateCategoryInput): Category!
     updateCategory(input: UpdateCategoryInput): Category!
     deleteCategory(id: ID): Category!
@@ -560,6 +585,24 @@ input UpdateOpinionInput {
     date: String
     productID: ID
     userID: ID
+}
+
+input CreateOrderOpinionInput {
+    markShipment: Int!
+    markTime: Int!
+    markCustomerService: Int!
+    userID: ID!
+    orderID: ID!
+}
+
+input UpdateOrderOpinionInput {
+    id: ID!
+    markShipment: Int
+    markTime: Int
+    markCustomerService: Int
+    userID: ID
+    orderID: ID
+    date: String
 }
 
 input CreateCategoryInput {

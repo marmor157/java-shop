@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -117,9 +118,9 @@ public class ShipmentMethodDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             ShipmentMethod shipmentMethod = shipmentMethodRepository.getOne(id);
-            shipmentMethodRepository.delete(shipmentMethod);
+            shipmentMethod.setDeleteDate(LocalDate.now());
 
-            return shipmentMethod;
+            return shipmentMethodRepository.save(shipmentMethod);
         };
     }
 }

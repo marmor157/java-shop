@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -107,9 +108,9 @@ public class RoleDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Role role = roleRepository.getOne(id);
-            roleRepository.delete(role);
+            role.setDeleteDate(LocalDate.now());
 
-            return role;
+            return roleRepository.save(role);
         };
     }
 }

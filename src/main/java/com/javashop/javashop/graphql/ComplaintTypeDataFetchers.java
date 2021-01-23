@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -110,9 +111,9 @@ public class ComplaintTypeDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             ComplaintType complaintType = complaintTypeRepository.getOne(id);
-            complaintTypeRepository.delete(complaintType);
+            complaintType.setDeleteDate(LocalDate.now());
 
-            return complaintType;
+            return complaintTypeRepository.save(complaintType);
         };
     }
 }

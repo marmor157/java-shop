@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -136,9 +137,9 @@ public class SubcategoryDataFetchers {
         return  dataFetchingEnvironment -> {
             Integer id =Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
             Subcategory subcategory = subcategoryRepository.getOne(id);
-            subcategoryRepository.delete(subcategory);
+            subcategory.setDeleteDate(LocalDate.now());
 
-            return subcategory;
+            return subcategoryRepository.save(subcategory);
         };
     }
 }

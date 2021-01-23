@@ -3,6 +3,7 @@ package com.javashop.javashop.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name="`Order`")
+@Where(clause="delete_date is null")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,9 @@ public class Order {
 
     @Column(name = "Status")
     private String status;
+
+    @Column(name = "DeleteDate")
+    private LocalDate deleteDate;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -55,9 +60,13 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private Set<Complaint> complaints = new HashSet<Complaint>();
 
+    @OneToOne(mappedBy = "order")
+    private OrderOpinion orderOpinion;
+
     public Order(LocalDate date, Integer price, String status) {
         this.date = date;
         this.price = price;
         this.status = status;
+        this.deleteDate = null;
     }
 }
