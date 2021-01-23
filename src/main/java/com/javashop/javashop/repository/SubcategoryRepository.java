@@ -15,7 +15,7 @@ public interface SubcategoryRepository extends JpaRepository<Subcategory, Intege
     List<Subcategory> findByCategoryIdAndIdIn(Integer category_id, List<Integer> id, Pageable pageable);
     Long countByIdIn(List<Integer> id);
 
-    Long countByProduct_Id(Integer productID);
+    Long countByProducts_Id(Integer productID);
 
-    List<Subcategory> findByProduct_Id(Integer productID, Pageable pageable);
+    List<Subcategory> findByProducts_Id(Integer productID, Pageable pageable);
 }

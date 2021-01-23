@@ -70,7 +70,7 @@ public class SubcategoryDataFetchers {
                 }
                 else if(filter.containsKey("productID")){
                     final Integer productID = Integer.parseInt((String) filter.get("productID"));
-                    return subcategoryRepository.findByProduct_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                    return subcategoryRepository.findByProducts_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
             }
             Page<Subcategory> subcategoryPage = subcategoryRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
@@ -91,7 +91,7 @@ public class SubcategoryDataFetchers {
                 }
                 else if(filter.containsKey("productID")){
                     final Integer productID = Integer.parseInt((String) filter.get("productID"));
-                    return new Metadata(subcategoryRepository.countByProduct_Id(productID));
+                    return new Metadata(subcategoryRepository.countByProducts_Id(productID));
                 }
             }
             Metadata metadata = new Metadata(subcategoryRepository.count());

@@ -12,7 +12,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findByIdIn(List<Integer> id, Pageable pageable);
     Long countByIdIn(List<Integer> id);
 
-    Long countByProduct_Id(Integer productID);
+    Long countByProducts_Id(Integer productID);
 
-    List<Category> findByProduct_Id(Integer productID, Pageable pageable);
+    List<Category> findByProducts_Id(Integer productID, Pageable pageable);
 }
