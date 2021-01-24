@@ -10,4 +10,6 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     List<Role> findByIdIn(List<Integer> id, Pageable pageable);
     Long countByIdIn(List<Integer> id);
+
+    Role findOneByName(String name);
 }

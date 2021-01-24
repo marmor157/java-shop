@@ -512,7 +512,7 @@ input CreateUserInput {
     address: String!
     birthDate: String!
     telephone: String!
-    roleID: ID!
+    roleID: ID
 }
 
 input UpdateUserInput {
