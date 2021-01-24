@@ -6,6 +6,8 @@ import com.javashop.javashop.model.Subcategory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -40,4 +42,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     Long countByWarehouses_Id(Integer warehouseID);
 
     Long countBySuppliers_Id(Integer supplierID);
+
+    @Query("SELECT DISTINCT p FROM Product p JOIN p.categories pc " +
+            "WHERE " +
+            "p.id != :prod_id AND " +
+            "pc.id IN (SELECT c.id from Category c JOIN c.products p WHERE p.id = :prod_id)")
+    List<Product> findSimilarByProductId(@Param("prod_id") Integer id);
 }
