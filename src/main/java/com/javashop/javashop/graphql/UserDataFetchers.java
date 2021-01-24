@@ -9,7 +9,9 @@ import com.javashop.javashop.repository.RoleRepository;
 import com.javashop.javashop.repository.UserRepository;
 import com.javashop.javashop.service.MailService;
 import graphql.schema.DataFetcher;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -119,13 +121,22 @@ public class UserDataFetchers {
             String birthDateStr = (String) l.get("birthDate");
             LocalDate birthDate = LocalDate.parse(birthDateStr);
             String telephone = (String) l.get("telephone");
-            Integer roleID = Integer.parseInt((String) l.get("roleID"));
+            Integer roleID;
+            if(l.get("roleID")!=null)
+                roleID = Integer.parseInt((String) l.get("roleID"));
+            else roleID =roleRepository.findOneByName("user").getId();
 
             User user = new User(login, passwordEncoder.encode(password), email, name, surname, address, birthDate, telephone);
-            user.setRole(roleRepository.getOne(roleID));
-            roleRepository.getOne(roleID).getUsers().add(user);
+            if(roleID!=null){
+                user.setRole(roleRepository.getOne(roleID));
+                roleRepository.getOne(roleID).getUsers().add(user);
+            }
+            try{
+                return userRepository.save(user);
+            }catch (DataIntegrityViolationException e) {
+               throw new Exception(e.getMostSpecificCause());
+            }
 
-            return userRepository.save(user);
         };
     }
     public DataFetcher updateUserDataFetcher() {
