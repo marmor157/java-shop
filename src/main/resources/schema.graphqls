@@ -567,8 +567,9 @@ input UpdateOrderInput {
     deliveryAddressID: ID
     shipmentMethodID: ID
     userID: ID
-    productIDs: [ID!]
+    productsIDs: [ID!]
     status: String
+    price: Int
 }
 
 input CreateOpinionInput {

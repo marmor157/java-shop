@@ -2,6 +2,7 @@ package com.javashop.javashop.graphql;
 
 import com.javashop.javashop.model.Metadata;
 import com.javashop.javashop.model.Order;
+import com.javashop.javashop.model.Product;
 import com.javashop.javashop.repository.*;
 import graphql.schema.DataFetcher;
 import org.apache.tomcat.jni.Local;
@@ -13,10 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class OrderDataFetchers {
@@ -170,10 +168,12 @@ public class OrderDataFetchers {
                 order.setUser(userRepository.getOne(userID));
                 userRepository.getOne(userID).getOrders().add(order);
             }
-            if(l.containsKey("productIDs")){
-                List<String> productIDs = (List<String>) l.get("productIDs");
+            if(l.containsKey("productsIDs")){
+                List<String> productIDs = (List<String>) l.get("productsIDs");
                 for (String prodID: productIDs){
-                    order.getProducts().add(productRepository.getOne(Integer.parseInt(prodID)));
+                    Set<Product> newProducts = new HashSet<Product>();
+                    newProducts.add(productRepository.getOne(Integer.parseInt(prodID)));
+                    order.setProducts(newProducts);
                     productRepository.getOne(Integer.parseInt(prodID)).getOrders().add(order);
                 }
             }
