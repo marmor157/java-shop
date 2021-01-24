@@ -65,6 +65,8 @@ public class GraphQLProvider {
     WishlistDataFetchers wishlistDataFetchers;
     @Autowired
     SendMailDataFetcher sendMailDataFetcher;
+    @Autowired
+    SimilarProductDataFetchers similarProductDataFetchers;
 
     @Bean
     public GraphQL graphQL() {
@@ -149,6 +151,7 @@ public class GraphQLProvider {
                         .dataFetcher("allShipmentMethods", shipmentMethodDataFetchers.getAllShipmentMethodsDataFetcher())
                         .dataFetcher("_allShipmentMethodsMeta", shipmentMethodDataFetchers.getAllShipmentMethodsMetaDataFetcher())
                         .dataFetcher("getUserWishlist", wishlistDataFetchers.getUserWishlist())
+                        .dataFetcher("getSimilarProducts", similarProductDataFetchers.getSimilarProduct())
                 )
                 .type(newTypeWiring("Mutation")
                         .dataFetcher("sendMail", sendMailDataFetcher.sendMailToUser())

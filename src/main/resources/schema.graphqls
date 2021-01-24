@@ -59,6 +59,7 @@ type Query{
     allShipmentMethods(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): [ShipmentMethod]
     _allShipmentMethodsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): Metadata
     getUserWishlist(id:ID!): [Product!]!
+    getSimilarProducts(id: ID!): [Product!]!
 }
 
 type Metadata{
