@@ -134,9 +134,6 @@ public class UserDataFetchers {
             try{
                 return userRepository.save(user);
             }catch (DataIntegrityViolationException e) {
-                System.out.println(e.getMostSpecificCause());;
-                System.out.println(e.getRootCause());;
-               System.out.println(e.getCause());
                throw new Exception(e.getMostSpecificCause());
             }
 
