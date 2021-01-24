@@ -3,6 +3,7 @@ package com.javashop.javashop.repository;
 import com.javashop.javashop.model.Complaint;
 import com.javashop.javashop.model.Product;
 import com.javashop.javashop.model.User;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

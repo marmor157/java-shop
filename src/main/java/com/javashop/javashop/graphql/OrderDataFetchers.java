@@ -153,6 +153,10 @@ public class OrderDataFetchers {
                 String status = (String) l.get("status");
                 order.setStatus(status);
             }
+            if(l.containsKey("price")){
+                Integer price = (Integer) l.get("price");
+                order.setPrice(price);
+            }
             if(l.containsKey("deliveryAddressID")){
                 Integer deliveryAddressID = Integer.parseInt((String) l.get("deliveryAddressID"));
                 order.setDeliveryAddress(deliveryAddressRepository.getOne(deliveryAddressID));
