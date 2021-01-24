@@ -64,6 +64,10 @@ public class OpinionDataFetchers {
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return  opinionRepository.findByIdIn(idsInt, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
+                else if(filter.containsKey("userID")){
+                    Integer userID = Integer.parseInt((String) filter.get("userID"));
+                    return  opinionRepository.findByUserId(userID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                }
             }
             Page<Opinion> opinionPage = opinionRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));
             return opinionPage;
@@ -80,6 +84,10 @@ public class OpinionDataFetchers {
                     List<Integer> idsInt = new ArrayList<>();
                     for(String s : ids) idsInt.add(Integer.valueOf(s));
                     return new Metadata(opinionRepository.countByIdIn(idsInt));
+                }
+                else if(filter.containsKey("userID")){
+                    final Integer userID = Integer.parseInt((String) filter.get("userID"));
+                    return new Metadata(opinionRepository.countByUserId(userID));
                 }
             }
             Metadata metadata = new Metadata(opinionRepository.count());

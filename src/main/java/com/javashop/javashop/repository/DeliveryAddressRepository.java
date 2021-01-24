@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DeliveryAddressRepository extends JpaRepository<DeliveryAddress, Integer> {
-    List<User> findByUserId(Integer id, Pageable pageable);
-    List<User> findByUserIdAndIdIn(Integer user_id, List<Integer> id, Pageable pageable);
+    List<DeliveryAddress> findByUserId(Integer id, Pageable pageable);
+    List<DeliveryAddress> findByUserIdAndIdIn(Integer user_id, List<Integer> id, Pageable pageable);
     List<DeliveryAddress> findByIdIn(List<Integer> id, Pageable pageable);
     Long countByIdIn(List<Integer> id);
 }

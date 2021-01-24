@@ -370,6 +370,7 @@ input OpinionFilter {
     text: String
     date: String
     ids: [ID!]
+    userID: ID
 }
 
 type OrderOpinion {
