@@ -113,13 +113,12 @@ public class ComplaintDataFetchers {
         return  dataFetchingEnvironment -> {
             LinkedHashMap<String, Object> l = dataFetchingEnvironment.getArgument("input");
 
-            String dateStr = (String) l.get("date");
-            LocalDate date = LocalDate.parse(dateStr);
+            LocalDate date = LocalDate.now();
             Integer complaintTypeID = Integer.parseInt((String) l.get("complaintTypeID"));
             Integer orderID = Integer.parseInt((String) l.get("orderID"));
             Integer productID = Integer.parseInt((String) l.get("productID"));
             Integer userID = Integer.parseInt((String) l.get("userID"));
-            String status = "zgłoszona";
+            String status = "Zgłoszona";
             if(l.containsKey("status")){
                 status = (String) l.get("status");
             }

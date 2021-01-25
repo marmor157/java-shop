@@ -59,7 +59,7 @@ type Query{
     allShipmentMethods(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): [ShipmentMethod]
     _allShipmentMethodsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: ShipmentMethodFilter): Metadata
     getUserWishlist(id:ID!): [Product!]!
-    getSimilarProducts(id: ID!): [Product!]!
+    getSimilarProducts(id: ID!,page: Int, perPage: Int): [Product!]!
 }
 
 type Metadata{
@@ -400,7 +400,7 @@ type Order {
     shipmentMethod: ShipmentMethod!
     price: Int!
     status: String!
-    orderOpinon: OrderOpinion
+    orderOpinion: OrderOpinion
 }
 
 input OrderFilter {
@@ -629,7 +629,6 @@ input UpdateSubcategoryInput {
 }
 
 input CreateComplaintInput {
-    date: String!
     complaintTypeID: ID!
     orderID: ID!
     productID: ID!
@@ -643,6 +642,7 @@ input UpdateComplaintInput {
     orderID: ID
     productID: ID
     userID: ID
+    status: String
 }
 
 input CreateComplaintTypeInput {

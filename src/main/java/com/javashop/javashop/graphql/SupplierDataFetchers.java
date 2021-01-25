@@ -58,7 +58,7 @@ public class SupplierDataFetchers {
                 }
                 else if(filter.containsKey("productID")){
                     final Integer productID = Integer.parseInt((String) filter.get("productID"));
-                    return supplierRepository.findByProducts_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
+                    return supplierRepository.findAllByProducts_Id(productID, PageRequest.of(page,perPage, Sort.by(order,sortField)));
                 }
             }
             Page<Supplier> supplierPage = supplierRepository.findAll(PageRequest.of(page,perPage, Sort.by(order,sortField)));

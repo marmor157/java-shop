@@ -6,6 +6,8 @@ import com.javashop.javashop.model.Product;
 import com.javashop.javashop.repository.ProductRepository;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -19,15 +21,13 @@ public class SimilarProductDataFetchers {
     public DataFetcher getSimilarProduct() {
         return  dataFetchingEnvironment -> {
             Integer id = Integer.parseInt(dataFetchingEnvironment.getArgument("id"));
-//            Set<Product> products = new HashSet<Product>();
-//            for(Category c : productRepository.getOne(id).getCategories()){
-//                for(Product p : c.getProducts()){
-//                    if(p.getId() != id){
-//                        products.add(p);
-//                    }
-//                }
-//            }
-            return productRepository.findSimilarByProductId(id);
+            Integer page = dataFetchingEnvironment.getArgument("page");
+            page = page == null ? 0: page;
+            Integer perPage = dataFetchingEnvironment.getArgument("perPage");
+            perPage = perPage == null ? Integer.MAX_VALUE: perPage;
+
+
+            return productRepository.findSimilarByProductId(id, PageRequest.of(page,perPage, Sort.by(Sort.Direction.DESC,"id")));
         };
     }
 }

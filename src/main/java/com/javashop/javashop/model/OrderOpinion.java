@@ -34,8 +34,7 @@ public class OrderOpinion {
     @Column(name = "DeleteDate")
     private LocalDate deleteDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @OneToOne()
     private Order order;
 
     @ManyToOne

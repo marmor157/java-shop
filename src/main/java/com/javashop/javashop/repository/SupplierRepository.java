@@ -12,7 +12,7 @@ public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
     List<Supplier> findByIdIn(List<Integer> id, Pageable pageable);
     Long countByIdIn(List<Integer> id);
 
-    List<Supplier> findByProducts_Id(Integer productID, Pageable pageable);
+    List<Supplier> findAllByProducts_Id(Integer productID, Pageable pageable);
 
     Long countByProducts_Id(Integer productID);
 }

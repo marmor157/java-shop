@@ -47,5 +47,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "WHERE " +
             "p.id != :prod_id AND " +
             "pc.id IN (SELECT c.id from Category c JOIN c.products p WHERE p.id = :prod_id)")
-    List<Product> findSimilarByProductId(@Param("prod_id") Integer id);
+    List<Product> findSimilarByProductId(@Param("prod_id") Integer id, Pageable pageable);
 }
