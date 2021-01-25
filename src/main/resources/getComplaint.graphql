@@ -1,0 +1,6 @@
+query {
+    Complaint(id: 3) {
+        id
+        date
+    }
+}
